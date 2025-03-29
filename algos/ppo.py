@@ -42,8 +42,9 @@ class PPO(Algorithm):
         lambd=0.97,
         coef_ent=0.0,
         max_grad_norm=10.0,
+        needs_env=True,
     ):
-        super().__init__(state_shape, action_shape, device, seed, gamma)
+        super().__init__(state_shape, action_shape, device, seed, gamma, needs_env)
 
         # Rollout buffer.
         self.buffer = RolloutBuffer(
@@ -79,6 +80,7 @@ class PPO(Algorithm):
         self.lambd = lambd
         self.coef_ent = coef_ent
         self.max_grad_norm = max_grad_norm
+        self.needs_env = True
 
     def is_update(self, step):
         return step % self.rollout_length == 0

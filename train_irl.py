@@ -47,7 +47,7 @@ if __name__ == "__main__":
     p.add_argument("--num_steps", type=int, default=10**7)
     p.add_argument("--eval_interval", type=int, default=10**5)
     p.add_argument("--env_id", type=str, default="Hopper-v5")
-    p.add_argument("--algo", type=str, default="airl")
+    p.add_argument("--algo", type=str, default="airl_ppo")
     p.add_argument("--cuda", action="store_true")
     p.add_argument("--seed", type=int, default=0)
     args = p.parse_args()

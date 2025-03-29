@@ -1,0 +1,2 @@
+class GuidedPolicySearch:
+    pass

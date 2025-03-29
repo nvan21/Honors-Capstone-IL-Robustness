@@ -1,5 +1,6 @@
 from .sac import SAC, SACExpert
 from .base import Algorithm
-from .airl import AIRL
+from .airl_ppo import AIRLPPO
+from .airl_iql import AIRLIQL
 
-ALGOS = {"airl": AIRL}
+ALGOS = {"airl_ppo": AIRLPPO, "airl_iql": AIRLIQL}

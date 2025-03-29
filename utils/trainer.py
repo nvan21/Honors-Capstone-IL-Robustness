@@ -51,20 +51,31 @@ class Trainer:
         # Episode's timestep
         t = 0
 
-        # Initialize the environment
-        state, _ = self.env.reset(seed=self.env_seed)
+        if self.algo.needs_env:
+            # Initialize the environment
+            state, _ = self.env.reset(seed=self.env_seed)
 
-        for step in range(1, self.num_steps + 1):
-            state, t = self.algo.step(self.env, state, t, step)
+            for step in range(1, self.num_steps + 1):
+                state, t = self.algo.step(self.env, state, t, step)
 
-            # Update the algorithm whenever ready
-            if self.algo.is_update(step):
-                self.algo.update(self.writer)
+                # Update the algorithm whenever ready
+                if self.algo.is_update(step):
+                    self.algo.update(self.writer)
 
-            # Evaluate regularly
-            if step % self.eval_interval == 0:
-                self.evaluate(step)
-                self.algo.save_models(os.path.join(self.model_dir, f"step{step}"))
+                # Evaluate regularly
+                if step % self.eval_interval == 0:
+                    self.evaluate(step)
+                    self.algo.save_models(os.path.join(self.model_dir, f"step{step}"))
+        else:
+            for step in range(1, self.num_steps + 1):
+                # Update the algorithm whenever ready
+                if self.algo.is_update(step):
+                    self.algo.update(self.writer)
+
+                # Evaluate regularly
+                if step % self.eval_interval == 0:
+                    self.evaluate(step)
+                    self.algo.save_models(os.path.join(self.model_dir, f"step{step}"))
 
         # Wait for the logging to be finished.
         sleep(10)

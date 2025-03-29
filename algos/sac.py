@@ -27,8 +27,9 @@ class SAC(Algorithm):
         units_critic=(256, 256),
         start_steps=10000,
         tau=5e-3,
+        needs_env=True,
     ):
-        super().__init__(state_shape, action_shape, device, seed, gamma)
+        super().__init__(state_shape, action_shape, device, seed, gamma, needs_env)
 
         # Replay buffer.
         self.buffer = Buffer(

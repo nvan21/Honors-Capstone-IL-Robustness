@@ -22,7 +22,7 @@
    - Validate with D4RL expert level performance to ensure that I have an optimal policy
 2. Data collection
 3. Deep maximum entropy IRL
-4. GAIL
+4. AIRL
 5. BIRL
 6. Testing
 
