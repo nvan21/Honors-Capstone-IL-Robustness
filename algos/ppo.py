@@ -3,8 +3,9 @@ from torch import nn
 from torch.optim import Adam
 import os
 
-from algos import Algorithm
+from algos.base import Algorithm
 from utils.buffer import RolloutBuffer
+from utils.utils import disable_gradient
 from network import StateIndependentPolicy, StateFunction
 
 
@@ -35,8 +36,8 @@ class PPO(Algorithm):
         mix_buffer=20,
         lr_actor=3e-4,
         lr_critic=3e-4,
-        units_actor=(64, 64),
-        units_critic=(64, 64),
+        units_actor=(256, 256),
+        units_critic=(256, 256),
         epoch_ppo=10,
         clip_eps=0.2,
         lambd=0.97,
@@ -157,3 +158,36 @@ class PPO(Algorithm):
         # Save actor and critic models
         torch.save(self.actor.state_dict(), os.path.join(save_dir, "actor.pth"))
         torch.save(self.critic.state_dict(), os.path.join(save_dir, "critic.pth"))
+
+
+class PPOExpert(PPO):
+
+    def __init__(
+        self,
+        state_shape,
+        action_shape,
+        device,
+        path,
+        units_actor=(256, 256),
+        units_critic=(256, 256),
+    ):
+        self.actor = StateIndependentPolicy(
+            state_shape=state_shape,
+            action_shape=action_shape,
+            hidden_units=units_actor,
+            hidden_activation=nn.ReLU(inplace=True),
+        ).to(device)
+
+        self.critic = StateFunction(
+            state_shape=state_shape,
+            hidden_units=units_critic,
+            hidden_activation=nn.ReLU(inplace=True),
+        ).to(device)
+
+        actor_path = os.path.join(path, "actor.pth")
+        critic_path = os.path.join(path, "critic.pth")
+        self.actor.load_state_dict(torch.load(actor_path))
+        self.critic.load_state_dict(torch.load(critic_path))
+
+        disable_gradient(self.actor)
+        self.device = device

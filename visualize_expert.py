@@ -3,18 +3,24 @@ import argparse
 import torch
 
 from utils.env import make_env
-from algos import SACExpert
+from algos import SACExpert, PPOExpert
 from utils.utils import visualize_expert
 
 
 def run(args):
     env = make_env(
         args.env_id,
-        xml_file="./xml/Hopper-v5/decreased_friction.xml",
         render_mode="human",
     )
 
-    algo = SACExpert(
+    # algo = SACExpert(
+    #     state_shape=env.observation_space.shape,
+    #     action_shape=env.action_space.shape,
+    #     device=torch.device("cuda" if args.cuda else "cpu"),
+    #     path=args.weights,
+    # )
+
+    algo = PPOExpert(
         state_shape=env.observation_space.shape,
         action_shape=env.action_space.shape,
         device=torch.device("cuda" if args.cuda else "cpu"),
