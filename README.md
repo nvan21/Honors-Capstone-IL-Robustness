@@ -1,40 +1,114 @@
-- It seems like all algorithms are too different to implement a standard training loop in main.py
-  - Each algorithm should have its own train method that takes care of its individual training loop
-- Instead of using D4RL data, I will generate my own with SAC so that I have access to the expert policy
+# Comparative Analysis of Imitation Learning Robustness and Reward Transferability
 
-# Methods each algorithm should have
+## Overview
 
-- init
-  - Should this be different from \_\_init\_\_?
-  - Responsible for initializing everything in the algorithm
-- train
-  - This is responsible for each algorithm's training loop
-  - Can interact with other methods that are specific to each algorithm
-    - These would normally be in utils, but I think they should all be in the same class for readability
-  - Should record the time it took to train
-- evaluate
-  - This takes in a gymnasium environment (which will be setup with a seed already), and evaluates the two different agents trained on the different rewards (learned and true)
-  - It should return the cumulative rewards
+This project performs a comprehensive empirical comparison of various Imitation Learning (IL) algorithms, focusing on their robustness to environmental changes and the transferability of learned reward functions. Standard Behavioral Cloning (BC) can suffer from covariate shift and fail when the execution environment differs from the demonstration environment. More advanced methods like DAgger, GAIL, and AIRL aim to overcome these limitations. AIRL, in particular, attempts to learn a disentangled reward function, which might offer superior robustness and allow for effective transfer to train agents in modified environments.
 
-# Implementation Steps
+This research investigates:
 
-1. SAC training on all three environments
-   - Validate with D4RL expert level performance to ensure that I have an optimal policy
-2. Data collection
-3. Deep maximum entropy IRL
-4. AIRL
-5. BIRL
-6. Testing
+1.  The baseline imitation performance of different IL algorithms.
+2.  The robustness of policies learned via BC, DAgger, GAIL, and AIRL when deployed zero-shot in perturbed environments.
+3.  The quality and transferability of the reward function learned by AIRL.
+4.  How policies trained using the transferred AIRL reward compare to zero-shot policies in modified environments.
 
-# AIRL Notes
+## Research Questions
 
-First thing that's needed are expert trajectories
+- **RQ1 (Baseline Imitation):** How well do BC, DAgger, GAIL, and AIRL replicate expert performance in the original demonstration environment?
+- **RQ2 (Policy Robustness):** How significantly does the performance of policies learned via BC, DAgger, GAIL, and AIRL degrade when deployed zero-shot in environments with variations (e.g., changed dynamics, goals)? Which method exhibits the most robust policies?
+- **RQ3 (AIRL Reward Quality):** Does the reward function learned by AIRL from base environment demonstrations capture meaningful task objectives? Can it be used to train an effective RL policy from scratch in the _modified_ environments?
+- **RQ4 (Transfer Comparison):** How does the performance of the policy trained via RL-using-transferred-AIRL-reward compare to the zero-shot performance of the original BC, DAgger, GAIL, and AIRL policies in the modified environments?
 
-1. Start with a new PPO/SAC policy
-2. Take a step in the environment and record the state, policy's action, reward from the environment, mask (False if not done or not truncated), log probabilities of action distribution, next state
-   - Continue this loop for the rollout length
-3. Once the rollout length is hit, update the discriminator and the policy
-   - For the discriminator update, randomly sample _batch size_ trajectories from current policy rollout buffer and from expert demonstrations buffer
-   - Calculate the log probabilities of the expert actions
-   - Update the discriminator
-     - For the discriminator update
+## Methodology
+
+### Algorithms Compared
+
+1.  **Behavioral Cloning (BC):** Standard supervised learning (State -> Action) on expert data. Serves as a basic baseline.
+2.  **DAgger (Dataset Aggregation):** An iterative variant of BC that collects data under the current policy and queries an expert for labels to mitigate covariate shift.
+3.  **GAIL (Generative Adversarial Imitation Learning):** An adversarial IL method that learns a policy to match the expert's state-action visitation distribution, often without explicitly recovering a reward function.
+4.  **AIRL (Adversarial Inverse Reinforcement Learning):** An adversarial IRL method designed to recover a disentangled reward function, potentially invariant to environment dynamics. Both the learned policy and the learned reward function are analyzed.
+5.  **RL on Transferred AIRL Reward:** A standard RL algorithm (e.g., PPO/SAC) trained in a _modified_ environment using the reward function learned by AIRL in the _base_ environment.
+
+### Environments & Variations
+
+- **Base Environments:** Experiments are conducted on a selection of environments from standard benchmarks, such as:
+  - `Classic Control`: `CartPole-v1`, `Pendulum-v1`
+  - `MuJoCo (Simple)`: `Reacher-v4`, `InvertedPendulum-v4` (Requires MuJoCo license/setup)
+  - `GridWorld`: Custom or library-based grid worlds
+- **Variations:** For each base environment, several _modified_ versions are created to test robustness and transferability:
+  - **Small/Large Dynamics Changes:** Modifying physics parameters (e.g., mass, friction, gravity) by a small (10-20%) or larger (40-60%) amount.
+  - **Goal/Task Changes:** Altering the target state or objective location (e.g., different target coordinate in Reacher, different goal cell in GridWorld).
+
+### Demonstration Data
+
+- Expert demonstrations are generated by training a high-performing RL agent (e.g., PPO/SAC from Stable-Baselines3) in each _base_ environment.
+- A fixed dataset of expert trajectories (`state`, `action`, `next_state`, `reward`, `done`) is collected for each base environment.
+- The _same_ demonstration dataset (excluding reward information where appropriate for algorithms like BC/GAIL) is used to train all imitation learning algorithms for fair comparison.
+
+### Evaluation Protocol
+
+- **Imitation Quality:** Policies (`pi_BC`, `pi_DAgger`, `pi_GAIL`, `pi_AIRL`) are evaluated in the _base_ environment (RQ1).
+- **Zero-Shot Robustness:** The same policies are evaluated without retraining in each _modified_ environment (RQ2). Performance degradation is measured.
+- **Reward Transfer:** The AIRL reward function (`r_AIRL`) learned on base demos is used to train a new RL agent (`pi_RL_AIRL_Transfer`) _from scratch_ within each _modified_ environment.
+- **Transfer Performance:** `pi_RL_AIRL_Transfer` is evaluated in the corresponding _modified_ environment (RQ3, RQ4) and compared against the zero-shot performance of the other IL policies.
+- **Metrics:** Primary metrics include Average Cumulative Return and Success Rate (if applicable). Learning curves for RL training are also analyzed.
+
+## Setup & Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd <repository-directory>
+    ```
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    ```
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+    _(Note: MuJoCo environments might require additional setup. Refer to Gymnasium documentation.)_
+
+## Usage (Example Workflow)
+
+Scripts should be provided to run the different stages of the experiment. The exact commands may vary based on implementation.
+
+1.  **Generate Expert Demonstrations:**
+    ```bash
+    python scripts/generate_demos.py --env-id CartPole-v1 --num-trajectories 50 --save-path data/demos/cartpole_expert.npz
+    ```
+2.  **Train Imitation Learning Policies:**
+
+    ```bash
+    # Behavioral Cloning
+    python scripts/train_bc.py --env-id CartPole-v1 --demo-path data/demos/cartpole_expert.npz --save-path models/bc_cartpole.pth
+
+    # DAgger
+    python scripts/train_dagger.py --env-id CartPole-v1 --demo-path data/demos/cartpole_expert.npz --expert-path path/to/expert_cartpole.zip --save-path models/dagger_cartpole.pth
+
+    # GAIL (using 'imitation' library example)
+    python -m imitation.scripts.train_adversarial gail --env CartPole-v1 with demonstrations.load_path=data/demos/cartpole_expert.npz checkpoint_interval=0 # ... other GAIL args
+
+    # AIRL (using your custom script)
+    python scripts/train_airl.py --env-id CartPole-v1 --demo-path data/demos/cartpole_expert.npz --save-policy-path models/airl_cartpole.pth --save-reward-path models/airl_reward_cartpole.pkl
+    ```
+
+3.  **Train RL Agent with Transferred AIRL Reward:**
+    ```bash
+    # Assume CartPole-v1-Modified is a registered variant
+    python scripts/train_rl_transfer.py --env-id CartPole-v1-Modified --airl-reward-path models/airl_reward_cartpole.pkl --save-path models/rl_transfer_cartpole_modified.zip
+    ```
+4.  **Run Evaluations:**
+
+    ```bash
+    python scripts/evaluate_policies.py --env-id CartPole-v1 --policy-paths models/bc_cartpole.pth models/dagger_cartpole.pth ... --results-dir results/base_eval
+
+    python scripts/evaluate_policies.py --env-id CartPole-v1-Modified --policy-paths models/bc_cartpole.pth models/dagger_cartpole.pth ... models/rl_transfer_cartpole_modified.zip --results-dir results/modified_eval
+    ```
+
+5.  **Analyze Results:** Use scripts or notebooks to process data in the `results/` directory and generate plots/tables for the final report.
+
+_(Note: The script names and arguments above are examples and should be adapted to the actual project structure.)_
+
+## Project Structure (Example)
