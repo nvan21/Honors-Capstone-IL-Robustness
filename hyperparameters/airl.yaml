@@ -1,0 +1,75 @@
+defaults:
+  seed: 0
+  num_steps: 1000000
+  eval_interval: 10000
+  num_eval_episodes: 5
+
+  # AIRL specific parameters
+  learning_rate: 0.0003 # lr_actor and lr_critic
+  disc_lr: 0.0003 # lr_disc
+  hidden_sizes: [256, 256] # units_actor and units_critic
+  disc_hidden_sizes: [100, 100] # units_disc_r and units_disc_v
+  clip_ratio: 0.2
+  discount_factor: 0.995 # gamma
+  gae_lambda: 0.97
+  rollout_length: 10000
+  mix_buffer: 1
+  batch_size: 64
+  epoch_ppo: 50
+  epoch_disc: 10
+  coef_ent: 0.0
+  max_grad_norm: 10.0
+  cuda: true
+
+# Environment-specific defaults
+environments:
+  Hopper-v5:
+    xml_file: "./xml/Hopper-v5/regular.xml"
+    buffer: "./buffers/Hopper-v5/size1000000_std0.01_prand0.0.pth"
+    num_steps: 10000000
+    rollout_length: 50000
+    hidden_sizes: [64, 64]
+    disc_hidden_sizes: [100, 100]
+
+  HalfCheetah-v5:
+    xml_file: "./xml/HalfCheetah-v5/regular.xml"
+    buffer: "./buffers/HalfCheetah-v5/size1000000_std0.0_prand0.0.pth"
+    num_steps: 10000000
+    rollout_length: 50000
+    hidden_sizes: [256, 256]
+    disc_hidden_sizes: [100, 100]
+
+  InvertedPendulum-v5:
+    xml_file: "./xml/InvertedPendulum-v5/regular.xml"
+    buffer: "./buffers/InvertedPendulum-v5/size1000000_std0.0_prand0.0_return1000.pth"
+    num_steps: 250000
+    rollout_length: 2000
+    hidden_sizes: [64, 64]
+    disc_hidden_sizes: [100, 100]
+
+  Ant-v5:
+    xml_file: "./xml/Ant-v5/regular.xml"
+    buffer: "./buffers/Ant-v5/size1000000_std0.01_prand0.0.pth"
+    num_steps: 10000000
+    rollout_length: 50000
+    hidden_sizes: [256, 256]
+    disc_hidden_sizes: [100, 100]
+
+# Named experiments that can be used across environments
+experiments:
+  normal_env:
+    description: "Uses default environment xml"
+
+# Environment-specific experiments
+env_experiments:
+  Hopper-v5:
+    increased_gravity:
+      xml_file: "./xml/increased_gravity.xml"
+
+  HalfCheetah-v5:
+
+  InvertedPendulum-v5:
+    increased_gravity:
+      xml_file: "./xml/increased_gravity.xml"
+
+  Ant-v5:

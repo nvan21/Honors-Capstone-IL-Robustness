@@ -1,0 +1,1 @@
+{"_step":5,"_timestamp":1.7436419011012218e+09,"loss/disc":1.073380947113037,"_wandb":{"runtime":4},"loss/actor":-0.02234499156475067,"stats/acc_pi":0.53125,"stats/acc_exp":1,"stats/entropy":0.4782371520996094,"loss/critic":14.636850357055664,"_runtime":4.5481206}

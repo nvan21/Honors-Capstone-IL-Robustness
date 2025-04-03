@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]  # Minimum version of setuptools required
+build-backend = "setuptools.build_meta" # Specifies the build system pip will use
+
+[project]
+name = "imitation_learning"           # The name you'll use to import (e.g., import my_package)
+version = "0.1.0"             # Your package's version
+description = "A short description of my project."
+authors = [
+  { name="Your Name", email="your.email@example.com" },
+]
+requires-python = ">=3.8"     # Minimum Python version compatibility
+dependencies = [
+    # List your project's dependencies here, e.g.:
+    # "numpy>=1.21",
+    # "torch",
+    # "gymnasium",
+    # "stable-baselines3",
+]
+
+# Optional, but good practice for licensing and URLs
+# license = { text = "MIT" }
+# urls = { Homepage = "https://github.com/yourusername/yourproject" }
+
+# --- This section tells setuptools where to find your package code ---
+[tool.setuptools.packages.find]
+where = ["src"]  # Look for packages inside the 'src' directory

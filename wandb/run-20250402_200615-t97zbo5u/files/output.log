@@ -1,0 +1,26 @@
+Num steps: 10000    Return: 99.0    Time: 0:00:02
+Num steps: 20000    Return: 102.0   Time: 0:00:05
+Num steps: 30000    Return: 178.0   Time: 0:00:08
+Num steps: 40000    Return: 121.0   Time: 0:00:11
+Num steps: 50000    Return: 1000.0   Time: 0:00:15
+Num steps: 60000    Return: 1000.0   Time: 0:00:18
+Num steps: 70000    Return: 1000.0   Time: 0:00:21
+Num steps: 80000    Return: 1000.0   Time: 0:00:25
+Num steps: 90000    Return: 1000.0   Time: 0:00:28
+Num steps: 100000   Return: 1000.0   Time: 0:00:32
+Num steps: 110000   Return: 1000.0   Time: 0:00:35
+Num steps: 120000   Return: 1000.0   Time: 0:00:39
+Num steps: 130000   Return: 1000.0   Time: 0:00:42
+Num steps: 140000   Return: 1000.0   Time: 0:00:46
+Num steps: 150000   Return: 1000.0   Time: 0:00:49
+Num steps: 160000   Return: 1000.0   Time: 0:00:52
+Num steps: 170000   Return: 1000.0   Time: 0:00:56
+Num steps: 180000   Return: 1000.0   Time: 0:00:59
+Num steps: 190000   Return: 1000.0   Time: 0:01:02
+Num steps: 200000   Return: 1000.0   Time: 0:01:06
+Num steps: 210000   Return: 1000.0   Time: 0:01:09
+Num steps: 220000   Return: 1000.0   Time: 0:01:13
+Num steps: 230000   Return: 1000.0   Time: 0:01:16
+Num steps: 240000   Return: 1000.0   Time: 0:01:20
+Num steps: 250000   Return: 1000.0   Time: 0:01:23
+Training completed. Models saved to: logs\InvertedPendulum-v5\airl\normal_env-seed0-20250402-2006

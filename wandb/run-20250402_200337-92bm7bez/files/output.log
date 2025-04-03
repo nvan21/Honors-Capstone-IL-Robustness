@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "E:\Coding Projects\Honors-Capstone\scripts\train_il.py", line 255, in <module>
+    run_training()
+  File "E:\Coding Projects\Honors-Capstone\scripts\train_il.py", line 246, in run_training
+    trainer.online_train(num_steps=config.get("num_steps", 1000000))
+  File "E:\Coding Projects\Honors-Capstone\src\imitation_learning\utils\trainer.py", line 66, in online_train
+    self.evaluate(step)
+  File "E:\Coding Projects\Honors-Capstone\src\imitation_learning\utils\trainer.py", line 102, in evaluate
+    self.writer.log({"return/test": mean_return}, step_metric="env_steps")
+  File "C:\Users\nvanu\miniconda3\envs\honors-capstone\Lib\site-packages\wandb\sdk\wandb_run.py", line 449, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nvanu\miniconda3\envs\honors-capstone\Lib\site-packages\wandb\sdk\wandb_run.py", line 401, in wrapper_fn
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nvanu\miniconda3\envs\honors-capstone\Lib\site-packages\wandb\sdk\wandb_run.py", line 391, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Run.log() got an unexpected keyword argument 'step_metric'
