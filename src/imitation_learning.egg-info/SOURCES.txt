@@ -10,6 +10,7 @@ src/imitation_learning/algos/airl.py
 src/imitation_learning/algos/airl_ppo.py
 src/imitation_learning/algos/base.py
 src/imitation_learning/algos/bc.py
+src/imitation_learning/algos/dagger.py
 src/imitation_learning/algos/gail.py
 src/imitation_learning/algos/ppo.py
 src/imitation_learning/algos/sac.py

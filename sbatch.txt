@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Copy/paste this job script into a text file and submit with the command:
+#    sbatch thefilename
+# job standard output will go to the file slurm-%j.out (where %j is the job ID)
+
+#SBATCH --time=8:00:00   # walltime limit (HH:MM:SS)
+#SBATCH --nodes=1   # number of nodes
+#SBATCH --ntasks-per-node=8   # 8 processor core(s) per node 
+#SBATCH --gres=gpu:1
+#SBATCH --constraint=a100
+#SBATCH --mail-user=nvan21@iastate.edu   # email address
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+
+# LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
+source ~/.bashrc
+cd /work/flemingc/nvan21/projects/Honors-Capstone
+conda activate honors
+python scripts/train_expert.py --env_id InvertedPendulum-v5 --num_steps 100000 --cuda
+python scripts/train_expert.py --env_id Hopper-v5 --num_steps 1000000 --cuda
+python scripts/train_expert.py --env_id Ant-v5 --num_steps 1000000 --cuda
+python scripts/train_expert.py --env_id Pusher-v5 --num_steps 1000000 --cuda
+python scripts/train_expert.py --env_id HalfCheetah-v5 --num_steps 1000000 --cuda

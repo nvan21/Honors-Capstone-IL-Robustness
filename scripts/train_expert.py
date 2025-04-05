@@ -2,6 +2,7 @@ import os
 import argparse
 import torch
 from datetime import datetime
+import wandb
 
 from imitation_learning.utils.env import make_env
 from imitation_learning.algos import SAC
@@ -27,11 +28,19 @@ def run(args):
         "logs", args.env_id, "expert", "sac", f"seed{args.seed}-{time}"
     )
 
+    writer = wandb.init(
+        project="Honors Capstone",
+        name=f"SAC Expert {args.env_id}",
+        group="SAC",
+        job_type=args.env_id,
+    )
+
     trainer = Trainer(
         env=env,
         env_test=env_test,
         algo=algo,
         log_dir=log_dir,
+        writer=writer,
         eval_interval=args.eval_interval,
         seed=args.seed,
     )

@@ -131,9 +131,8 @@ class SAC(Algorithm):
         self.optim_critic.step()
 
         if self.learning_steps % 1000 == 0:
-            writer.log("loss/critic1", loss_critic1.item(), self.learning_steps)
-            writer.log("loss/critic2", loss_critic2.item(), self.learning_steps)
-
+            writer.log({"loss/critic1": loss_critic1.item(), "Steps": self.learning_steps})
+            writer.log({"loss/critic2": loss_critic2.item(), "Steps": self.learning_steps})
     def update_actor(self, states, writer):
         actions, log_pis = self.actor.sample(states)
         qs1, qs2 = self.critic(states, actions)
@@ -154,10 +153,10 @@ class SAC(Algorithm):
             self.alpha = self.log_alpha.exp().item()
 
         if self.learning_steps % 1000 == 0:
-            writer.log("loss/actor", loss_actor.item(), self.learning_steps)
-            writer.log("loss/alpha", loss_alpha.item(), self.learning_steps)
-            writer.log("stats/alpha", self.alpha, self.learning_steps)
-            writer.log("stats/entropy", entropy.item(), self.learning_steps)
+            writer.log({"loss/actor": loss_actor.item(), "Steps":  self.learning_steps})
+            writer.log({"loss/alpha": loss_alpha.item(), "Steps": self.learning_steps})
+            writer.log({"stats/alpha": self.alpha, "Steps": self.learning_steps})
+            writer.log({"stats/entropy": entropy.item(), "Steps": self.learning_steps})
 
     def update_target(self):
         soft_update(self.critic_target, self.critic, self.tau)

@@ -1,0 +1,470 @@
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: nvan21 (nvanutrecht) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.9
+wandb: Run data is saved locally in /work/flemingc/nvan21/projects/Honors-Capstone/wandb/run-20250403_084126-pfllfuzn
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SAC Expert InvertedPendulum-v5
+wandb: ⭐️ View project at https://wandb.ai/nvanutrecht/Honors%20Capstone
+wandb: 🚀 View run at https://wandb.ai/nvanutrecht/Honors%20Capstone/runs/pfllfuzn
+Attempting to train SAC expert on 'InvertedPendulum-v5' with the following parameters: Namespace(num_steps=100000, eval_interval=10000, env_id='InvertedPendulum-v5', cuda=True, seed=0)
+Num steps: 10000    Return: 7.0     Time: 0:00:02
+Num steps: 20000    Return: 146.0   Time: 0:00:58
+Num steps: 30000    Return: 1000.0   Time: 0:01:55
+Num steps: 40000    Return: 1000.0   Time: 0:02:51
+Num steps: 50000    Return: 1000.0   Time: 0:03:48
+Num steps: 60000    Return: 1000.0   Time: 0:04:44
+Num steps: 70000    Return: 1000.0   Time: 0:05:39
+Num steps: 80000    Return: 1000.0   Time: 0:06:34
+Num steps: 90000    Return: 1000.0   Time: 0:07:29
+Num steps: 100000   Return: 1000.0   Time: 0:08:25
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mSAC Expert InvertedPendulum-v5[0m at: [34mhttps://wandb.ai/nvanutrecht/Honors%20Capstone/runs/pfllfuzn[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250403_084126-pfllfuzn/logs[0m
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: nvan21 (nvanutrecht) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.9
+wandb: Run data is saved locally in /work/flemingc/nvan21/projects/Honors-Capstone/wandb/run-20250403_085008-t9pnp4l5
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SAC Expert Hopper-v5
+wandb: ⭐️ View project at https://wandb.ai/nvanutrecht/Honors%20Capstone
+wandb: 🚀 View run at https://wandb.ai/nvanutrecht/Honors%20Capstone/runs/t9pnp4l5
+Attempting to train SAC expert on 'Hopper-v5' with the following parameters: Namespace(num_steps=1000000, eval_interval=10000, env_id='Hopper-v5', cuda=True, seed=0)
+Num steps: 10000    Return: 92.7    Time: 0:00:03
+Num steps: 20000    Return: 195.1   Time: 0:01:00
+Num steps: 30000    Return: 190.7   Time: 0:01:56
+Num steps: 40000    Return: 347.2   Time: 0:02:53
+Num steps: 50000    Return: 417.8   Time: 0:03:50
+Num steps: 60000    Return: 323.4   Time: 0:04:46
+Num steps: 70000    Return: 511.1   Time: 0:05:41
+Num steps: 80000    Return: 457.1   Time: 0:06:37
+Num steps: 90000    Return: 732.5   Time: 0:07:33
+Num steps: 100000   Return: 917.8   Time: 0:08:29
+Num steps: 110000   Return: 891.3   Time: 0:09:26
+Num steps: 120000   Return: 907.8   Time: 0:10:23
+Num steps: 130000   Return: 1265.0   Time: 0:11:19
+Num steps: 140000   Return: 1265.1   Time: 0:12:16
+Num steps: 150000   Return: 980.5   Time: 0:13:13
+Num steps: 160000   Return: 1130.9   Time: 0:14:09
+Num steps: 170000   Return: 922.9   Time: 0:15:06
+Num steps: 180000   Return: 1387.1   Time: 0:16:04
+Num steps: 190000   Return: 1338.5   Time: 0:17:01
+Num steps: 200000   Return: 2178.5   Time: 0:17:59
+Num steps: 210000   Return: 995.0   Time: 0:18:56
+Num steps: 220000   Return: 1178.4   Time: 0:19:54
+Num steps: 230000   Return: 1379.4   Time: 0:20:51
+Num steps: 240000   Return: 2478.1   Time: 0:21:49
+Num steps: 250000   Return: 1725.8   Time: 0:22:46
+Num steps: 260000   Return: 902.8   Time: 0:23:43
+Num steps: 270000   Return: 3243.5   Time: 0:24:41
+Num steps: 280000   Return: 3287.4   Time: 0:25:39
+Num steps: 290000   Return: 3373.5   Time: 0:26:37
+Num steps: 300000   Return: 3358.3   Time: 0:27:35
+Num steps: 310000   Return: 3437.0   Time: 0:28:32
+Num steps: 320000   Return: 1249.9   Time: 0:29:29
+Num steps: 330000   Return: 1178.5   Time: 0:30:25
+Num steps: 340000   Return: 3316.0   Time: 0:31:23
+Num steps: 350000   Return: 1414.1   Time: 0:32:20
+Num steps: 360000   Return: 3258.6   Time: 0:33:18
+Num steps: 370000   Return: 3153.5   Time: 0:34:16
+Num steps: 380000   Return: 3327.9   Time: 0:35:15
+Num steps: 390000   Return: 3374.6   Time: 0:36:13
+Num steps: 400000   Return: 1264.6   Time: 0:37:09
+Num steps: 410000   Return: 3417.4   Time: 0:38:09
+Num steps: 420000   Return: 1774.8   Time: 0:39:06
+Num steps: 430000   Return: 3444.4   Time: 0:40:04
+Num steps: 440000   Return: 3418.4   Time: 0:41:04
+Num steps: 450000   Return: 3423.7   Time: 0:42:03
+Num steps: 460000   Return: 3452.2   Time: 0:43:01
+Num steps: 470000   Return: 3425.6   Time: 0:43:59
+Num steps: 480000   Return: 3390.8   Time: 0:44:57
+Num steps: 490000   Return: 3462.8   Time: 0:45:55
+Num steps: 500000   Return: 3432.8   Time: 0:46:53
+Num steps: 510000   Return: 3458.2   Time: 0:47:51
+Num steps: 520000   Return: 3439.6   Time: 0:48:49
+Num steps: 530000   Return: 922.7   Time: 0:49:46
+Num steps: 540000   Return: 3416.9   Time: 0:50:44
+Num steps: 550000   Return: 3469.3   Time: 0:51:43
+Num steps: 560000   Return: 1336.5   Time: 0:52:40
+Num steps: 570000   Return: 3461.6   Time: 0:53:38
+Num steps: 580000   Return: 3447.4   Time: 0:54:36
+Num steps: 590000   Return: 3436.5   Time: 0:55:35
+Num steps: 600000   Return: 1441.8   Time: 0:56:32
+Num steps: 610000   Return: 3501.0   Time: 0:57:30
+Num steps: 620000   Return: 3446.2   Time: 0:58:28
+Num steps: 630000   Return: 3441.3   Time: 0:59:26
+Num steps: 640000   Return: 3444.0   Time: 1:00:24
+Num steps: 650000   Return: 3427.3   Time: 1:01:24
+Num steps: 660000   Return: 3489.9   Time: 1:02:21
+Num steps: 670000   Return: 3430.0   Time: 1:03:20
+Num steps: 680000   Return: 3423.5   Time: 1:04:19
+Num steps: 690000   Return: 3424.2   Time: 1:05:18
+Num steps: 700000   Return: 3460.2   Time: 1:06:16
+Num steps: 710000   Return: 3479.1   Time: 1:07:16
+Num steps: 720000   Return: 3468.1   Time: 1:08:18
+Num steps: 730000   Return: 3471.5   Time: 1:09:16
+Num steps: 740000   Return: 3451.4   Time: 1:10:14
+Num steps: 750000   Return: 3504.2   Time: 1:11:12
+Num steps: 760000   Return: 3447.2   Time: 1:12:11
+Num steps: 770000   Return: 3465.5   Time: 1:13:10
+Num steps: 780000   Return: 3474.2   Time: 1:14:08
+Num steps: 790000   Return: 3450.8   Time: 1:15:06
+Num steps: 800000   Return: 3450.4   Time: 1:16:04
+Num steps: 810000   Return: 3471.3   Time: 1:17:01
+Num steps: 820000   Return: 1282.5   Time: 1:17:57
+Num steps: 830000   Return: 3472.0   Time: 1:18:55
+Num steps: 840000   Return: 3478.1   Time: 1:19:53
+Num steps: 850000   Return: 3468.7   Time: 1:20:51
+Num steps: 860000   Return: 3466.6   Time: 1:21:49
+Num steps: 870000   Return: 3471.2   Time: 1:22:47
+Num steps: 880000   Return: 3477.1   Time: 1:23:45
+Num steps: 890000   Return: 3460.6   Time: 1:24:43
+Num steps: 900000   Return: 3455.9   Time: 1:25:41
+Num steps: 910000   Return: 1371.0   Time: 1:26:39
+Num steps: 920000   Return: 3471.9   Time: 1:27:38
+Num steps: 930000   Return: 1257.0   Time: 1:28:35
+Num steps: 940000   Return: 2232.0   Time: 1:29:33
+Num steps: 950000   Return: 3479.0   Time: 1:30:32
+Num steps: 960000   Return: 3474.7   Time: 1:31:30
+Num steps: 970000   Return: 3476.5   Time: 1:32:28
+Num steps: 980000   Return: 3444.3   Time: 1:33:25
+Num steps: 990000   Return: 3469.6   Time: 1:34:23
+Num steps: 1000000   Return: 3465.8   Time: 1:35:22
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mSAC Expert Hopper-v5[0m at: [34mhttps://wandb.ai/nvanutrecht/Honors%20Capstone/runs/t9pnp4l5[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250403_085008-t9pnp4l5/logs[0m
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: nvan21 (nvanutrecht) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.9
+wandb: Run data is saved locally in /work/flemingc/nvan21/projects/Honors-Capstone/wandb/run-20250403_102546-jrz7l0eg
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SAC Expert Ant-v5
+wandb: ⭐️ View project at https://wandb.ai/nvanutrecht/Honors%20Capstone
+wandb: 🚀 View run at https://wandb.ai/nvanutrecht/Honors%20Capstone/runs/jrz7l0eg
+Attempting to train SAC expert on 'Ant-v5' with the following parameters: Namespace(num_steps=1000000, eval_interval=10000, env_id='Ant-v5', cuda=True, seed=0)
+Num steps: 10000    Return: 983.1   Time: 0:00:07
+Num steps: 20000    Return: 327.2   Time: 0:01:08
+Num steps: 30000    Return: 92.0    Time: 0:02:07
+Num steps: 40000    Return: 505.5   Time: 0:03:10
+Num steps: 50000    Return: 834.9   Time: 0:04:12
+Num steps: 60000    Return: 700.3   Time: 0:05:14
+Num steps: 70000    Return: 253.8   Time: 0:06:12
+Num steps: 80000    Return: 674.1   Time: 0:07:12
+Num steps: 90000    Return: 315.1   Time: 0:08:11
+Num steps: 100000   Return: 656.5   Time: 0:09:12
+Num steps: 110000   Return: 724.2   Time: 0:10:12
+Num steps: 120000   Return: 679.3   Time: 0:11:12
+Num steps: 130000   Return: 1157.2   Time: 0:12:12
+Num steps: 140000   Return: 1050.3   Time: 0:13:12
+Num steps: 150000   Return: 329.2   Time: 0:14:10
+Num steps: 160000   Return: 981.6   Time: 0:15:10
+Num steps: 170000   Return: 428.4   Time: 0:16:09
+Num steps: 180000   Return: 2301.9   Time: 0:17:09
+Num steps: 190000   Return: 2388.4   Time: 0:18:10
+Num steps: 200000   Return: 2051.5   Time: 0:19:10
+Num steps: 210000   Return: 10.6    Time: 0:20:08
+Num steps: 220000   Return: 2413.2   Time: 0:21:10
+Num steps: 230000   Return: 2344.4   Time: 0:22:09
+Num steps: 240000   Return: 249.8   Time: 0:23:07
+Num steps: 250000   Return: 1156.1   Time: 0:24:08
+Num steps: 260000   Return: 2159.3   Time: 0:25:09
+Num steps: 270000   Return: 1307.8   Time: 0:26:09
+Num steps: 280000   Return: 1092.0   Time: 0:27:08
+Num steps: 290000   Return: 264.5   Time: 0:28:07
+Num steps: 300000   Return: 1489.0   Time: 0:29:07
+Num steps: 310000   Return: 2786.0   Time: 0:30:07
+Num steps: 320000   Return: 286.5   Time: 0:31:06
+Num steps: 330000   Return: 2687.9   Time: 0:32:08
+Num steps: 340000   Return: 1257.0   Time: 0:33:10
+Num steps: 350000   Return: 957.4   Time: 0:34:11
+Num steps: 360000   Return: 1708.1   Time: 0:35:12
+Num steps: 370000   Return: 3017.8   Time: 0:36:12
+Num steps: 380000   Return: 2310.8   Time: 0:37:12
+Num steps: 390000   Return: 2834.6   Time: 0:38:13
+Num steps: 400000   Return: 3033.0   Time: 0:39:13
+Num steps: 410000   Return: 3099.3   Time: 0:40:15
+Num steps: 420000   Return: 3113.2   Time: 0:41:18
+Num steps: 430000   Return: 3103.6   Time: 0:42:19
+Num steps: 440000   Return: 3116.5   Time: 0:43:21
+Num steps: 450000   Return: 958.8   Time: 0:44:19
+Num steps: 460000   Return: 3325.7   Time: 0:45:18
+Num steps: 470000   Return: 1119.0   Time: 0:46:18
+Num steps: 480000   Return: 3127.0   Time: 0:47:19
+Num steps: 490000   Return: 1633.8   Time: 0:48:19
+Num steps: 500000   Return: 3459.6   Time: 0:49:20
+Num steps: 510000   Return: 3585.8   Time: 0:50:21
+Num steps: 520000   Return: 3661.8   Time: 0:51:21
+Num steps: 530000   Return: 2656.2   Time: 0:52:21
+Num steps: 540000   Return: 3238.9   Time: 0:53:21
+Num steps: 550000   Return: 3374.8   Time: 0:54:22
+Num steps: 560000   Return: 3417.0   Time: 0:55:23
+Num steps: 570000   Return: 3439.2   Time: 0:56:23
+Num steps: 580000   Return: 3360.7   Time: 0:57:24
+Num steps: 590000   Return: 1687.3   Time: 0:58:23
+Num steps: 600000   Return: 3642.3   Time: 0:59:23
+Num steps: 610000   Return: 3498.3   Time: 1:00:23
+Num steps: 620000   Return: 1980.7   Time: 1:01:23
+Num steps: 630000   Return: 3531.2   Time: 1:02:24
+Num steps: 640000   Return: 3629.9   Time: 1:03:25
+Num steps: 650000   Return: 3472.1   Time: 1:04:26
+Num steps: 660000   Return: 3538.9   Time: 1:05:27
+Num steps: 670000   Return: 3039.3   Time: 1:06:27
+Num steps: 680000   Return: 1803.0   Time: 1:07:26
+Num steps: 690000   Return: 3134.6   Time: 1:08:27
+Num steps: 700000   Return: 3741.4   Time: 1:09:27
+Num steps: 710000   Return: 2806.6   Time: 1:10:27
+Num steps: 720000   Return: 1653.8   Time: 1:11:27
+Num steps: 730000   Return: 1502.2   Time: 1:12:26
+Num steps: 740000   Return: 451.6   Time: 1:13:24
+Num steps: 750000   Return: 4239.2   Time: 1:14:24
+Num steps: 760000   Return: 2917.9   Time: 1:15:23
+Num steps: 770000   Return: 1047.8   Time: 1:16:21
+Num steps: 780000   Return: 4109.4   Time: 1:17:22
+Num steps: 790000   Return: 1177.8   Time: 1:18:21
+Num steps: 800000   Return: 865.8   Time: 1:19:19
+Num steps: 810000   Return: 4293.7   Time: 1:20:19
+Num steps: 820000   Return: 2770.9   Time: 1:21:18
+Num steps: 830000   Return: 4232.0   Time: 1:22:18
+Num steps: 840000   Return: 168.1   Time: 1:23:15
+Num steps: 850000   Return: 1241.9   Time: 1:24:12
+Num steps: 860000   Return: 4270.7   Time: 1:25:12
+Num steps: 870000   Return: 1533.8   Time: 1:26:10
+Num steps: 880000   Return: 3973.2   Time: 1:27:10
+Num steps: 890000   Return: 2780.3   Time: 1:28:10
+Num steps: 900000   Return: 4168.8   Time: 1:29:10
+Num steps: 910000   Return: 2205.1   Time: 1:30:09
+Num steps: 920000   Return: 3790.1   Time: 1:31:09
+Num steps: 930000   Return: 4211.0   Time: 1:32:08
+Num steps: 940000   Return: 887.4   Time: 1:33:07
+Num steps: 950000   Return: 4393.5   Time: 1:34:06
+Num steps: 960000   Return: 4440.5   Time: 1:35:06
+Num steps: 970000   Return: 4476.6   Time: 1:36:06
+Num steps: 980000   Return: 4939.8   Time: 1:37:05
+Num steps: 990000   Return: 686.0   Time: 1:38:03
+Num steps: 1000000   Return: 3718.5   Time: 1:39:02
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mSAC Expert Ant-v5[0m at: [34mhttps://wandb.ai/nvanutrecht/Honors%20Capstone/runs/jrz7l0eg[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250403_102546-jrz7l0eg/logs[0m
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: nvan21 (nvanutrecht) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.9
+wandb: Run data is saved locally in /work/flemingc/nvan21/projects/Honors-Capstone/wandb/run-20250403_120601-p6s0hs3n
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SAC Expert Pusher-v5
+wandb: ⭐️ View project at https://wandb.ai/nvanutrecht/Honors%20Capstone
+wandb: 🚀 View run at https://wandb.ai/nvanutrecht/Honors%20Capstone/runs/p6s0hs3n
+Attempting to train SAC expert on 'Pusher-v5' with the following parameters: Namespace(num_steps=1000000, eval_interval=10000, env_id='Pusher-v5', cuda=True, seed=0)
+Num steps: 10000    Return: -60.9   Time: 0:00:02
+Num steps: 20000    Return: -38.1   Time: 0:00:58
+Num steps: 30000    Return: -35.5   Time: 0:01:54
+Num steps: 40000    Return: -34.2   Time: 0:02:50
+Num steps: 50000    Return: -30.4   Time: 0:03:46
+Num steps: 60000    Return: -32.1   Time: 0:04:42
+Num steps: 70000    Return: -32.0   Time: 0:05:37
+Num steps: 80000    Return: -31.2   Time: 0:06:33
+Num steps: 90000    Return: -31.0   Time: 0:07:30
+Num steps: 100000   Return: -31.4   Time: 0:08:27
+Num steps: 110000   Return: -30.7   Time: 0:09:23
+Num steps: 120000   Return: -31.4   Time: 0:10:19
+Num steps: 130000   Return: -30.8   Time: 0:11:16
+Num steps: 140000   Return: -31.8   Time: 0:12:11
+Num steps: 150000   Return: -31.8   Time: 0:13:07
+Num steps: 160000   Return: -33.0   Time: 0:14:03
+Num steps: 170000   Return: -31.0   Time: 0:14:59
+Num steps: 180000   Return: -28.4   Time: 0:15:55
+Num steps: 190000   Return: -29.1   Time: 0:16:52
+Num steps: 200000   Return: -33.3   Time: 0:17:48
+Num steps: 210000   Return: -29.3   Time: 0:18:44
+Num steps: 220000   Return: -30.3   Time: 0:19:39
+Num steps: 230000   Return: -29.9   Time: 0:20:35
+Num steps: 240000   Return: -30.3   Time: 0:21:30
+Num steps: 250000   Return: -29.3   Time: 0:22:26
+Num steps: 260000   Return: -27.6   Time: 0:23:22
+Num steps: 270000   Return: -28.4   Time: 0:24:18
+Num steps: 280000   Return: -28.5   Time: 0:25:14
+Num steps: 290000   Return: -28.2   Time: 0:26:10
+Num steps: 300000   Return: -27.3   Time: 0:27:06
+Num steps: 310000   Return: -27.6   Time: 0:28:02
+Num steps: 320000   Return: -28.3   Time: 0:28:57
+Num steps: 330000   Return: -27.8   Time: 0:29:53
+Num steps: 340000   Return: -27.6   Time: 0:30:49
+Num steps: 350000   Return: -27.8   Time: 0:31:44
+Num steps: 360000   Return: -26.7   Time: 0:32:41
+Num steps: 370000   Return: -27.3   Time: 0:33:36
+Num steps: 380000   Return: -27.0   Time: 0:34:32
+Num steps: 390000   Return: -27.1   Time: 0:35:28
+Num steps: 400000   Return: -26.1   Time: 0:36:23
+Num steps: 410000   Return: -27.4   Time: 0:37:18
+Num steps: 420000   Return: -27.2   Time: 0:38:14
+Num steps: 430000   Return: -27.2   Time: 0:39:09
+Num steps: 440000   Return: -27.6   Time: 0:40:05
+Num steps: 450000   Return: -28.0   Time: 0:41:01
+Num steps: 460000   Return: -26.8   Time: 0:41:56
+Num steps: 470000   Return: -26.7   Time: 0:42:52
+Num steps: 480000   Return: -25.0   Time: 0:43:47
+Num steps: 490000   Return: -26.8   Time: 0:44:42
+Num steps: 500000   Return: -27.2   Time: 0:45:38
+Num steps: 510000   Return: -26.7   Time: 0:46:34
+Num steps: 520000   Return: -25.6   Time: 0:47:30
+Num steps: 530000   Return: -26.9   Time: 0:48:26
+Num steps: 540000   Return: -27.0   Time: 0:49:21
+Num steps: 550000   Return: -29.1   Time: 0:50:17
+Num steps: 560000   Return: -25.8   Time: 0:51:12
+Num steps: 570000   Return: -25.6   Time: 0:52:08
+Num steps: 580000   Return: -34.3   Time: 0:53:04
+Num steps: 590000   Return: -25.7   Time: 0:54:00
+Num steps: 600000   Return: -24.9   Time: 0:54:56
+Num steps: 610000   Return: -25.7   Time: 0:55:51
+Num steps: 620000   Return: -25.0   Time: 0:56:47
+Num steps: 630000   Return: -25.6   Time: 0:57:42
+Num steps: 640000   Return: -26.0   Time: 0:58:40
+Num steps: 650000   Return: -26.1   Time: 0:59:35
+Num steps: 660000   Return: -27.1   Time: 1:00:30
+Num steps: 670000   Return: -24.8   Time: 1:01:26
+Num steps: 680000   Return: -25.7   Time: 1:02:22
+Num steps: 690000   Return: -25.0   Time: 1:03:18
+Num steps: 700000   Return: -24.6   Time: 1:04:14
+Num steps: 710000   Return: -26.2   Time: 1:05:09
+Num steps: 720000   Return: -25.8   Time: 1:06:04
+Num steps: 730000   Return: -26.5   Time: 1:07:00
+Num steps: 740000   Return: -24.7   Time: 1:07:55
+Num steps: 750000   Return: -25.5   Time: 1:08:51
+Num steps: 760000   Return: -26.0   Time: 1:09:47
+Num steps: 770000   Return: -24.4   Time: 1:10:43
+Num steps: 780000   Return: -25.3   Time: 1:11:39
+Num steps: 790000   Return: -25.2   Time: 1:12:35
+Num steps: 800000   Return: -24.5   Time: 1:13:30
+Num steps: 810000   Return: -24.9   Time: 1:14:26
+Num steps: 820000   Return: -25.6   Time: 1:15:21
+Num steps: 830000   Return: -25.5   Time: 1:16:17
+Num steps: 840000   Return: -24.8   Time: 1:17:13
+Num steps: 850000   Return: -24.8   Time: 1:18:09
+Num steps: 860000   Return: -24.8   Time: 1:19:05
+Num steps: 870000   Return: -23.7   Time: 1:20:01
+Num steps: 880000   Return: -24.8   Time: 1:20:57
+Num steps: 890000   Return: -33.1   Time: 1:21:53
+Num steps: 900000   Return: -24.5   Time: 1:22:49
+Num steps: 910000   Return: -24.2   Time: 1:23:44
+Num steps: 920000   Return: -24.2   Time: 1:24:40
+Num steps: 930000   Return: -24.5   Time: 1:25:36
+Num steps: 940000   Return: -24.0   Time: 1:26:32
+Num steps: 950000   Return: -24.0   Time: 1:27:28
+Num steps: 960000   Return: -24.0   Time: 1:28:23
+Num steps: 970000   Return: -24.0   Time: 1:29:19
+Num steps: 980000   Return: -24.8   Time: 1:30:15
+Num steps: 990000   Return: -23.7   Time: 1:31:13
+Num steps: 1000000   Return: -24.9   Time: 1:32:10
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mSAC Expert Pusher-v5[0m at: [34mhttps://wandb.ai/nvanutrecht/Honors%20Capstone/runs/p6s0hs3n[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250403_120601-p6s0hs3n/logs[0m
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: nvan21 (nvanutrecht) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.9
+wandb: Run data is saved locally in /work/flemingc/nvan21/projects/Honors-Capstone/wandb/run-20250403_133829-9o0rrue4
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SAC Expert HalfCheetah-v5
+wandb: ⭐️ View project at https://wandb.ai/nvanutrecht/Honors%20Capstone
+wandb: 🚀 View run at https://wandb.ai/nvanutrecht/Honors%20Capstone/runs/9o0rrue4
+Attempting to train SAC expert on 'HalfCheetah-v5' with the following parameters: Namespace(num_steps=1000000, eval_interval=10000, env_id='HalfCheetah-v5', cuda=True, seed=0)
+Num steps: 10000    Return: -2.2    Time: 0:00:04
+Num steps: 20000    Return: -78.2   Time: 0:01:01
+Num steps: 30000    Return: 1061.8   Time: 0:01:59
+Num steps: 40000    Return: 2950.9   Time: 0:02:57
+Num steps: 50000    Return: 3080.9   Time: 0:03:54
+Num steps: 60000    Return: 3414.3   Time: 0:04:52
+Num steps: 70000    Return: 3868.1   Time: 0:05:50
+Num steps: 80000    Return: 1704.5   Time: 0:06:47
+Num steps: 90000    Return: 4486.3   Time: 0:07:44
+Num steps: 100000   Return: 4972.4   Time: 0:08:43
+Num steps: 110000   Return: 5107.7   Time: 0:09:40
+Num steps: 120000   Return: 5025.8   Time: 0:10:38
+Num steps: 130000   Return: 5339.2   Time: 0:11:36
+Num steps: 140000   Return: 5549.0   Time: 0:12:33
+Num steps: 150000   Return: 5758.3   Time: 0:13:31
+Num steps: 160000   Return: 6054.8   Time: 0:14:28
+Num steps: 170000   Return: 6039.3   Time: 0:15:25
+Num steps: 180000   Return: 6490.8   Time: 0:16:23
+Num steps: 190000   Return: 6404.2   Time: 0:17:21
+Num steps: 200000   Return: 6780.8   Time: 0:18:18
+Num steps: 210000   Return: 6904.8   Time: 0:19:16
+Num steps: 220000   Return: 6638.6   Time: 0:20:13
+Num steps: 230000   Return: 6837.2   Time: 0:21:09
+Num steps: 240000   Return: 7202.7   Time: 0:22:06
+Num steps: 250000   Return: 7321.9   Time: 0:23:03
+Num steps: 260000   Return: 7100.5   Time: 0:24:00
+Num steps: 270000   Return: 7581.7   Time: 0:24:57
+Num steps: 280000   Return: 7890.2   Time: 0:25:54
+Num steps: 290000   Return: 8120.3   Time: 0:26:51
+Num steps: 300000   Return: 7986.9   Time: 0:27:47
+Num steps: 310000   Return: 7939.4   Time: 0:28:44
+Num steps: 320000   Return: 7759.0   Time: 0:29:40
+Num steps: 330000   Return: 8222.8   Time: 0:30:36
+Num steps: 340000   Return: 8457.4   Time: 0:31:33
+Num steps: 350000   Return: 8650.2   Time: 0:32:30
+Num steps: 360000   Return: 8611.0   Time: 0:33:27
+Num steps: 370000   Return: 8953.3   Time: 0:34:24
+Num steps: 380000   Return: 9103.5   Time: 0:35:22
+Num steps: 390000   Return: 9253.8   Time: 0:36:19
+Num steps: 400000   Return: 9453.7   Time: 0:37:16
+Num steps: 410000   Return: 9442.7   Time: 0:38:12
+Num steps: 420000   Return: 9598.7   Time: 0:39:08
+Num steps: 430000   Return: 9437.1   Time: 0:40:05
+Num steps: 440000   Return: 9699.2   Time: 0:41:02
+Num steps: 450000   Return: 9849.7   Time: 0:41:59
+Num steps: 460000   Return: 9905.7   Time: 0:42:56
+Num steps: 470000   Return: 9933.3   Time: 0:43:53
+Num steps: 480000   Return: 10032.3   Time: 0:44:49
+Num steps: 490000   Return: 10218.3   Time: 0:45:45
+Num steps: 500000   Return: 10376.6   Time: 0:46:42
+Num steps: 510000   Return: 10320.5   Time: 0:47:38
+Num steps: 520000   Return: 10331.8   Time: 0:48:35
+Num steps: 530000   Return: 9877.0   Time: 0:49:32
+Num steps: 540000   Return: 10287.3   Time: 0:50:29
+Num steps: 550000   Return: 9979.3   Time: 0:51:26
+Num steps: 560000   Return: 10518.6   Time: 0:52:23
+Num steps: 570000   Return: 10275.5   Time: 0:53:20
+Num steps: 580000   Return: 10777.3   Time: 0:54:19
+Num steps: 590000   Return: 10783.2   Time: 0:55:16
+Num steps: 600000   Return: 10839.7   Time: 0:56:13
+Num steps: 610000   Return: 10230.0   Time: 0:57:10
+Num steps: 620000   Return: 10714.5   Time: 0:58:06
+Num steps: 630000   Return: 10260.5   Time: 0:59:03
+Num steps: 640000   Return: 10460.0   Time: 1:00:00
+Num steps: 650000   Return: 10844.7   Time: 1:00:56
+Num steps: 660000   Return: 10839.6   Time: 1:01:52
+Num steps: 670000   Return: 10726.6   Time: 1:02:49
+Num steps: 680000   Return: 10822.9   Time: 1:03:46
+Num steps: 690000   Return: 10477.8   Time: 1:04:44
+Num steps: 700000   Return: 11195.2   Time: 1:05:41
+Num steps: 710000   Return: 10804.1   Time: 1:06:38
+Num steps: 720000   Return: 11020.5   Time: 1:07:35
+Num steps: 730000   Return: 11066.0   Time: 1:08:32
+Num steps: 740000   Return: 11075.6   Time: 1:09:28
+Num steps: 750000   Return: 10522.2   Time: 1:10:24
+Num steps: 760000   Return: 10433.2   Time: 1:11:21
+Num steps: 770000   Return: 10986.0   Time: 1:12:18
+Num steps: 780000   Return: 11278.3   Time: 1:13:15
+Num steps: 790000   Return: 11207.8   Time: 1:14:12
+Num steps: 800000   Return: 11169.4   Time: 1:15:08
+Num steps: 810000   Return: 10926.7   Time: 1:16:05
+Num steps: 820000   Return: 11115.7   Time: 1:17:02
+Num steps: 830000   Return: 11283.1   Time: 1:17:58
+Num steps: 840000   Return: 11439.4   Time: 1:18:55
+Num steps: 850000   Return: 11210.6   Time: 1:19:51
+Num steps: 860000   Return: 11196.6   Time: 1:20:48
+Num steps: 870000   Return: 11345.3   Time: 1:21:45
+Num steps: 880000   Return: 10515.1   Time: 1:22:42
+Num steps: 890000   Return: 11327.3   Time: 1:23:39
+Num steps: 900000   Return: 11218.5   Time: 1:24:36
+Num steps: 910000   Return: 11297.5   Time: 1:25:33
+Num steps: 920000   Return: 11217.1   Time: 1:26:29
+Num steps: 930000   Return: 11624.0   Time: 1:27:26
+Num steps: 940000   Return: 11407.9   Time: 1:28:23
+Num steps: 950000   Return: 11218.4   Time: 1:29:20
+Num steps: 960000   Return: 11480.5   Time: 1:30:16
+Num steps: 970000   Return: 11539.7   Time: 1:31:14
+Num steps: 980000   Return: 11833.1   Time: 1:32:10
+Num steps: 990000   Return: 11585.1   Time: 1:33:07
+Num steps: 1000000   Return: 11282.6   Time: 1:34:04
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mSAC Expert HalfCheetah-v5[0m at: [34mhttps://wandb.ai/nvanutrecht/Honors%20Capstone/runs/9o0rrue4[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250403_133829-9o0rrue4/logs[0m
