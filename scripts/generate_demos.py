@@ -8,7 +8,7 @@ from imitation_learning.utils.utils import collect_demo
 
 
 def run(args):
-    env = make_env(args.env_id)
+    env = make_env(args.env)
 
     algo = SACExpert(
         state_shape=env.observation_space.shape,
@@ -29,8 +29,8 @@ def run(args):
     buffer.save(
         os.path.join(
             "buffers",
-            args.env_id,
-            f"size{args.buffer_size}_std{args.std}_prand{args.p_rand}_return{mean_return}.pth",
+            args.env,
+            f"size{args.buffer_size}_std{args.std}_prand{args.p_rand}_return{round(mean_return, 1)}.pth",
         )
     )
 
@@ -38,7 +38,7 @@ def run(args):
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--weights", type=str, required=True)
-    p.add_argument("--env_id", type=str, default="InvertedPendulum-v5")
+    p.add_argument("--env", type=str, default="InvertedPendulum-v5")
     p.add_argument("--buffer_size", type=int, default=10**6)
     p.add_argument("--std", type=float, default=0.0)
     p.add_argument("--p_rand", type=float, default=0.0)

@@ -105,11 +105,11 @@ class GAIL(PPO):
         self.optim_disc.step()
 
         if self.learning_steps_disc % self.epoch_disc == 0:
-            writer.log("loss/disc", loss_disc.item(), self.learning_steps)
+            writer.log({"loss/disc": loss_disc.item()})
 
             # Discriminator's accuracies.
             with torch.no_grad():
                 acc_pi = (logits_pi < 0).float().mean().item()
                 acc_exp = (logits_exp > 0).float().mean().item()
-            writer.log("stats/acc_pi", acc_pi, self.learning_steps)
-            writer.log("stats/acc_exp", acc_exp, self.learning_steps)
+            writer.log({"stats/acc_pi": acc_pi})
+            writer.log({"stats/acc_exp": acc_exp})

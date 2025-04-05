@@ -102,7 +102,7 @@ class Trainer:
 
             mean_return += episode_return / self.num_eval_episodes
 
-        self.writer.log({"return/test": mean_return, "env_steps": step})
+        self.writer.log({"return/test": mean_return, "Steps": step})
         print(
             f"Num steps: {step:<6}   "
             f"Return: {mean_return:<5.1f}   "

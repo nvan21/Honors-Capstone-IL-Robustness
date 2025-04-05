@@ -139,19 +139,16 @@ class DAgger(BC):
         writer.log(
             {
                 "stats/dagger_iteration": self.dagger_iteration,
-                "Steps": self.learning_steps,
             }
         )
         writer.log(
             {
                 "stats/dagger_buffer_size": dagger_size,
-                "Steps": self.learning_steps,
             }
         )
         writer.log(
             {
                 "stats/total_buffer_size": total_size,
-                "Steps": self.learning_steps,
             }
         )
 

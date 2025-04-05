@@ -20,7 +20,7 @@ class AIRLPPO(AIRL, PPO):
         seed,
         gamma=0.995,
         rollout_length=10000,
-        mix_buffer=1,
+        mix_buffer=20,
         batch_size=64,
         lr_actor=3e-4,
         lr_critic=3e-4,

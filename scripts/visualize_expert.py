@@ -10,11 +10,11 @@ from imitation_learning.utils.utils import visualize_expert
 def run(args):
     if args.display:
         env = make_env(
-            args.env_id,
+            args.env,
             render_mode="human",
         )
     else:
-        env = make_env(args.env_id)
+        env = make_env(args.env)
 
     weights_path = Path(args.weights)
     weights_split = [part.lower() for part in weights_path.parts]
@@ -47,7 +47,7 @@ def run(args):
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--weights", type=str, required=True)
-    p.add_argument("--env_id", type=str, default="InvertedPendulum-v5")
+    p.add_argument("--env", type=str, default="InvertedPendulum-v5")
     p.add_argument("--cuda", action="store_true")
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--num_eval_episodes", type=int, default=5)

@@ -18,27 +18,33 @@ defaults:
 environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/regular.xml"
-    buffer: "./buffers/Hopper-v5/size1000000_std0.01_prand0.0_return2306.pth"
+    buffer: "./buffers/Hopper-v5/size1000000_std0.01_prand0.0_return3458.9.pth"
     epochs: 20
-    policy_hidden_sizes: [64, 64]
+    hidden_sizes: [64, 64]
     batch_size: 128
 
   HalfCheetah-v5:
     xml_file: "./xml/HalfCheetah-v5/regular.xml"
-    buffer: "./buffers/HalfCheetah-v5/size1000000_std0.0_prand0.0.pth"
+    buffer: "./buffers/HalfCheetah-v5/size1000000_std0.01_prand0.0_return11248.4.pth"
     epochs: 20
-    policy_hidden_sizes: [256, 256]
+    hidden_sizes: [256, 256]
 
   InvertedPendulum-v5:
     xml_file: "./xml/InvertedPendulum-v5/regular.xml"
-    buffer: "./buffers/InvertedPendulum-v5/size1000000_std0.0_prand0.0_return1000.pth"
-    policy_hidden_sizes: [64, 64]
+    buffer: "./buffers/InvertedPendulum-v5/size1000000_std0.01_prand0.0_return1000.0.pth"
+    hidden_sizes: [64, 64]
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/regular.xml"
     buffer: "./buffers/Ant-v5/size1000000_std0.01_prand0.0_return3075.9.pth"
     epochs: 30
-    policy_hidden_sizes: [256, 256]
+    hidden_sizes: [256, 256]
+
+  Pusher-v5:
+    xml_file: "./xml/Pusher-v5/regular.xml"
+    buffer: "./buffers/Pusher-v5/size1000000_std0.01_prand0.0_return-27.1.pth"
+    epochs: 20
+    hidden_sizes: [64, 64]
 
 # Named experiments (Optional for BC, but can be used for variations)
 # Example: Maybe testing different learning rates or network sizes

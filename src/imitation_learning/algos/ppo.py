@@ -132,7 +132,7 @@ class PPO(Algorithm):
         self.optim_critic.step()
 
         if self.learning_steps_ppo % self.epoch_ppo == 0:
-            writer.log({"loss/critic": loss_critic.item()}, step=self.learning_steps)
+            writer.log({"loss/critic": loss_critic.item()})
 
     def update_actor(self, states, actions, log_pis_old, gaes, writer):
         log_pis = self.actor.evaluate_log_pi(states, actions)
@@ -151,8 +151,8 @@ class PPO(Algorithm):
         self.optim_actor.step()
 
         if self.learning_steps_ppo % self.epoch_ppo == 0:
-            writer.log({"loss/actor": loss_actor.item()}, step=self.learning_steps)
-            writer.log({"stats/entropy": entropy.item()}, step=self.learning_steps)
+            writer.log({"loss/actor": loss_actor.item()})
+            writer.log({"stats/entropy": entropy.item()})
 
     def save_models(self, save_dir):
         # Make sure that directory is created

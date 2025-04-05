@@ -57,6 +57,8 @@ class BC(Algorithm):
             loss.backward()
             self.optim.step()
 
+            writer.log({"loss/actor": loss.item()})
+
     def save_models(self, save_dir):
         """
         Save all models

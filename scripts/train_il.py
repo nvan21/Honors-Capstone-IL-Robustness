@@ -123,7 +123,7 @@ def get_algorithm(algo_name, config, env, buffer_exp=None, expert=None):
             seed=seed,
             gamma=config.get("discount_factor", 0.99),
             rollout_length=config.get("rollout_length", 10000),
-            mix_buffer=config.get("mix_buffer", 1),
+            mix_buffer=config.get("mix_buffer", 20),
             batch_size=config.get("batch_size", 64),
             lr_actor=config.get("learning_rate", 3e-4),
             lr_critic=config.get("learning_rate", 3e-4),
@@ -285,7 +285,7 @@ def run_training():
         trainer.online_train(num_steps=config.get("num_steps", 1000000))
     else:
         # Offline training (BC or other pure IL methods)
-        trainer.offline_train(num_epochs=config.get("num_epochs", 10))
+        trainer.offline_train(num_epochs=config.get("epochs", 10))
 
     print(f"Training completed. Models saved to: {log_dir}")
 
