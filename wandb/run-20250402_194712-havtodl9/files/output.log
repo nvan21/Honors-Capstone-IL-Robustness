@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "E:\Coding Projects\Honors-Capstone\scripts\train_il.py", line 254, in <module>
-    run_training()
-  File "E:\Coding Projects\Honors-Capstone\scripts\train_il.py", line 202, in run_training
-    path=config["buffer"],
-         ~~~~~~^^^^^^^^^^
-KeyError: 'buffer'

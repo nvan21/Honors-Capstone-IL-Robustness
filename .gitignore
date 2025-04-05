@@ -4,3 +4,4 @@ buffers/
 logs/
 weights/
 wandb/
+slurm-*

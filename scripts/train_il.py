@@ -9,7 +9,7 @@ from imitation_learning.utils.env import make_env
 from imitation_learning.utils.utils import get_config
 from imitation_learning.utils.buffer import SerializedBuffer
 from imitation_learning.utils.trainer import Trainer
-from imitation_learning.algos import SAC, PPO, BC, AIRLPPO, GAIL
+from imitation_learning.algos import SAC, PPO, BC, AIRLPPO, GAIL, DAgger, SACExpert
 
 
 def parse_args():
@@ -35,7 +35,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def get_algorithm(algo_name, config, env, buffer_exp=None):
+def get_algorithm(algo_name, config, env, buffer_exp=None, expert=None):
     """Initialize the appropriate algorithm based on name and config."""
     # Common parameters
     state_shape = env.observation_space.shape
@@ -92,6 +92,25 @@ def get_algorithm(algo_name, config, env, buffer_exp=None):
             units_actor=config.get("hidden_sizes", (256, 256)),
             lr_actor=config.get("learning_rate", 3e-4),
             batch_size=config.get("batch_size", 128),
+        )
+    elif algo_name == "dagger":
+        if buffer_exp is None:
+            raise ValueError("DAgger requires expert buffer")
+        if expert is None:
+            raise ValueError("DAgger requires expert weights")
+        return DAgger(
+            expert=expert,
+            buffer_exp=buffer_exp,
+            state_shape=state_shape,
+            action_shape=action_shape,
+            device=device,
+            seed=seed,
+            gamma=config.get("gamma", 0.99),
+            units_actor=config.get("hidden_sizes", (256, 256)),
+            lr_actor=config.get("learning_rate", 3e-4),
+            batch_size=config.get("batch_size", 128),
+            beta=config.get("beta", 0),
+            rollout_length=config.get("rollout_length", 1000),
         )
     elif algo_name == "airl":
         if buffer_exp is None:
@@ -154,8 +173,11 @@ def run_training():
     """Run the training process."""
     args = parse_args()
 
+    # Load algorithm name
+    algo_name = args.algo.lower()
+
     # Load configuration
-    config = get_config(args.algo, args.env, args.experiment)
+    config = get_config(algo_name, args.env, args.experiment)
 
     # Override with command line arguments
     if args.seed is not None:
@@ -163,9 +185,12 @@ def run_training():
 
     # Add CUDA setting
     config["cuda"] = args.cuda
+    device = torch.device(
+        "cuda" if config["cuda"] and torch.cuda.is_available() else "cpu"
+    )
 
     # Initialize Weights & Biases
-    run_name = f"{args.algo}-{args.env}"
+    run_name = f"{algo_name}-{args.env}"
     if args.experiment:
         run_name += f"-{args.experiment}"
     run_name += f"-seed{config['seed']}"
@@ -174,20 +199,24 @@ def run_training():
         project="Honors Capstone",
         name=run_name,
         config=config,  # Log all hyperparameters
-        group=args.algo,
+        group=algo_name,
         job_type=args.env,
-        tags=[args.algo, args.env] + ([args.experiment] if args.experiment else []),
+        tags=[algo_name, args.env] + ([args.experiment] if args.experiment else []),
     )
 
     # Create environments
     env = make_env(env_id=config["env_id"], xml_file=config["xml_file"])
     env_test = make_env(env_id=config["env_id"], xml_file=config["xml_file"])
 
+    # Get env shapes
+    state_shape = env.observation_space.shape
+    action_shape = env.action_space.shape
+
     # Log environment information
     writer.config.update(
         {
-            "state_shape": env.observation_space.shape,
-            "action_shape": env.action_space.shape,
+            "state_shape": state_shape,
+            "action_shape": action_shape,
             "max_episode_steps": (
                 env.spec.max_episode_steps
                 if hasattr(env, "_max_episode_steps")
@@ -198,10 +227,10 @@ def run_training():
 
     # Load expert buffer if needed for imitation learning
     buffer_exp = None
-    if args.algo in ["bc", "airl", "gail"]:
+    if algo_name in ["bc", "airl", "gail", "dagger"]:
         buffer_exp = SerializedBuffer(
             path=config["buffer"],
-            device=torch.device("cuda" if config["cuda"] else "cpu"),
+            device=device,
         )
 
         # Log buffer information
@@ -212,19 +241,29 @@ def run_training():
                 "expert_buffer_size": int(components[0][4:]),
                 "expert_buffer_std": float(components[1][3:]),
                 "expert_buffer_prand": float(components[2][5:]),
-                "expert_buffer_return": int(components[3][6:]),
+                "expert_buffer_return": float(components[3][6:]),
             }
         )
 
+    # Load expert if needed for imitation learning
+    expert = None
+    if algo_name in ["dagger"]:
+        expert = SACExpert(
+            state_shape=state_shape,
+            action_shape=action_shape,
+            device=device,
+            path=config.get("expert"),
+        )
+
     # Initialize algorithm
-    algo = get_algorithm(args.algo, config, env, buffer_exp)
+    algo = get_algorithm(algo_name, config, env, buffer_exp, expert)
 
     # Setup logging
     time_str = datetime.now().strftime("%Y%m%d-%H%M")
     log_dir = os.path.join(
         "logs",
         config["env_id"],
-        args.algo,
+        algo_name,
         f"{args.experiment or 'default'}-seed{config['seed']}-{time_str}",
     )
 

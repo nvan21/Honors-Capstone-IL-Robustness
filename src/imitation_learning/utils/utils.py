@@ -248,13 +248,6 @@ def get_config(algo_name, env_name, experiment_name=None):
         if "experiments" in config and experiment_name in config["experiments"]:
             result.update(config["experiments"][experiment_name])
 
-        # Check if it's an environment-specific experiment
-        elif (
-            "env_experiments" in config
-            and env_name in config["env_experiments"]
-            and experiment_name in config["env_experiments"][env_name]
-        ):
-            result.update(config["env_experiments"][env_name][experiment_name])
         else:
             raise ValueError(
                 f"Experiment '{experiment_name}' not found for {algo_name} and {env_name}"

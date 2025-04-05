@@ -1,1 +1,0 @@
-{"stats/acc_pi":0.578125,"stats/entropy":0.4796946942806244,"_runtime":4.5470284,"env_steps":10000,"loss/actor":-0.022457454353570938,"_step":5,"loss/disc":1.0268213748931885,"loss/critic":16.290607452392578,"_wandb":{"runtime":4},"_timestamp":1.7436422977250493e+09,"return/test":117,"stats/acc_exp":1}

@@ -60,16 +60,8 @@ experiments:
   normal_env:
     description: "Uses default environment xml"
 
-# Environment-specific experiments
-env_experiments:
-  Hopper-v5:
-    increased_gravity:
-      xml_file: "./xml/increased_gravity.xml"
+  increased_gravity_hopper:
+    xml_file: "./xml/Hopper-v5/increased_gravity.xml"
 
-  HalfCheetah-v5:
-
-  InvertedPendulum-v5:
-    increased_gravity:
-      xml_file: "./xml/increased_gravity.xml"
-
-  Ant-v5:
+  increased_joint_damping_inverted_pendulum:
+    xml_file: "./xml/InvertedPendulum-v5/increased_joint_damping.xml"

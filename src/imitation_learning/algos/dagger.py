@@ -136,9 +136,24 @@ class DAgger(BC):
             self.optim.step()
 
         # Log DAgger-specific metrics
-        writer.log("stats/dagger_iteration", self.dagger_iteration, self.learning_steps)
-        writer.log("stats/dagger_buffer_size", dagger_size, self.learning_steps)
-        writer.log("stats/total_buffer_size", total_size, self.learning_steps)
+        writer.log(
+            {
+                "stats/dagger_iteration": self.dagger_iteration,
+                "Steps": self.learning_steps,
+            }
+        )
+        writer.log(
+            {
+                "stats/dagger_buffer_size": dagger_size,
+                "Steps": self.learning_steps,
+            }
+        )
+        writer.log(
+            {
+                "stats/total_buffer_size": total_size,
+                "Steps": self.learning_steps,
+            }
+        )
 
     def save_models(self, save_dir):
         """

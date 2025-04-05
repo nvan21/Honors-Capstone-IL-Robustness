@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 import argparse
 import torch
 
@@ -16,7 +16,8 @@ def run(args):
     else:
         env = make_env(args.env_id)
 
-    weights_split = args.weights.split("/")
+    weights_path = Path(args.weights)
+    weights_split = [part.lower() for part in weights_path.parts]
 
     if "sac" in weights_split:
         algo = SACExpert(
@@ -25,14 +26,14 @@ def run(args):
             device=torch.device("cuda" if args.cuda else "cpu"),
             path=args.weights,
         )
-    elif "airl" or "airl_ppo" in weights_split:
+    elif "airl" in weights_split or "airl_ppo" in weights_split:
         algo = PPOExpert(
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
             device=torch.device("cuda" if args.cuda else "cpu"),
             path=args.weights,
         )
-    elif "bc" or "dagger" in weights_split:
+    elif "bc" in weights_split or "dagger" in weights_split:
         algo = BCExpert(
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
