@@ -22,7 +22,7 @@ defaults:
 # Environment-specific defaults
 environments:
   Hopper-v5:
-    xml_file: "./xml/Hopper-v5/regular.xml"
+    xml_file: "./xml/Hopper-v5/hopper.xml"
     buffer: "./buffers/Hopper-v5/size1000000_std0.01_prand0.0_return3458.9.pth"
     num_steps: 10000000
     rollout_length: 50000
@@ -30,7 +30,7 @@ environments:
     disc_hidden_sizes: [100, 100]
 
   HalfCheetah-v5:
-    xml_file: "./xml/HalfCheetah-v5/regular.xml"
+    xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
     buffer: "./buffers/HalfCheetah-v5/size1000000_std0.01_prand0.0_return11248.4.pth"
     num_steps: 10000000
     rollout_length: 50000
@@ -41,7 +41,7 @@ environments:
     gamma: 0.98
 
   InvertedPendulum-v5:
-    xml_file: "./xml/InvertedPendulum-v5/regular.xml"
+    xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
     buffer: "./buffers/InvertedPendulum-v5/size1000000_std0.01_prand0.0_return1000.0.pth"
     num_steps: 250000
     eval_interval: 10000
@@ -50,7 +50,7 @@ environments:
     disc_hidden_sizes: [100, 100]
 
   Ant-v5:
-    xml_file: "./xml/Ant-v5/regular.xml"
+    xml_file: "./xml/Ant-v5/ant.xml"
     buffer: "./buffers/Ant-v5/size1000000_std0.01_prand0.0_return3075.9.pth"
     num_steps: 10000000
     rollout_length: 50000
@@ -58,7 +58,7 @@ environments:
     disc_hidden_sizes: [100, 100]
 
   Pusher-v5:
-    xml_file: "./xml/Pusher-v5/regular.xml"
+    xml_file: "./xml/Pusher-v5/pusher.xml"
     buffer: "./buffers/Pusher-v5/size1000000_std0.01_prand0.0_return-27.1.pth"
     num_steps: 10000000
     rollout_length: 30000

@@ -18,36 +18,39 @@ defaults:
 # Environment-specific defaults
 environments:
   Hopper-v5:
-    xml_file: "./xml/Hopper-v5/regular.xml"
+    xml_file: "./xml/Hopper-v5/hopper.xml"
     buffer: "./buffers/Hopper-v5/size1000000_std0.01_prand0.0_return3458.9.pth"
-    expert: "./logs/Hopper-v5/expert/sac/seed0-20250331-1045/model/step580000"
+    expert: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/expert/sac/seed0-20250403-0850/model/step1000000"
     hidden_sizes: [64, 64]
     batch_size: 128
     num_steps: 500000
     rollout_length: 3000
 
   HalfCheetah-v5:
-    xml_file: "./xml/HalfCheetah-v5/regular.xml"
+    xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
     buffer: "./buffers/HalfCheetah-v5/size1000000_std0.01_prand0.0_return11248.4.pth"
+    expert: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/HalfCheetah-v5/expert/sac/seed0-20250403-1338/model/step1000000"
     batch_size: 128
     num_steps: 500000
     rollout_length: 3000
 
   InvertedPendulum-v5:
-    xml_file: "./xml/InvertedPendulum-v5/regular.xml"
+    xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
     buffer: "./buffers/InvertedPendulum-v5/size1000000_std0.01_prand0.0_return1000.0.pth"
-    expert: "./logs/InvertedPendulum-v5/sac/seed0-20250218-1704/model/step100000"
+    expert: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/expert/sac/seed0-20250403-0841/model/step100000"
     hidden_sizes: [64, 64]
 
   Ant-v5:
-    xml_file: "./xml/Ant-v5/regular.xml"
+    xml_file: "./xml/Ant-v5/ant.xml"
     buffer: "./buffers/Ant-v5/size1000000_std0.01_prand0.0_return3075.9.pth"
+    expert: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/expert/sac/seed0-20250403-1025/model/step1000000"
     rollout_length: 3000
     num_steps: 500000
 
   Pusher-v5:
-    xml_file: "./xml/Pusher-v5/regular.xml"
+    xml_file: "./xml/Pusher-v5/pusher.xml"
     buffer: "./buffers/Pusher-v5/size1000000_std0.01_prand0.0_return-27.1.pth"
+    expert: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/expert/sac/seed0-20250403-1206/model/step1000000"
     num_steps: 500000
     rollout_length: 3000
 

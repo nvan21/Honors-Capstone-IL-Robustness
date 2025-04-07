@@ -46,100 +46,100 @@ experiments:
   # --- Ant Modifications ---
   modified_reward_ant:
     use_reward_model: True
-    reward_model_path: ""
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v4/ant_torso_mass_p20.xml"
 
   modified_reward_torso_mass_p50_ant:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v4/ant_torso_mass_p50.xml"
 
   modified_reward_gear_m20_ant:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v4/ant_gear_m20.xml"
 
   modified_reward_gear_m50_ant:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v4/ant_gear_m50.xml"
 
   # --- Hopper Modifications ---
   modified_reward_hopper:
     use_reward_model: True
-    reward_model_path: ""
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p20.xml"
 
   modified_reward_torso_mass_p50_hopper:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
 
   modified_reward_friction_m20_hopper:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_friction_m20.xml"
 
   modified_reward_friction_m50_hopper:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_friction_m50.xml"
 
   # --- InvertedPendulum Modifications ---
   modified_reward_invpend:
     use_reward_model: True
-    reward_model_path: "./logs/InvertedPendulum-v5/airl_ppo/seed0-20250309-0841/model/step100000/disc.pth"
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
 
   modified_reward_pole_mass_p20_invpend:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p20.xml"
 
   modified_reward_pole_mass_p50_invpend:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
 
   modified_reward_cart_mass_p20_invpend:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p20.xml"
 
   modified_reward_cart_mass_p50_invpend:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p50.xml"
 
   # --- Pusher Modifications ---
   modified_reward_pusher:
     use_reward_model: True
-    reward_model_path: ""
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
 
   modified_reward_puck_mass_p20_pusher:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p20.xml"
 
   modified_reward_puck_mass_p50_pusher:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
 
   modified_reward_goal_shift_small_pusher:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_goal_shift_small.xml" # Or your chosen filename
 
   modified_reward_goal_shift_large_pusher:
     use_reward_model: True
-    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_goal_shift_large.xml" # Or your chosen filename
 
