@@ -22,4 +22,3 @@ python scripts/generate_demos.py --env InvertedPendulum-v5 --weights /work/flemi
 python scripts/generate_demos.py --env Hopper-v5 --weights /work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/expert/sac/seed0-20250403-0850/model/step1000000 --std 0.01 --cuda
 python scripts/generate_demos.py --env Ant-v5 --weights /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/expert/sac/seed0-20250403-1025/model/step1000000 --std 0.01 --cuda
 python scripts/generate_demos.py --env Pusher-v5 --weights /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/expert/sac/seed0-20250403-1206/model/step1000000 --std 0.01 --cuda
-python scripts/generate_demos.py --env HalfCheetah-v5 --weights /work/flemingc/nvan21/projects/Honors-Capstone/logs/HalfCheetah-v5/expert/sac/seed0-20250403-1338/model/step1000000 --std 0.01 --cuda

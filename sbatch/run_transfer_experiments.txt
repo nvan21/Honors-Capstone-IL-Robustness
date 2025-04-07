@@ -18,7 +18,4 @@
 source ~/.bashrc
 cd /work/flemingc/nvan21/projects/Honors-Capstone
 conda activate honors
-python scripts/train_expert.py --env InvertedPendulum-v5 --num_steps 100000 --cuda
-python scripts/train_expert.py --env Hopper-v5 --num_steps 1000000 --cuda
-python scripts/train_expert.py --env Ant-v5 --num_steps 1000000 --cuda
-python scripts/train_expert.py --env Pusher-v5 --num_steps 1000000 --cuda
+python scripts/run_transfer_experiments.py
