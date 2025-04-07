@@ -14,7 +14,7 @@ def make_env(env_id, **kwargs):
     return RescaleAction(env, min_action=min_action, max_action=max_action)
 
 
-def make_custom_reward_env(env, reward_model, device, **kwargs):
+def make_custom_reward_env(env, reward_model, device):
 
     return AIRLRewardWrapper(env, reward_model=reward_model, device=device)
 
@@ -22,6 +22,7 @@ def make_custom_reward_env(env, reward_model, device, **kwargs):
 class AIRLRewardWrapper(gym.Wrapper):
     def __init__(self, env, reward_model, device):
         super().__init__(env)
+
         self.reward_model = reward_model
         self.reward_model.eval()
 

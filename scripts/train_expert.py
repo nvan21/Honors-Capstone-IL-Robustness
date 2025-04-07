@@ -4,35 +4,121 @@ import torch
 from datetime import datetime
 import wandb
 
-from imitation_learning.utils.env import make_env
+from imitation_learning.utils.env import make_env, make_custom_reward_env
 from imitation_learning.algos import SAC
 from imitation_learning.utils.trainer import Trainer
+from imitation_learning.utils.utils import get_config, get_hidden_units_from_state_dict
+
+from imitation_learning.network import AIRLDiscrim
 
 
-def run(args):
-    print(
-        f"Attempting to train SAC expert on '{args.env_id}' with the following parameters: {args}"
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Expert Training Script")
+    parser.add_argument(
+        "--env", type=str, required=True, help="Environment name (e.g., Hopper-v5)"
     )
-    env = make_env(args.env_id)
-    env_test = make_env(args.env_id)
-
-    algo = SAC(
-        state_shape=env.observation_space.shape,
-        action_shape=env.action_space.shape,
-        device=torch.device("cuda" if args.cuda else "cpu"),
-        seed=args.seed,
+    parser.add_argument(
+        "--experiment",
+        type=str,
+        default=None,
+        help="Experiment name (e.g., small_network, high_lr)",
     )
 
-    time = datetime.now().strftime("%Y%m%d-%H%M")
-    log_dir = os.path.join(
-        "logs", args.env_id, "expert", "sac", f"seed{args.seed}-{time}"
+    # Optional overrides
+    parser.add_argument("--seed", type=int, help="Override config seed")
+
+    return parser.parse_args()
+
+
+def run_training():
+    """Runs the training process"""
+    args = parse_args()
+
+    # Load configuration
+    config = get_config("sac", args.env, args.experiment)
+
+    # Override with command line arguments
+    if args.seed is not None:
+        config["seed"] = args.seed
+
+    # Add CUDA setting
+    device = torch.device(
+        "cuda" if config["cuda"] and torch.cuda.is_available() else "cpu"
     )
+
+    # Initialize Weights & Biases
+    run_name = f"sac-{args.env}"
+    if args.experiment:
+        run_name += f"-{args.experiment}"
+    run_name += f"-seed{config['seed']}"
 
     writer = wandb.init(
         project="Honors Capstone",
-        name=f"SAC Expert {args.env_id}",
-        group="SAC",
-        job_type=args.env_id,
+        name=run_name,
+        config=config,  # Log all hyperparameters
+        group="sac",
+        job_type=args.env,
+        tags=["sac", args.env] + ([args.experiment] if args.experiment else []),
+    )
+
+    # Create base environment
+    env = make_env(config["env_id"], xml_file=config["xml_file"])
+    env_test = make_env(config["env_id"], xml_file=config["xml_file"])
+
+    # Get env shapes
+    state_shape = env.observation_space.shape
+    action_shape = env.action_space.shape
+
+    # Alter environment to use AIRL reward if the experimental calls for it
+    if config["use_reward_model"]:
+        reward_model = AIRLDiscrim(
+            state_shape=state_shape,
+            gamma=config.get("reward_model_gamma", 0.99),
+            hidden_units_r=(100, 100),
+            hidden_units_v=(100, 100),
+        ).to(device)
+        reward_model.load_state_dict(torch.load(config["reward_model_path"]))
+        env = make_custom_reward_env(env=env, reward_model=reward_model, device=device)
+
+    # Log environment information
+    writer.config.update(
+        {
+            "state_shape": state_shape,
+            "action_shape": action_shape,
+            "max_episode_steps": (
+                env.spec.max_episode_steps
+                if hasattr(env, "_max_episode_steps")
+                else "unknown"
+            ),
+        }
+    )
+
+    # Instantiate algorithm
+    algo = SAC(
+        state_shape=state_shape,
+        action_shape=action_shape,
+        device=device,
+        seed=config["seed"],
+        gamma=config.get("discount_factor", 0.99),
+        batch_size=config.get("batch_size", 256),
+        buffer_size=config.get("buffer_size", 10**6),
+        lr_actor=config.get("learning_rate", 3e-4),
+        lr_critic=config.get("learning_rate", 3e-4),
+        lr_alpha=config.get("alpha_lr", 3e-4),
+        units_actor=config.get("hidden_sizes", (256, 256)),
+        units_critic=config.get("hidden_sizes", (256, 256)),
+        start_steps=config.get("start_steps", 10000),
+        tau=config.get("tau", 5e-3),
+    )
+
+    # Set log directory for model logging
+    time_str = datetime.now().strftime("%Y%m%d-%H%M")
+    log_dir = os.path.join(
+        "logs",
+        config["env_id"],
+        "sac",
+        f"{args.experiment or 'default'}-seed{config['seed']}-{time_str}",
     )
 
     trainer = Trainer(
@@ -41,18 +127,11 @@ def run(args):
         algo=algo,
         log_dir=log_dir,
         writer=writer,
-        eval_interval=args.eval_interval,
-        seed=args.seed,
+        eval_interval=config["eval_interval"],
+        seed=config["seed"],
     )
-    trainer.online_train(num_steps=args.num_steps)
+    trainer.online_train(num_steps=config["num_steps"])
 
 
 if __name__ == "__main__":
-    p = argparse.ArgumentParser()
-    p.add_argument("--num_steps", type=int, default=10**6)
-    p.add_argument("--eval_interval", type=int, default=10**4)
-    p.add_argument("--env_id", type=str, default="Hopper-v5")
-    p.add_argument("--cuda", action="store_true")
-    p.add_argument("--seed", type=int, default=0)
-    args = p.parse_args()
-    run(args)
+    run_training()

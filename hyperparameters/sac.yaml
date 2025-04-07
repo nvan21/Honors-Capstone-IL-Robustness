@@ -1,0 +1,145 @@
+defaults:
+  seed: 0
+  num_steps: 1000000
+  num_episodes: 1000
+  eval_interval: 10000
+  num_eval_episodes: 5
+  use_reward_model: False
+  reward_model_gamma: 0.99
+
+  # SAC specific parameters
+  learning_rate: 0.0003 # lr_actor and lr_critic
+  alpha_lr: 0.0003 # lr_alpha
+  discount_factor: 0.99 # gamma
+  hidden_sizes: [256, 256]
+  batch_size: 256
+  buffer_size: 1000000
+  start_steps: 10000
+  tau: 0.005
+  cuda: true
+
+# Environment-specific defaults
+environments:
+  Hopper-v5:
+    xml_file: "./xml/Hopper-v5/hopper.xml"
+    start_steps: 5000
+
+  HalfCheetah-v5:
+    xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
+    start_steps: 10000
+
+  InvertedPendulum-v5:
+    xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
+    start_steps: 1000
+    hidden_sizes: [64, 64]
+
+  Ant-v5:
+    xml_file: "./xml/Ant-v5/ant.xml"
+    start_steps: 25000
+
+  Pusher-v5:
+    start_steps: 10000
+    xml_file: "./xml/Pusher-v5/pusher.xml"
+
+# Named experiments that can be used across environments
+experiments:
+  # --- Ant Modifications ---
+  modified_reward_ant:
+    use_reward_model: True
+    reward_model_path: ""
+
+  modified_reward_torso_mass_p20_ant:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    xml_file: "./xml/Ant-v4/ant_torso_mass_p20.xml"
+
+  modified_reward_torso_mass_p50_ant:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    xml_file: "./xml/Ant-v4/ant_torso_mass_p50.xml"
+
+  modified_reward_gear_m20_ant:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    xml_file: "./xml/Ant-v4/ant_gear_m20.xml"
+
+  modified_reward_gear_m50_ant:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Ant
+    xml_file: "./xml/Ant-v4/ant_gear_m50.xml"
+
+  # --- Hopper Modifications ---
+  modified_reward_hopper:
+    use_reward_model: True
+    reward_model_path: ""
+
+  modified_reward_torso_mass_p20_hopper:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    xml_file: "./xml/Hopper-v5/hopper_torso_mass_p20.xml"
+
+  modified_reward_torso_mass_p50_hopper:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    xml_file: "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
+
+  modified_reward_friction_m20_hopper:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    xml_file: "./xml/Hopper-v5/hopper_friction_m20.xml"
+
+  modified_reward_friction_m50_hopper:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Hopper
+    xml_file: "./xml/Hopper-v5/hopper_friction_m50.xml"
+
+  # --- InvertedPendulum Modifications ---
+  modified_reward_invpend:
+    use_reward_model: True
+    reward_model_path: "./logs/InvertedPendulum-v5/airl_ppo/seed0-20250309-0841/model/step100000/disc.pth"
+
+  modified_reward_pole_mass_p20_invpend:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p20.xml"
+
+  modified_reward_pole_mass_p50_invpend:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
+
+  modified_reward_cart_mass_p20_invpend:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p20.xml"
+
+  modified_reward_cart_mass_p50_invpend:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base InvertedPendulum
+    xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p50.xml"
+
+  # --- Pusher Modifications ---
+  modified_reward_pusher:
+    use_reward_model: True
+    reward_model_path: ""
+
+  modified_reward_puck_mass_p20_pusher:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    xml_file: "./xml/Pusher-v5/pusher_puck_mass_p20.xml"
+
+  modified_reward_puck_mass_p50_pusher:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    xml_file: "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
+
+  modified_reward_goal_shift_small_pusher:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    xml_file: "./xml/Pusher-v5/pusher_goal_shift_small.xml" # Or your chosen filename
+
+  modified_reward_goal_shift_large_pusher:
+    use_reward_model: True
+    reward_model_path: "" # Placeholder: Fill with path to AIRL reward trained on base Pusher
+    xml_file: "./xml/Pusher-v5/pusher_goal_shift_large.xml" # Or your chosen filename
+

@@ -206,7 +206,7 @@ def load_yaml(file_path):
         return yaml.safe_load(f)
 
 
-def get_config(algo_name, env_name, experiment_name=None):
+def get_config(algo_name, env_name, experiment_name=None) -> dict:
     """
     Load configuration with the following priority (highest to lowest):
     1. Environment-specific experiment overrides (if in env_experiments)

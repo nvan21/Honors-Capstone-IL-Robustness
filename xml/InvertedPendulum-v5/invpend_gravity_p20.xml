@@ -6,7 +6,8 @@
 		<tendon />
 		<motor ctrlrange="-3 3" />
 	</default>
-	<option gravity="0 0 -20" integrator="RK4" timestep="0.02" />
+	<!-- MODIFIED: Changed gravity from -9.81 to -11.77 -->
+	<option gravity="0 0 -11.77" integrator="RK4" timestep="0.02" />
 	<size nstack="3000" />
 	<worldbody>
 		<!-- geom name="ground" type="plane" pos="0 0 0" / -->

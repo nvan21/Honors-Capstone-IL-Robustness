@@ -111,4 +111,8 @@ Scripts should be provided to run the different stages of the experiment. The ex
 
 _(Note: The script names and arguments above are examples and should be adapted to the actual project structure.)_
 
-## Project Structure (Example)
+## Modified Environments
+
+- Hopper: foot friction changed from 2.0 to 0.5
+- InvertedPendulum: gravity changed from -9.81 to -20
+- HalfCheetah:
