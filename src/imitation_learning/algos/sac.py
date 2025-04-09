@@ -42,7 +42,7 @@ class SAC(Algorithm):
 
         # Temporary replay buffer. This is used to batch the inference for the AIRL discriminator
         self.batch_buffer = Buffer(
-            buffer_size=self.batch_size,
+            buffer_size=batch_size,
             state_shape=state_shape,
             action_shape=action_shape,
             device=device,
