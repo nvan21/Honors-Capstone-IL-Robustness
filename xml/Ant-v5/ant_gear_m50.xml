@@ -81,4 +81,3 @@
 		<motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="ankle_3" gear="75" />
 	</actuator>
 </mujoco>
---- END OF FILE ant_gear_m50.xml ---

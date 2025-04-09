@@ -27,4 +27,3 @@
 		<motor ctrllimited="true" ctrlrange="-3 3" gear="100" joint="slider" name="slide" />
 	</actuator>
 </mujoco>
---- END OF FILE invpend_pole_mass_p50.xml ---

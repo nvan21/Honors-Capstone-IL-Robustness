@@ -83,4 +83,3 @@ modified by @Kallinteris-Andreas
 		<motor joint="r_wrist_roll_joint" ctrlrange="-2.0 2.0" ctrllimited="true" />
 	</actuator>
 </mujoco>
---- END OF FILE pusher_puck_mass_p50.xml ---

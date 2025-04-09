@@ -52,4 +52,3 @@ modified by @saran_t
 		<material name="geom" texture="texgeom" texuniform="true" />
 	</asset>
 </mujoco>
---- END OF FILE hopper_torso_mass_p50.xml ---
