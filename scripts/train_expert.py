@@ -110,6 +110,7 @@ def run_training():
         units_critic=config.get("hidden_sizes", (256, 256)),
         start_steps=config.get("start_steps", 10000),
         tau=config.get("tau", 5e-3),
+        use_reward_model=config.get("use_reward_model", False),
     )
 
     # Set log directory for model logging

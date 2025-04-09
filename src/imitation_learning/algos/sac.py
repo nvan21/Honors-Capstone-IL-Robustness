@@ -28,12 +28,21 @@ class SAC(Algorithm):
         start_steps=10000,
         tau=5e-3,
         needs_env=True,
+        use_reward_model=False,
     ):
         super().__init__(state_shape, action_shape, device, seed, gamma, needs_env)
 
         # Replay buffer.
         self.buffer = Buffer(
             buffer_size=buffer_size,
+            state_shape=state_shape,
+            action_shape=action_shape,
+            device=device,
+        )
+
+        # Temporary replay buffer. This is used to batch the inference for the AIRL discriminator
+        self.batch_buffer = Buffer(
+            buffer_size=self.batch_size,
             state_shape=state_shape,
             action_shape=action_shape,
             device=device,
@@ -83,6 +92,8 @@ class SAC(Algorithm):
         self.start_steps = start_steps
         self.tau = tau
 
+        self.use_reward_model = use_reward_model
+
     def is_update(self, steps):
         return steps >= max(self.start_steps, self.batch_size)
 
@@ -97,7 +108,12 @@ class SAC(Algorithm):
         next_state, reward, terminated, truncated, info = env.step(action)
         mask = False if truncated else terminated
 
-        self.buffer.append(state, action, reward, mask, next_state)
+        self.batch_buffer.append(state, action, reward, mask, next_state)
+
+        # Check if batch buffer needs processing
+        batch_buffer_is_full = self.batch_buffer._n == self.batch_size
+        if batch_buffer_is_full:
+            self._process_temp_buffer(env)
 
         if terminated or truncated:
             t = 0
@@ -171,6 +187,52 @@ class SAC(Algorithm):
         # We only save actor to reduce workloads.
         torch.save(self.actor.state_dict(), os.path.join(save_dir, "actor.pth"))
         torch.save(self.critic.state_dict(), os.path.join(save_dir, "critic.pth"))
+
+    def _process_temp_buffer(self, env):
+        """
+        Processes the data in batch_buffer by accessing its tensors,
+        calculates rewards if needed, adds the batch to the main buffer
+        using buffer.append_batch(), and resets temp buffer pointers.
+        """
+        count = self.batch_buffer._n
+        if count == 0:
+            # Ensure pointers are reset even if called unexpectedly with count 0
+            self.batch_buffer._n = 0
+            self.batch_buffer._p = 0
+            return  # Nothing to process
+
+        # Define the slice for the valid data in the temporary buffer
+        idxes = slice(0, count)
+
+        # --- Access slices of the internal tensors directly ---
+        # These tensors are already on self.device because batch_buffer is on device
+        states_t = self.batch_buffer.states[idxes]
+        actions_t = self.batch_buffer.actions[idxes]
+        original_rewards_t = self.batch_buffer.rewards[idxes]  # Original rewards stored
+        dones_t = self.batch_buffer.dones[idxes]
+        next_states_t = self.batch_buffer.next_states[idxes]
+
+        # --- Calculate Rewards (if needed) ---
+        if self.use_reward_model:
+            with torch.no_grad():
+                rewards_t = env.calc_rewards(states_t, actions_t, next_states_t)
+        else:
+            rewards_t = original_rewards_t
+
+        # --- Add the processed batch to Main Replay Buffer ---
+        # Calls the new method in the Buffer class
+        self.buffer.append_batch(
+            states_t,  # Tensor [count, state_dim] on device
+            actions_t,  # Tensor [count, action_dim] on device
+            rewards_t,  # Tensor [count] or [count, 1] on device (final reward)
+            dones_t,  # Tensor [count, 1] on device
+            next_states_t,  # Tensor [count, state_dim] on device
+        )
+
+        # --- Manually Reset Internal Temp Buffer Pointers ---
+        # Crucial to prepare the temp buffer for the next batch
+        self.batch_buffer._n = 0
+        self.batch_buffer._p = 0
 
 
 class SACExpert(SAC):

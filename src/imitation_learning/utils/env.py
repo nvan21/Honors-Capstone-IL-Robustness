@@ -26,27 +26,9 @@ class AIRLRewardWrapper(gym.Wrapper):
         self.reward_model = reward_model
         self.reward_model.eval()
 
-        self.state = None
         self.device = device
 
-    def reset(self, **kwargs):
-        state, info = self.env.reset(**kwargs)
-        self.state = state
+    def calc_rewards(self, states, dones, next_states):
+        rewards = self.reward_model.f(states, dones, next_states)
 
-        return state, info
-
-    def step(self, action):
-        # Take a step using the original environment
-        next_state, _, done, truncated, info = self.env.step(action)
-
-        # Get custom reward
-        state_tensor = torch.tensor(self.state, dtype=torch.float, device=self.device)
-        next_state_tensor = torch.tensor(
-            copy(next_state), dtype=torch.float, device=self.device
-        )
-        reward = self.reward_model.f(state_tensor, done, next_state_tensor).item()
-
-        # Update last state
-        self.state = next_state
-
-        return next_state, reward, done, truncated, info
+        return rewards

@@ -60,6 +60,54 @@ class Buffer(SerializedBuffer):
         self._p = (self._p + 1) % self.buffer_size
         self._n = min(self._n + 1, self.buffer_size)
 
+    def append_batch(self, states_t, actions_t, rewards_t, dones_t, next_states_t):
+        """
+        Appends a batch of transitions efficiently.
+        Assumes input arguments are tensors already on self.device.
+        """
+        batch_size = states_t.shape[0]
+        if batch_size == 0:
+            return  # Nothing to append
+
+        # Ensure rewards and dones have the correct shape [batch_size, 1]
+        if rewards_t.ndim == 1:
+            rewards_t = rewards_t.unsqueeze(1)
+        if dones_t.ndim == 1:
+            dones_t = dones_t.unsqueeze(1)
+
+        p = self._p  # Current write position
+
+        # Calculate indices for insertion, handling wrap-around
+        if p + batch_size <= self.buffer_size:
+            # No wrap-around: Copy directly
+            indices = slice(p, p + batch_size)
+            self.states[indices] = states_t
+            self.actions[indices] = actions_t
+            self.rewards[indices] = rewards_t
+            self.dones[indices] = dones_t
+            self.next_states[indices] = next_states_t
+        else:
+            # Wrap-around: Copy in two parts
+            num_part1 = self.buffer_size - p
+            indices1 = slice(p, self.buffer_size)
+            self.states[indices1] = states_t[:num_part1]
+            self.actions[indices1] = actions_t[:num_part1]
+            self.rewards[indices1] = rewards_t[:num_part1]
+            self.dones[indices1] = dones_t[:num_part1]
+            self.next_states[indices1] = next_states_t[:num_part1]
+
+            num_part2 = batch_size - num_part1
+            indices2 = slice(0, num_part2)
+            self.states[indices2] = states_t[num_part1:]
+            self.actions[indices2] = actions_t[num_part1:]
+            self.rewards[indices2] = rewards_t[num_part1:]
+            self.dones[indices2] = dones_t[num_part1:]
+            self.next_states[indices2] = next_states_t[num_part1:]
+
+        # Update pointers
+        self._p = (p + batch_size) % self.buffer_size
+        self._n = min(self._n + batch_size, self.buffer_size)
+
     def save(self, path):
         if not os.path.exists(os.path.dirname(path)):
             os.makedirs(os.path.dirname(path))
