@@ -7,7 +7,8 @@ defaults:
   learning_rate: 0.0003 # lr_actor and lr_critic
   disc_lr: 0.0003 # lr_disc
   hidden_sizes: [256, 256] # units_actor and units_critic
-  disc_hidden_sizes: [100, 100] # units_disc_r and units_disc_v
+  hidden_units_r: [32] # layers for the g term in the discriminator
+  hidden_units_v: [32, 32] # layers for the h term in the discriminator
   clip_ratio: 0.2
   gamma: 0.995 # discount facotr
   gae_lambda: 0.97
@@ -27,7 +28,11 @@ environments:
     num_steps: 10000000
     rollout_length: 50000
     hidden_sizes: [64, 64]
-    disc_hidden_sizes: [100, 100]
+    gamma: 0.999
+    epoch_ppo: 5
+    gae_lambda: 0.99
+    coef_ent: 0.0023
+    max_grad_norm: 0.7
 
   HalfCheetah-v5:
     xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
@@ -35,7 +40,6 @@ environments:
     num_steps: 10000000
     rollout_length: 50000
     hidden_sizes: [256, 256]
-    disc_hidden_sizes: [100, 100]
     batch_size: 256
     learning_rate: 0.001
     gamma: 0.98
@@ -43,11 +47,10 @@ environments:
   InvertedPendulum-v5:
     xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
     buffer: "./buffers/InvertedPendulum-v5/size1000000_std0.01_prand0.0_return1000.0.pth"
-    num_steps: 250000
+    num_steps: 2500000
     eval_interval: 10000
     rollout_length: 2000
     hidden_sizes: [64, 64]
-    disc_hidden_sizes: [100, 100]
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
@@ -55,7 +58,6 @@ environments:
     num_steps: 10000000
     rollout_length: 50000
     hidden_sizes: [256, 256]
-    disc_hidden_sizes: [100, 100]
 
   Pusher-v5:
     xml_file: "./xml/Pusher-v5/pusher.xml"
@@ -63,7 +65,6 @@ environments:
     num_steps: 10000000
     rollout_length: 30000
     hidden_sizes: [64, 64]
-    disc_hidden_sizes: [100, 100]
 
 # Named experiments that can be used across environments
 experiments:

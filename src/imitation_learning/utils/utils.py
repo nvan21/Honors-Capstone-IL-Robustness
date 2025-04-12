@@ -7,6 +7,7 @@ import os
 from copy import deepcopy
 import yaml
 from tqdm import tqdm
+from gymnasium.wrappers import RecordVideo
 
 from imitation_learning.utils.buffer import Buffer
 

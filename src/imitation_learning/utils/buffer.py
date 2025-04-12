@@ -62,7 +62,7 @@ class Buffer(SerializedBuffer):
 
     def append_batch(self, states_t, actions_t, rewards_t, dones_t, next_states_t):
         """
-        Appends a batch of transitions efficiently.
+        Appends a batch of transitions.
         Assumes input arguments are tensors already on self.device.
         """
         batch_size = states_t.shape[0]

@@ -16,6 +16,7 @@ defaults:
   buffer_size: 1000000
   start_steps: 10000
   tau: 0.005
+  update_steps: 8 # number of times to update SAC when the update method is called
   cuda: true
 
 # Environment-specific defaults
@@ -23,6 +24,9 @@ environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
     start_steps: 5000
+    batch_size: 1024
+    buffer_size: 300000
+    tau: 0.02
 
   HalfCheetah-v5:
     xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
@@ -31,11 +35,11 @@ environments:
   InvertedPendulum-v5:
     xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
     start_steps: 1000
-    hidden_sizes: [64, 64]
+    num_steps: 250000
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
-    start_steps: 25000
+    start_steps: 10000
 
   Pusher-v5:
     start_steps: 10000
@@ -70,7 +74,7 @@ experiments:
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250411-1453/model/step10000000/disc.pth"
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
@@ -107,15 +111,15 @@ experiments:
     reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
 
-  modified_reward_cart_mass_p20_invpend:
+  modified_reward_gravity_p20_invpend:
     use_reward_model: True
     reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
-    xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p20.xml"
+    xml_file: "./xml/InvertedPendulum-v5/invpend_gravity_p20.xml"
 
-  modified_reward_cart_mass_p50_invpend:
+  modified_reward_gravity_p50_invpend:
     use_reward_model: True
     reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
-    xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p50.xml"
+    xml_file: "./xml/InvertedPendulum-v5/invpend_gravity_p50.xml"
 
   # --- Pusher Modifications (Learned Reward) ---
   modified_reward_pusher:

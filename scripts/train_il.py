@@ -30,7 +30,6 @@ def parse_args():
 
     # Optional overrides
     parser.add_argument("--seed", type=int, help="Override random seed")
-    parser.add_argument("--cuda", action="store_true", help="Use CUDA")
 
     return parser.parse_args()
 
@@ -130,8 +129,8 @@ def get_algorithm(algo_name, config, env, buffer_exp=None, expert=None):
             lr_disc=config.get("disc_lr", 3e-4),
             units_actor=config.get("hidden_sizes", (256, 256)),
             units_critic=config.get("hidden_sizes", (256, 256)),
-            units_disc_r=config.get("disc_hidden_sizes", (100, 100)),
-            units_disc_v=config.get("disc_hidden_sizes", (100, 100)),
+            units_disc_r=config["hidden_units_r"],
+            units_disc_v=config["hidden_units_v"],
             epoch_ppo=config.get("epoch_ppo", 50),
             epoch_disc=config.get("epoch_disc", 10),
             clip_eps=config.get("clip_ratio", 0.2),
@@ -237,7 +236,6 @@ def run_training():
         components = os.path.basename(Path(config["buffer"]).with_suffix("")).split("_")
         writer.config.update(
             {
-                "expert_buffer_path": config["buffer"],
                 "expert_buffer_size": int(components[0][4:]),
                 "expert_buffer_std": float(components[1][3:]),
                 "expert_buffer_prand": float(components[2][5:]),

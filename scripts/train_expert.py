@@ -75,8 +75,8 @@ def run_training():
         reward_model = AIRLDiscrim(
             state_shape=state_shape,
             gamma=config.get("reward_model_gamma", 0.99),
-            hidden_units_r=(100, 100),
-            hidden_units_v=(100, 100),
+            hidden_units_r=[32],
+            hidden_units_v=(32, 32),
         ).to(device)
         reward_model.load_state_dict(torch.load(config["reward_model_path"]))
         env = make_custom_reward_env(env=env, reward_model=reward_model, device=device)
@@ -110,6 +110,7 @@ def run_training():
         units_critic=config.get("hidden_sizes", (256, 256)),
         start_steps=config.get("start_steps", 10000),
         tau=config.get("tau", 5e-3),
+        update_steps=config["update_steps"],
         use_reward_model=config.get("use_reward_model", False),
     )
 

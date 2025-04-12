@@ -26,6 +26,7 @@ class SAC(Algorithm):
         units_actor=(256, 256),
         units_critic=(256, 256),
         start_steps=10000,
+        update_steps=8,
         tau=5e-3,
         needs_env=True,
         use_reward_model=False,
@@ -91,11 +92,12 @@ class SAC(Algorithm):
         self.batch_size = batch_size
         self.start_steps = start_steps
         self.tau = tau
+        self.update_steps = update_steps
 
         self.use_reward_model = use_reward_model
 
     def is_update(self, steps):
-        return steps >= max(self.start_steps, self.batch_size)
+        return steps >= max(self.start_steps, self.batch_size) and steps % 8 == 0
 
     def step(self, env, state, t, step):
         t += 1
@@ -122,14 +124,15 @@ class SAC(Algorithm):
         return next_state, t
 
     def update(self, writer):
-        self.learning_steps += 1
-        states, actions, rewards, dones, next_states = self.buffer.sample(
-            self.batch_size
-        )
+        for step in range(self.update_steps):
+            self.learning_steps += 1
+            states, actions, rewards, dones, next_states = self.buffer.sample(
+                self.batch_size
+            )
 
-        self.update_critic(states, actions, rewards, dones, next_states, writer)
-        self.update_actor(states, writer)
-        self.update_target()
+            self.update_critic(states, actions, rewards, dones, next_states, writer)
+            self.update_actor(states, writer)
+            self.update_target()
 
     def update_critic(self, states, actions, rewards, dones, next_states, writer):
         curr_qs1, curr_qs2 = self.critic(states, actions)
@@ -215,18 +218,19 @@ class SAC(Algorithm):
         # --- Calculate Rewards (if needed) ---
         if self.use_reward_model:
             with torch.no_grad():
-                rewards_t = env.calc_rewards(states_t, actions_t, next_states_t)
+                rewards_t = env.calc_rewards(states_t, dones_t, next_states_t)
         else:
             rewards_t = original_rewards_t
 
         # --- Add the processed batch to Main Replay Buffer ---
         # Calls the new method in the Buffer class
+        print(f"Average reward for batch: {torch.mean(rewards_t)}")
         self.buffer.append_batch(
-            states_t,  # Tensor [count, state_dim] on device
-            actions_t,  # Tensor [count, action_dim] on device
-            rewards_t,  # Tensor [count] or [count, 1] on device (final reward)
-            dones_t,  # Tensor [count, 1] on device
-            next_states_t,  # Tensor [count, state_dim] on device
+            states_t,
+            actions_t,
+            rewards_t,
+            dones_t,
+            next_states_t,
         )
 
         # --- Manually Reset Internal Temp Buffer Pointers ---

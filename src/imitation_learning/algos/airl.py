@@ -112,6 +112,7 @@ class AIRL:
         """
         Calculate rewards using the discriminator.
         """
+
         return self.disc.calculate_reward(states, dones, log_pis, next_states)
 
     def save_discriminator(self, save_dir):

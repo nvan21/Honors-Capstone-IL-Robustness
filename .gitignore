@@ -5,3 +5,4 @@ logs/
 weights/
 wandb/
 slurm-*
+vscode-*
