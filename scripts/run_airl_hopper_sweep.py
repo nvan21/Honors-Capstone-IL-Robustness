@@ -5,9 +5,12 @@ import time
 
 num_agents = 10
 
-sweep_config = yaml.safe_load("./hyperparameters/airl_hopper_sweep.yaml")
+config_path = "./hyperparameters/airl_hopper_sweep.yaml"
+with open(config_path, "r") as f:
+    sweep_config = yaml.safe_load(f)
+
 sweep_id = wandb.sweep(sweep=sweep_config, project="Honors Capstone")
-sweep_path = f"nvanutrecht/Honors-Capstone-scripts/{sweep_id}"
+sweep_path = f"nvanutrecht/Honors Capstone/{sweep_id}"
 
 for i in range(num_agents):
     command = ["wandb", "agent", sweep_path]
