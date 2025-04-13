@@ -10,10 +10,10 @@ defaults:
   # SAC specific parameters
   learning_rate: 0.0003 # lr_actor and lr_critic
   alpha_lr: 0.0003 # lr_alpha
-  discount_factor: 0.99 # gamma
+  discount_factor: 0.98 # gamma
   hidden_sizes: [256, 256]
   batch_size: 256
-  buffer_size: 1000000
+  buffer_size: 300000
   start_steps: 10000
   tau: 0.005
   update_steps: 8 # number of times to update SAC when the update method is called
@@ -23,10 +23,6 @@ defaults:
 environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
-    start_steps: 5000
-    batch_size: 1024
-    buffer_size: 300000
-    tau: 0.02
 
   HalfCheetah-v5:
     xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
@@ -34,7 +30,7 @@ environments:
 
   InvertedPendulum-v5:
     xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
-    start_steps: 1000
+    start_steps: 10000
     num_steps: 250000
 
   Ant-v5:
@@ -46,6 +42,9 @@ environments:
     xml_file: "./xml/Pusher-v5/pusher.xml"
 
 experiments:
+  normal_env:
+    description: "Uses the default environment settings"
+
   # --- Ant Modifications (Learned Reward) ---
   modified_reward_ant:
     use_reward_model: True
@@ -74,7 +73,7 @@ experiments:
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250411-1453/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True

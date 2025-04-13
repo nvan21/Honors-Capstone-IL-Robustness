@@ -13,9 +13,7 @@ def make_env(env_id, **kwargs):
     min_action = env.action_space.low / scale
     max_action = env.action_space.high / scale
 
-    return NormalizeObservation(
-        RescaleAction(env, min_action=min_action, max_action=max_action)
-    )
+    return RescaleAction(env, min_action=min_action, max_action=max_action)
 
 
 def make_custom_reward_env(env, reward_model, device):

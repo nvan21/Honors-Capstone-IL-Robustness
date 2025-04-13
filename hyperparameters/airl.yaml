@@ -5,17 +5,17 @@ defaults:
 
   # AIRL specific parameters
   learning_rate: 0.0003 # lr_actor and lr_critic
-  disc_lr: 0.0003 # lr_disc
+  disc_lr: 0.00005 # lr_disc
   hidden_sizes: [256, 256] # units_actor and units_critic
   hidden_units_r: [32] # layers for the g term in the discriminator
   hidden_units_v: [32, 32] # layers for the h term in the discriminator
   clip_ratio: 0.2
-  gamma: 0.995 # discount facotr
+  gamma: 0.995 # discount factor
   gae_lambda: 0.97
   mix_buffer: 20
   batch_size: 128
   epoch_ppo: 50
-  epoch_disc: 10
+  epoch_disc: 50
   coef_ent: 0.0
   max_grad_norm: 10.0
   cuda: true
@@ -29,7 +29,7 @@ environments:
     rollout_length: 50000
     hidden_sizes: [64, 64]
     gamma: 0.999
-    epoch_ppo: 5
+    epoch_ppo: 50
     gae_lambda: 0.99
     coef_ent: 0.0023
     max_grad_norm: 0.7

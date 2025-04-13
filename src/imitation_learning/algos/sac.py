@@ -97,7 +97,7 @@ class SAC(Algorithm):
         self.use_reward_model = use_reward_model
 
     def is_update(self, steps):
-        return steps >= max(self.start_steps, self.batch_size) and steps % 8 == 0
+        return steps >= max(self.start_steps, self.batch_size)
 
     def step(self, env, state, t, step):
         t += 1
@@ -110,12 +110,15 @@ class SAC(Algorithm):
         next_state, reward, terminated, truncated, info = env.step(action)
         mask = False if truncated else terminated
 
-        self.batch_buffer.append(state, action, reward, mask, next_state)
+        if self.use_reward_model:
+            self.batch_buffer.append(state, action, reward, mask, next_state)
 
-        # Check if batch buffer needs processing
-        batch_buffer_is_full = self.batch_buffer._n == self.batch_size
-        if batch_buffer_is_full:
-            self._process_temp_buffer(env)
+            # Check if batch buffer needs processing
+            batch_buffer_is_full = self.batch_buffer._n == self.batch_size
+            if batch_buffer_is_full:
+                self._process_temp_buffer(env)
+        else:
+            self.buffer.append(state, action, reward, mask, next_state)
 
         if terminated or truncated:
             t = 0
@@ -124,15 +127,14 @@ class SAC(Algorithm):
         return next_state, t
 
     def update(self, writer):
-        for step in range(self.update_steps):
-            self.learning_steps += 1
-            states, actions, rewards, dones, next_states = self.buffer.sample(
-                self.batch_size
-            )
+        self.learning_steps += 1
+        states, actions, rewards, dones, next_states = self.buffer.sample(
+            self.batch_size
+        )
 
-            self.update_critic(states, actions, rewards, dones, next_states, writer)
-            self.update_actor(states, writer)
-            self.update_target()
+        self.update_critic(states, actions, rewards, dones, next_states, writer)
+        self.update_actor(states, writer)
+        self.update_target()
 
     def update_critic(self, states, actions, rewards, dones, next_states, writer):
         curr_qs1, curr_qs2 = self.critic(states, actions)
@@ -224,7 +226,7 @@ class SAC(Algorithm):
 
         # --- Add the processed batch to Main Replay Buffer ---
         # Calls the new method in the Buffer class
-        print(f"Average reward for batch: {torch.mean(rewards_t)}")
+        # print(f"Average reward for batch: {torch.mean(rewards_t)}")
         self.buffer.append_batch(
             states_t,
             actions_t,

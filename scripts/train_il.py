@@ -183,7 +183,6 @@ def run_training():
         config["seed"] = args.seed
 
     # Add CUDA setting
-    config["cuda"] = args.cuda
     device = torch.device(
         "cuda" if config["cuda"] and torch.cuda.is_available() else "cpu"
     )
