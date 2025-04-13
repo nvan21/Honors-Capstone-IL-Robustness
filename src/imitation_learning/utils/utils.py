@@ -165,11 +165,11 @@ def collect_demo(env, algo, buffer_size, device, std, p_rand, seed=0):
     return buffer, mean_return
 
 
-def visualize_expert(env, algo, seeds=None, num_eval_episodes=5):
+def visualize_expert(env, algo, seeds=None, num_eval_episodes=5) -> dict:
     if seeds is None:
         seeds = random.sample(range(2**31), num_eval_episodes)
 
-    mean_return = 0
+    returns = []
     with tqdm(total=num_eval_episodes) as pbar:
         for seed in seeds:
             np.random.seed(seed)
@@ -186,7 +186,7 @@ def visualize_expert(env, algo, seeds=None, num_eval_episodes=5):
                 state, reward, terminated, truncated, _ = env.step(action)
                 episode_return += reward
 
-            mean_return += episode_return / num_eval_episodes
+            returns.append(episode_return)
 
             # Update progress bar with latest episode return
             pbar.set_postfix(
@@ -198,7 +198,18 @@ def visualize_expert(env, algo, seeds=None, num_eval_episodes=5):
             pbar.update(1)
 
     env.close()
-    print(f"Mean Return: {mean_return:<5.1f}")
+    returns = np.array(returns)
+    mean_return = returns.mean()
+    std_return = returns.std()
+    print(f"Mean Return: {mean_return:<5.1f} +/- {std_return:<5.1f}")
+
+    info = {
+        "mean_return": mean_return,
+        "std_return": std_return,
+        "seeds": seeds,
+    }
+
+    return info
 
 
 def load_yaml(file_path):

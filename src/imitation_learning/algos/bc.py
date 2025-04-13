@@ -6,7 +6,10 @@ from tqdm import tqdm
 
 from imitation_learning.algos.base import Algorithm
 from imitation_learning.network import StateIndependentPolicy
-from imitation_learning.utils.utils import disable_gradient
+from imitation_learning.utils.utils import (
+    disable_gradient,
+    get_hidden_units_from_state_dict,
+)
 
 
 class BC(Algorithm):
@@ -80,6 +83,9 @@ class BCExpert(BC):
         path,
         units_actor=(256, 256),
     ):
+        actor_path = os.path.join(path, "actor.pth")
+        units_actor = get_hidden_units_from_state_dict(actor_path)
+
         self.actor = StateIndependentPolicy(
             state_shape=state_shape,
             action_shape=action_shape,
@@ -87,7 +93,6 @@ class BCExpert(BC):
             hidden_activation=nn.Tanh(),
         ).to(device)
 
-        actor_path = os.path.join(path, "actor.pth")
         self.actor.load_state_dict(torch.load(actor_path))
 
         disable_gradient(self.actor)

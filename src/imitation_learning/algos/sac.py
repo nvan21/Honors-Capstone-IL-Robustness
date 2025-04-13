@@ -268,6 +268,7 @@ class SACExpert(SAC):
 
         actor_path = os.path.join(path, "actor.pth")
         critic_path = os.path.join(path, "critic.pth")
+
         self.actor.load_state_dict(torch.load(actor_path))
         self.critic.load_state_dict(torch.load(critic_path))
 

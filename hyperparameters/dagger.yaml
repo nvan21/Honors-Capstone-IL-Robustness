@@ -20,7 +20,7 @@ environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
     buffer: "./buffers/Hopper-v5/size1000000_std0.01_prand0.0_return3458.9.pth"
-    expert: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/expert/sac/seed0-20250403-0850/model/step1000000"
+    expert: "./logs/Hopper-v5/expert/sac/seed0-20250403-0850/model/step1000000"
     hidden_sizes: [64, 64]
     batch_size: 128
     num_steps: 200000
@@ -42,7 +42,7 @@ environments:
   Pusher-v5:
     xml_file: "./xml/Pusher-v5/pusher.xml"
     buffer: "./buffers/Pusher-v5/size1000000_std0.01_prand0.0_return-27.1.pth"
-    expert: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/expert/sac/seed0-20250403-1206/model/step1000000"
+    expert: "./logs/Pusher-v5/expert/sac/seed0-20250403-1206/model/step1000000"
     num_steps: 300000
     rollout_length: 3000
 

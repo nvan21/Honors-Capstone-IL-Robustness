@@ -113,6 +113,36 @@ _(Note: The script names and arguments above are examples and should be adapted 
 
 ## Modified Environments
 
-- Hopper: foot friction changed from 2.0 to 0.5
-- InvertedPendulum: gravity changed from -9.81 to -20
-- HalfCheetah:
+_Fill in modified environments here_
+
+## Expert Paths
+
+- InvertedPendulum-v5
+  - AIRL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000
+  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/gail/normal_env-seed0-20250407-0237/model/step250000
+  - BC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/bc/normal_env-seed0-20250406-2001/model/step9
+  - DAgger: E:\Coding Projects\Honors-Capstone\logs\InvertedPendulum-v5\DAgger\normal_env-seed0-20250404-2313\model\step10000
+  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/expert/sac/seed0-20250403-0841/model/step100000
+- Hopper-v5
+  - AIRL: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\airl\normal_env-seed0-20250412-1700\model\step10000000
+  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/gail/normal_env-seed0-20250407-0239/model/step10000000
+  - BC: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\BC\normal_env-seed0-20250413-0720\model\step29
+  - DAgger: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\DAgger\normal_env-seed0-20250413-0738\model\step119000
+  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/expert/sac/seed0-20250403-0850/model/step1000000
+- Ant-v5
+  - AIRL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000
+  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/gail/normal_env-seed0-20250407-0342/model/step10000000
+  - BC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/bc/normal_env-seed0-20250405-1848/model/step29
+  - DAgger: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/dagger/normal_env-seed0-20250409-1624/model/step168000
+  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/expert/sac/seed0-20250403-1025/model/step1000000
+- Pusher-v5
+  - AIRL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000
+  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/gail/normal_env-seed0-20250407-0603/model/step10000000
+  - BC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/bc/normal_env-seed0-20250405-1900/model/step19
+  - DAgger:
+  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/expert/sac/seed0-20250403-1206/model/step1000000
+
+# Notes
+
+- RQ1: I just need to train expert policies for DAgger on Hopper and Pusher. Then all of those experiments will be completed. I will plot training time and testing during training. Then I will run each policy 100 times to get the mean and std of the return. This will be a table. For the table, I'll need to start logging the results from visualize_expert.py. I'll log them with
+- RQ2: Once I have all of the policies, then I can run visualize_expert to get the data. This
