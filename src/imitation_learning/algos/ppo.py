@@ -47,6 +47,7 @@ class PPO(Algorithm):
         coef_ent=0.0,
         max_grad_norm=10.0,
         needs_env=True,
+        use_reward_model=False,
     ):
         super().__init__(state_shape, action_shape, device, seed, gamma, needs_env)
 
@@ -85,6 +86,7 @@ class PPO(Algorithm):
         self.coef_ent = coef_ent
         self.max_grad_norm = max_grad_norm
         self.needs_env = True
+        self.use_reward_model = use_reward_model
 
     def is_update(self, step):
         return step % self.rollout_length == 0
@@ -104,9 +106,11 @@ class PPO(Algorithm):
 
         return next_state, t
 
-    def update(self, writer):
+    def update(self, writer, env):
         self.learning_steps += 1
         states, actions, rewards, dones, log_pis, next_states = self.buffer.get()
+        if self.use_reward_model:
+            rewards = env.calc_rewards(states, dones, next_states)
         self.update_ppo(states, actions, rewards, dones, log_pis, next_states, writer)
 
     def update_ppo(self, states, actions, rewards, dones, log_pis, next_states, writer):

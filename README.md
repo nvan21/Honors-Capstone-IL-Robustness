@@ -139,10 +139,19 @@ _Fill in modified environments here_
   - AIRL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000
   - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/gail/normal_env-seed0-20250407-0603/model/step10000000
   - BC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/bc/normal_env-seed0-20250405-1900/model/step19
-  - DAgger:
+  - DAgger: E:\Coding Projects\Honors-Capstone\logs\Pusher-v5\dagger\normal_env-seed0-20250413-0807\model\step100000
   - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/expert/sac/seed0-20250403-1206/model/step1000000
 
 # Notes
 
 - RQ1: I just need to train expert policies for DAgger on Hopper and Pusher. Then all of those experiments will be completed. I will plot training time and testing during training. Then I will run each policy 100 times to get the mean and std of the return. This will be a table. For the table, I'll need to start logging the results from visualize_expert.py. I'll log them with
-- RQ2: Once I have all of the policies, then I can run visualize_expert to get the data. This
+- RQ2: Once I have all of the policies, then I can run visualize_expert to get the data. I will eventually need to make something that creates tables from the data (plotter.ipynb)
+- RQ3: I'm still trying to figure out why the reward from AIRL isn't transferring to SAC. Maybe I should try learning with a different algorithm. Once I get it to work on Hopper, then I can run all of the experiments on the HPC. I already trained all of the SAC on the modified dynamics with the ground truth reward.
+- RQ4: This will be easy once I finish RQ3.
+
+# Action Items
+
+- Figure out table format
+  - Rows will be the algorithms
+  - Columns will be the environments
+  - I'll need a table for base dynamics (will have every environment), and then a separate table for each of the modified dynamics in the environments

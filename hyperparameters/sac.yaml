@@ -23,22 +23,24 @@ defaults:
 environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
+    learning_rate: 0.00005
+    dicount_factor: 0.99
+    hidden_sizes: [400, 300]
 
   HalfCheetah-v5:
     xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
-    start_steps: 10000
 
   InvertedPendulum-v5:
     xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
-    start_steps: 10000
     num_steps: 250000
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
-    start_steps: 10000
+    learning_rate: 0.00005
+    dicount_factor: 0.99
+    hidden_sizes: [400, 300]
 
   Pusher-v5:
-    start_steps: 10000
     xml_file: "./xml/Pusher-v5/pusher.xml"
 
 experiments:
@@ -48,7 +50,7 @@ experiments:
   # --- Ant Modifications (Learned Reward) ---
   modified_reward_ant:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250414-0750/model/step9950000/disc.pth"
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
@@ -77,22 +79,22 @@ experiments:
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p20.xml"
 
   modified_reward_torso_mass_p50_hopper:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
 
   modified_reward_friction_m20_hopper:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_friction_m20.xml"
 
   modified_reward_friction_m50_hopper:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_friction_m50.xml"
 
   # --- InvertedPendulum Modifications (Learned Reward) ---

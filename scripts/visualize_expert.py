@@ -11,13 +11,15 @@ from imitation_learning.utils.utils import visualize_expert
 
 
 def run(args):
+    xml_file = os.path.join("./xml", args.env, args.xml_file)
     if args.display:
         env = make_env(
             args.env,
+            xml_file=xml_file,
             render_mode="human",
         )
     else:
-        env = make_env(args.env)
+        env = make_env(args.env, xml_file=xml_file)
 
     weights_path = Path(args.weights)
     weights_split = [part.lower() for part in weights_path.parts]
@@ -63,13 +65,15 @@ def run(args):
             "algo": algo_name,
             "weights_path": args.weights,
             "time": time_str,
+            "xml_file": xml_file,
+            "env": args.env,
         }
     )
 
     if args.log:
-        run_path = f"./runs/{args.env}/{algo_name}"
+        run_path = f"./runs/{args.env}_{args.xml_file}/{algo_name}"
         os.makedirs(run_path, exist_ok=True)
-        with open(os.path.join(run_path, f"results_{time_str}.json"), "w") as f:
+        with open(os.path.join(run_path, f"results.json"), "w") as f:
             json.dump(returns, f, indent=4, sort_keys=True)
 
 
@@ -77,6 +81,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--weights", type=str, required=True)
     p.add_argument("--env", type=str, default="InvertedPendulum-v5")
+    p.add_argument("--xml_file", type=str, default="invpend.xml")
     p.add_argument("--cuda", action="store_true")
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--num_eval_episodes", type=int, default=5)

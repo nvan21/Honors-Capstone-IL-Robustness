@@ -5,7 +5,11 @@ from torch.optim import Adam
 
 from imitation_learning.algos.base import Algorithm
 from imitation_learning.utils.buffer import Buffer
-from imitation_learning.utils.utils import soft_update, disable_gradient
+from imitation_learning.utils.utils import (
+    soft_update,
+    disable_gradient,
+    get_hidden_units_from_state_dict,
+)
 from imitation_learning.network import StateDependentPolicy, TwinnedStateActionFunction
 
 
@@ -252,6 +256,11 @@ class SACExpert(SAC):
         units_actor=(256, 256),
         units_critic=(256, 256),
     ):
+        actor_path = os.path.join(path, "actor.pth")
+        critic_path = os.path.join(path, "critic.pth")
+        units_actor = get_hidden_units_from_state_dict(actor_path)["net"]
+        units_critic = units_actor
+
         self.actor = StateDependentPolicy(
             state_shape=state_shape,
             action_shape=action_shape,

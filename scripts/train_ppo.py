@@ -5,7 +5,7 @@ from datetime import datetime
 import wandb
 
 from imitation_learning.utils.env import make_env, make_custom_reward_env
-from imitation_learning.algos import SAC
+from imitation_learning.algos import PPO
 from imitation_learning.utils.trainer import Trainer
 from imitation_learning.utils.utils import get_config, get_hidden_units_from_state_dict
 
@@ -36,7 +36,7 @@ def run_training():
     args = parse_args()
 
     # Load configuration
-    config = get_config("sac", args.env, args.experiment)
+    config = get_config("ppo", args.env, args.experiment)
 
     # Override with command line arguments
     if args.seed is not None:
@@ -48,7 +48,7 @@ def run_training():
     )
 
     # Initialize Weights & Biases
-    run_name = f"sac-{args.env}"
+    run_name = f"ppo-{args.env}"
     if args.experiment:
         run_name += f"-{args.experiment}"
     run_name += f"-seed{config['seed']}"
@@ -57,9 +57,9 @@ def run_training():
         project="Honors Capstone",
         name=run_name,
         config=config,  # Log all hyperparameters
-        group="sac",
+        group="ppo",
         job_type=args.env,
-        tags=["sac", args.env] + ([args.experiment] if args.experiment else []),
+        tags=["ppo", args.env] + ([args.experiment] if args.experiment else []),
     )
 
     # Update config with sweep values
@@ -75,17 +75,14 @@ def run_training():
 
     # Alter environment to use AIRL reward if the experimental calls for it
     if config["use_reward_model"]:
-        hidden_layers = get_hidden_units_from_state_dict(config["reward_model_path"])
         reward_model = AIRLDiscrim(
             state_shape=state_shape,
             gamma=config.get("reward_model_gamma", 0.99),
-            hidden_units_r=hidden_layers["g"],
-            hidden_units_v=hidden_layers["h"],
+            hidden_units_r=[32],
+            hidden_units_v=(32, 32),
         ).to(device)
         reward_model.load_state_dict(torch.load(config["reward_model_path"]))
-        env = make_custom_reward_env(
-            env=env, reward_model=reward_model, device=device, normalize_reward=True
-        )
+        env = make_custom_reward_env(env=env, reward_model=reward_model, device=device)
 
     # Log environment information
     writer.config.update(
@@ -101,22 +98,22 @@ def run_training():
     )
 
     # Instantiate algorithm
-    algo = SAC(
+    algo = PPO(
         state_shape=state_shape,
         action_shape=action_shape,
         device=device,
         seed=config["seed"],
         gamma=config.get("discount_factor", 0.99),
-        batch_size=config.get("batch_size", 256),
-        buffer_size=config.get("buffer_size", 10**6),
+        rollout_length=config["rollout_length"],
+        clip_eps=config["clip_ratio"],
+        lambd=config["gae_lambda"],
+        coef_ent=config["coef_ent"],
+        max_grad_norm=config["max_grad_norm"],
         lr_actor=config.get("learning_rate", 3e-4),
         lr_critic=config.get("learning_rate", 3e-4),
-        lr_alpha=config.get("alpha_lr", 3e-4),
         units_actor=config.get("hidden_sizes", (256, 256)),
         units_critic=config.get("hidden_sizes", (256, 256)),
-        start_steps=config.get("start_steps", 10000),
-        tau=config.get("tau", 5e-3),
-        update_steps=config["update_steps"],
+        epoch_ppo=config["epoch_ppo"],
         use_reward_model=config.get("use_reward_model", False),
     )
 
@@ -125,7 +122,7 @@ def run_training():
     log_dir = os.path.join(
         "logs",
         config["env_id"],
-        "sac",
+        "ppo",
         f"{args.experiment or 'default'}-seed{config['seed']}-{time_str}",
     )
 

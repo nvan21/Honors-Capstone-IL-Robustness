@@ -7,7 +7,7 @@ import os
 from copy import deepcopy
 import yaml
 from tqdm import tqdm
-from gymnasium.wrappers import RecordVideo
+from collections import defaultdict
 
 from imitation_learning.utils.buffer import Buffer
 
@@ -81,40 +81,89 @@ def get_hidden_units_from_state_dict(state_dict_path):
     """
     Extract hidden unit sizes from a PyTorch state dictionary.
 
+    Handles state dicts from a single MLP assumed named 'net'
+    (e.g., keys like 'net.0.weight', 'net.2.weight') or from an AIRLDiscrim
+    model with 'g' and 'h' MLPs (e.g., 'g.0.weight', 'h.0.weight').
+
+    Assumes the MLPs are built using nn.Sequential where linear layers
+    are at even indices (0, 2, 4, ...).
+
     Args:
-        state_dict_path (str): Path to the saved state dictionary
+        state_dict_path (str): Path to the saved state dictionary.
 
     Returns:
-        tuple: Hidden unit sizes (e.g., (256, 256))
+        dict: A dictionary where keys are the detected network names ('net', 'g', 'h')
+              and values are tuples of their hidden unit sizes.
+              e.g., {'net': (256, 256)} or {'g': (64, 64), 'h': (128,)}
+              Returns an empty dictionary if no compatible networks are found or
+              if an error occurs. Returns empty tuples () for networks with
+              no hidden layers.
     """
+    network_hidden_units = {}
     try:
         # Load the state dictionary
         state_dict = torch.load(state_dict_path, map_location=torch.device("cpu"))
 
-        # Find the first and second layer weight keys
-        first_layer_key = None
-        second_layer_key = None
+        # Store {network_name: {layer_index: output_size}}
+        network_layers = defaultdict(dict)
+
+        # Regex to match 'net.<index>.weight', 'g.<index>.weight' or 'h.<index>.weight'
+        # Assumes layers are numerically indexed within the parent module (like in nn.Sequential)
+        pattern = re.compile(r"^(net|g|h)\.(\d+)\.weight$")
 
         for key in state_dict:
-            if re.search(r"net\.0\.weight$", key):
-                first_layer_key = key
-            elif re.search(r"net\.2\.weight$", key):
-                second_layer_key = key
+            match = pattern.match(key)
+            if match:
+                network_name = match.group(1)  # 'net', 'g', or 'h'
+                layer_index = int(match.group(2))  # Numerical index (0, 2, 4...)
 
-        if first_layer_key and second_layer_key:
-            # Extract hidden sizes
-            hidden_size1 = state_dict[first_layer_key].shape[0]
-            hidden_size2 = state_dict[second_layer_key].shape[0]
+                # We only care about linear layers' weights
+                # The output size of a linear layer is its weight matrix's 0-th dimension
+                layer_output_size = state_dict[key].shape[0]
+                network_layers[network_name][layer_index] = layer_output_size
 
-            print(f"Found hidden sizes: {hidden_size1}, {hidden_size2}")
-            return (hidden_size1, hidden_size2)
-        else:
-            print("Could not find expected layer weights in the state dictionary.")
-            return None
+        if not network_layers:
+            print(
+                f"Warning: Could not find layer weights matching the pattern "
+                f"'net.<num>.weight', 'g.<num>.weight', or 'h.<num>.weight' "
+                f"in {state_dict_path}."
+            )
+            return {}  # Return empty dict if no relevant layers found
 
+        # Process each found network ('net', 'g', 'h')
+        for network_name, layers in network_layers.items():
+            if not layers:
+                continue  # Should not happen based on loop logic, but safe check
+
+            # Sort layers by their index to get them in order
+            sorted_indices = sorted(layers.keys())
+
+            # Hidden unit sizes are the output sizes of all linear layers *except the last one*.
+            # The last layer's output size is the final network output dim.
+            if len(sorted_indices) > 1:
+                # Exclude the size of the final output layer
+                hidden_sizes = [layers[idx] for idx in sorted_indices[:-1]]
+                network_hidden_units[network_name] = tuple(hidden_sizes)
+                print(
+                    f"Found '{network_name}' network. Deduced hidden units: {network_hidden_units[network_name]}"
+                )
+            elif len(sorted_indices) == 1:
+                # Only one linear layer means no hidden layers
+                network_hidden_units[network_name] = ()
+                print(f"Found '{network_name}' network. Deduced no hidden layers.")
+            # else: # No layers found for this network (shouldn't happen if network_name in network_layers)
+            #    pass
+
+        return network_hidden_units
+
+    except FileNotFoundError:
+        print(f"Error: State dictionary file not found at {state_dict_path}")
+        return {}
     except Exception as e:
-        print(f"Error loading or processing state dictionary: {e}")
-        return None
+        print(
+            f"Error loading or processing state dictionary from {state_dict_path}: {e}"
+        )
+        return {}
 
 
 def collect_demo(env, algo, buffer_size, device, std, p_rand, seed=0):
