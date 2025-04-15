@@ -1,10 +1,15 @@
 import gymnasium as gym
+import gymnasium_robotics
 from gymnasium.wrappers import RescaleAction, NormalizeObservation
+from gymnasium.core import ObservationWrapper
+from gymnasium import spaces
 import torch
 import numpy as np
 from copy import copy
 
 from imitation_learning.utils.utils import disable_gradient
+
+gym.register_envs(gymnasium_robotics)
 
 
 def make_env(env_id, **kwargs):
@@ -22,6 +27,10 @@ def make_custom_reward_env(env, reward_model, device, normalize_reward):
     return AIRLRewardWrapper(
         env, reward_model=reward_model, device=device, normalize_reward=normalize_reward
     )
+
+
+def make_flattened_env(env):
+    return FlattenObservation(env)
 
 
 class AIRLRewardWrapper(gym.Wrapper):
@@ -166,3 +175,76 @@ class RunningMeanStd:
             )
 
         return normalized_tensor.to(input_dtype)  # Return with original dtype
+
+
+class FlattenObservation(ObservationWrapper):
+    """
+    Flattens a dictionary observation from a gymnasium.spaces.Dict into a
+    single Box space. Assumes Python 3.7+ where dicts preserve insertion order
+    to guarantee consistent concatenation order.
+    """
+
+    def __init__(self, env):
+        super().__init__(env)
+
+        # Ensure the original observation space is a Dict
+        assert isinstance(
+            env.observation_space, spaces.Dict
+        ), f"Input environment observation space must be gymnasium.spaces.Dict, got {type(env.observation_space)}"
+
+        self.original_space = env.observation_space
+
+        # --- Determine and store the key order ONCE ---
+        self.keys = list(self.original_space.spaces.keys())
+
+        # --- Calculate the new flattened observation space ---
+        low_list = []
+        high_list = []
+        total_dim = 0
+        dtype = None
+
+        for key in self.keys:
+            space = self.original_space.spaces[key]
+            # Ensure all subspaces are Box spaces and 1D
+            assert isinstance(
+                space, spaces.Box
+            ), f"All subspaces in the Dict must be gymnasium.spaces.Box, got {type(space)} for key '{key}'"
+            assert (
+                len(space.shape) == 1
+            ), f"All subspaces in the Dict must be 1-dimensional Box spaces, got shape {space.shape} for key '{key}'"
+
+            dim = space.shape[0]
+            total_dim += dim
+            low_list.append(space.low)
+            high_list.append(space.high)
+
+            # Determine common dtype
+            if dtype is None:
+                dtype = space.dtype
+            else:
+                assert (
+                    space.dtype == dtype
+                ), f"All subspaces must have the same dtype, expected {dtype} but got {space.dtype} for key '{key}'"
+
+        # Define the new Box space
+        self.observation_space = spaces.Box(
+            low=np.concatenate(low_list),
+            high=np.concatenate(high_list),
+            shape=(total_dim,),
+            dtype=dtype,  # Use the determined common dtype
+        )
+        # Optional: Log the order being used
+        print(
+            f"FlattenObservation wrapper initialized. Concatenation order: {self.keys}"
+        )
+
+    def observation(self, obs_dict):
+        """
+        Takes the dictionary observation and returns the flattened numpy array
+        using the stored key order.
+        """
+        # Concatenate the arrays from the dictionary in the stored key order
+        obs_parts = [obs_dict[key] for key in self.keys]
+        flat_obs = np.concatenate(obs_parts)
+        # Ensure the dtype matches the defined space just in case
+        return flat_obs.astype(self.observation_space.dtype)

@@ -3,8 +3,13 @@ import argparse
 import torch
 from datetime import datetime
 import wandb
+from gymnasium_robotics.core import GoalEnv
 
-from imitation_learning.utils.env import make_env, make_custom_reward_env
+from imitation_learning.utils.env import (
+    make_env,
+    make_custom_reward_env,
+    make_flattened_env,
+)
 from imitation_learning.algos import SAC
 from imitation_learning.utils.trainer import Trainer
 from imitation_learning.utils.utils import get_config, get_hidden_units_from_state_dict
@@ -66,8 +71,13 @@ def run_training():
     config.update(dict(writer.config))
 
     # Create base environment
-    env = make_env(config["env_id"], xml_file=config["xml_file"])
-    env_test = make_env(config["env_id"], xml_file=config["xml_file"])
+    env = make_env(config["env_id"])  # , xml_file=config["xml_file"])
+    env_test = make_env(config["env_id"])  # , xml_file=config["xml_file"])
+
+    # Add observation flattening wrapper if it's a robotics env
+    if isinstance(env.unwrapped, GoalEnv):
+        env = make_flattened_env(env)
+        env_test = make_flattened_env(env_test)
 
     # Get env shapes
     state_shape = env.observation_space.shape
@@ -99,7 +109,6 @@ def run_training():
             ),
         }
     )
-
     # Instantiate algorithm
     algo = SAC(
         state_shape=state_shape,

@@ -43,6 +43,9 @@ environments:
   Pusher-v5:
     xml_file: "./xml/Pusher-v5/pusher.xml"
 
+  PointMaze_LargeDense-v3:
+    xml_file: "./xml/PointMaze-v3/point.xml"
+
 experiments:
   normal_env:
     description: "Uses the default environment settings"
