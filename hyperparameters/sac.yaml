@@ -50,7 +50,7 @@ experiments:
   # --- Ant Modifications (Learned Reward) ---
   modified_reward_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250414-0750/model/step9950000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250414-1742/model/step9700000/disc.pth"
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
