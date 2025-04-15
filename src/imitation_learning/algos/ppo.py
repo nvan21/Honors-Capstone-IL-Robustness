@@ -180,8 +180,8 @@ class PPOExpert(PPO):
     ):
         actor_path = os.path.join(path, "actor.pth")
         critic_path = os.path.join(path, "critic.pth")
-        units_actor = get_hidden_units_from_state_dict(actor_path)
-        units_critic = get_hidden_units_from_state_dict(critic_path)
+        units_actor = get_hidden_units_from_state_dict(actor_path)["net"]
+        units_critic = get_hidden_units_from_state_dict(critic_path)["net"]
 
         self.actor = StateIndependentPolicy(
             state_shape=state_shape,
