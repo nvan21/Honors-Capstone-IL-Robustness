@@ -43,10 +43,6 @@ def run_training():
     # Load configuration
     config = get_config("sac", args.env, args.experiment)
 
-    # Override with command line arguments
-    if args.seed is not None:
-        config["seed"] = args.seed
-
     # Add CUDA setting
     device = torch.device(
         "cuda" if config["cuda"] and torch.cuda.is_available() else "cpu"
@@ -66,9 +62,6 @@ def run_training():
         job_type=args.env,
         tags=["sac", args.env] + ([args.experiment] if args.experiment else []),
     )
-
-    # Update config with sweep values
-    config.update(dict(writer.config))
 
     # Create base environment
     env = make_env(config["env_id"])  # , xml_file=config["xml_file"])

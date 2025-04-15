@@ -1,6 +1,6 @@
 import gymnasium as gym
 import gymnasium_robotics
-from gymnasium.wrappers import RescaleAction, NormalizeObservation
+from gymnasium.wrappers import RescaleAction, NormalizeObservation, NormalizeReward
 from gymnasium.core import ObservationWrapper
 from gymnasium import spaces
 import torch
@@ -19,7 +19,14 @@ def make_env(env_id, **kwargs):
     min_action = env.action_space.low / scale
     max_action = env.action_space.high / scale
 
-    return RescaleAction(env, min_action=min_action, max_action=max_action)
+    normalize_reward = kwargs.get("normalize_reward", False)
+
+    env = RescaleAction(env, min_action=min_action, max_action=max_action)
+
+    if normalize_reward:
+        env = NormalizeReward(env)
+
+    return env
 
 
 def make_custom_reward_env(env, reward_model, device, normalize_reward):

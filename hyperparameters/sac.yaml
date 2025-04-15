@@ -39,6 +39,8 @@ environments:
     learning_rate: 0.00005
     discount_factor: 0.99
     hidden_sizes: [400, 300]
+    buffer_size: 500000
+    alpha_lr: 0.00005
 
   Pusher-v5:
     xml_file: "./xml/Pusher-v5/pusher.xml"
@@ -53,7 +55,8 @@ experiments:
   # --- Ant Modifications (Learned Reward) ---
   modified_reward_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250414-1742/model/step9700000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250414-0750/model/step9950000/disc.pth"
+    num_steps: 2000000
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
