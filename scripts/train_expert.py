@@ -63,14 +63,17 @@ def run_training():
         tags=["sac", args.env] + ([args.experiment] if args.experiment else []),
     )
 
-    # Create base environment
-    env = make_env(config["env_id"])  # , xml_file=config["xml_file"])
-    env_test = make_env(config["env_id"])  # , xml_file=config["xml_file"])
+    # Start by making it without the xml file to get around gymnasium_robotics env instantiation
+    env = make_env(config["env_id"])
+    env_test = make_env(config["env_id"])
 
     # Add observation flattening wrapper if it's a robotics env
     if isinstance(env.unwrapped, GoalEnv):
         env = make_flattened_env(env)
         env_test = make_flattened_env(env_test)
+    else:
+        env = make_env(config["env_id"], xml_file=config["xml_file"])
+        env_test = make_env(config["env_id"], xml_file=config["xml_file"])
 
     # Get env shapes
     state_shape = env.observation_space.shape
@@ -89,6 +92,7 @@ def run_training():
         env = make_custom_reward_env(
             env=env, reward_model=reward_model, device=device, normalize_reward=True
         )
+        writer.config.update({"disc_hidden_layers": hidden_layers})
 
     # Log environment information
     writer.config.update(

@@ -4,22 +4,29 @@ import torch
 import json
 import os
 from datetime import datetime
+from gymnasium_robotics.core import GoalEnv
 
-from imitation_learning.utils.env import make_env
+from imitation_learning.utils.env import make_env, make_flattened_env
 from imitation_learning.algos import SACExpert, PPOExpert, BCExpert
 from imitation_learning.utils.utils import visualize_expert
 
 
 def run(args):
     xml_file = os.path.join("./xml", args.env, args.xml_file)
-    if args.display:
-        env = make_env(
-            args.env,
-            xml_file=xml_file,
-            render_mode="human",
-        )
+
+    render_mode = "human" if args.display else None
+
+    # Start by making it without the xml file to get around gymnasium_robotics env instantiation
+    env = make_env(args.env, render_mode=render_mode)
+    env_test = make_env(args.env, render_mode=render_mode)
+
+    # Add observation flattening wrapper if it's a robotics env
+    if isinstance(env.unwrapped, GoalEnv):
+        env = make_flattened_env(env)
+        env_test = make_flattened_env(env_test)
     else:
-        env = make_env(args.env, xml_file=xml_file)
+        env = make_env(args.env, xml_file=xml_file, render_mode=render_mode)
+        env_test = make_env(args.env, xml_file=xml_file, render_mode=render_mode)
 
     weights_path = Path(args.weights)
     weights_split = [part.lower() for part in weights_path.parts]
