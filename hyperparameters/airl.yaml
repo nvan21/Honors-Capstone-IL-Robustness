@@ -73,10 +73,17 @@ environments:
     xml_file: "./xml/Pusher-v5/pusher.xml"
     buffer: "./buffers/Pusher-v5/size1000000_std0.01_prand0.0_return-27.1.pth"
     num_steps: 10000000
-    rollout_length: 10000
+    rollout_length: 2048
     gae_lambda: 0.95
     max_grad_norm: 0.5
-    disc_lr: 0.00001
+    disc_lr: 0.00005
+    epoch_ppo: 30
+    epoch_disc: 30
+    clip_ratio: 0.3
+    learning_rate: 0.0001
+    max_grad_norm: 0.7
+    hidden_sizes: [256, 256]
+    gae_lambda: 0.9
 
 # Named experiments that can be used across environments
 experiments:

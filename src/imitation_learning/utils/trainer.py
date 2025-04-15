@@ -27,7 +27,7 @@ class Trainer:
 
         # Env for evaluation
         self.env_test = env_test
-        self.env_test_seed = 2**31 - seed
+        self.env_test_seeds = range(2**31 - seed - eval_interval, 2**31 - seed, 1)
 
         self.algo = algo
         self.log_dir = log_dir
@@ -89,8 +89,8 @@ class Trainer:
     def evaluate(self, step):
         mean_return = 0.0
 
-        for _ in range(self.num_eval_episodes):
-            state, _ = self.env_test.reset(seed=self.env_test_seed)
+        for env_test_seed in self.env_test_seeds:
+            state, _ = self.env_test.reset(seed=env_test_seed)
             episode_return = 0.0
             terminated = False
             truncated = False
