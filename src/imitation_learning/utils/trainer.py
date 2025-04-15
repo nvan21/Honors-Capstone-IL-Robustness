@@ -90,7 +90,6 @@ class Trainer:
         mean_return = 0.0
 
         for env_test_seed in self.env_test_seeds:
-            print(f"Testing on seed {env_test_seed}")
             state, _ = self.env_test.reset(seed=env_test_seed)
             episode_return = 0.0
             terminated = False

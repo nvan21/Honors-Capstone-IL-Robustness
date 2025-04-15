@@ -79,11 +79,12 @@ environments:
     disc_lr: 0.00005
     epoch_ppo: 30
     epoch_disc: 30
-    clip_ratio: 0.3
+    clip_ratio: 0.4
     learning_rate: 0.0001
-    max_grad_norm: 0.7
+    max_grad_norm: 0.5
     hidden_sizes: [256, 256]
     gae_lambda: 0.9
+    gamma: 0.99
 
 # Named experiments that can be used across environments
 experiments:
