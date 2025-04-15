@@ -36,7 +36,7 @@ environments:
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
-    learning_rate: 0.00005
+    learning_rate: 0.0003
     dicount_factor: 0.99
     hidden_sizes: [400, 300]
 

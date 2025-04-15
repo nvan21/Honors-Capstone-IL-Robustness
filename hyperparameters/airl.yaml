@@ -59,15 +59,15 @@ environments:
     rollout_length: 10000
     hidden_sizes: [256, 256]
     gae_lambda: 0.9
-    hidden_units_r: [64]
+    hidden_units_r: [32]
     hidden_units_v: [32, 32]
     disc_lr: 0.00005
     max_grad_norm: 0.7
     learning_rate: 0.0001
     clip_ratio: 0.7
     batch_size: 256
-    epoch_ppo: 50
-    epoch_disc: 50
+    epoch_ppo: 40
+    epoch_disc: 40
 
   Pusher-v5:
     xml_file: "./xml/Pusher-v5/pusher.xml"
