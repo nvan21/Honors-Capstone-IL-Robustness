@@ -1,5 +1,5 @@
 defaults:
-  seed: 0
+  seed: 10
   eval_interval: 50000
   num_eval_episodes: 5
 
@@ -24,7 +24,7 @@ defaults:
 environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
-    buffer: "./buffers/Hopper-v5/size1000000_std0.01_prand0.0_return3458.9.pth"
+    buffer: "./buffers/Hopper-v5/size1000000_std0.0_prand0.0_return3891.2.pth"
     num_steps: 10000000
     rollout_length: 50000
     hidden_sizes: [64, 64]
