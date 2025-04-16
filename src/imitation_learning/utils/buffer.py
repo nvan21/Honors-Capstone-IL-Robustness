@@ -1,6 +1,9 @@
 import os
 import numpy as np
 import torch
+from stable_baselines3.common.buffers import ReplayBuffer
+from stable_baselines3.common.type_aliases import ReplayBufferSamples
+from stable_baselines3.common.running_mean_std import RunningMeanStd
 
 
 class SerializedBuffer:
@@ -185,3 +188,111 @@ class RolloutBuffer:
             self.log_pis[idxes],
             self.next_states[idxes],
         )
+
+
+class AIRLReplayBuffer(ReplayBuffer):
+    def __init__(
+        self,
+        buffer_size: int,
+        observation_space,
+        action_space,
+        reward_model,
+        device: str = "auto",
+        n_envs: int = 1,
+        optimize_memory_usage: bool = False,
+        handle_timeout_termination: bool = True,
+        gamma: float = 0.99,
+        normalize_reward: bool = True,
+        reward_norm_epsilon: float = 1e-8,
+    ):
+        super().__init__(
+            buffer_size,
+            observation_space,
+            action_space,
+            device,
+            n_envs,
+            optimize_memory_usage,
+            handle_timeout_termination,
+        )
+        self.reward_model = reward_model
+        self.reward_model.to(self.device)
+
+        self.gamma = gamma
+        self.normalize_reward = normalize_reward
+        self.reward_epsilon = reward_norm_epsilon
+
+        if self.normalize_reward:
+            print("Initializing RunningMeanStd for reward normalization.")
+            # Initialize RunningMeanStd for scalar rewards (shape=())
+            self.reward_rms = RunningMeanStd(shape=(), epsilon=reward_norm_epsilon)
+        else:
+            self.reward_rms = None  # Explicitly set to None if not used
+
+    @torch.no_grad()  # Ensure no gradients are computed for reward calculation
+    def predict_batch_rewards(self, obs, dones, next_obs):
+        """
+        Helper method to predict rewards using the AIRLDiscrim model.
+        Handles device placement and reward calculation logic.
+        Optionally normalizes rewards using RunningMeanStd.
+        """
+        # Ensure data is on the same device as the model
+        obs = obs.to(torch.float32)
+        next_obs = next_obs.to(torch.float32)
+        dones = dones.to(torch.float32)
+
+        # Calculate raw AIRL rewards
+        rewards_tensor = self.reward_model.f(obs, dones, next_obs)
+
+        # Ensure rewards are shaped correctly (batch_size,) before normalization
+        rewards_tensor = rewards_tensor.squeeze()
+        if rewards_tensor.ndim == 0:  # Handle case where batch_size might be 1
+            rewards_tensor = rewards_tensor.unsqueeze(0)
+
+        if self.normalize_reward and self.reward_rms is not None:
+            # 1. Convert rewards tensor to numpy array for update
+            # Use detach() in case tensor requires grad, though no_grad should prevent it
+            batch_rewards_np = rewards_tensor.detach().cpu().numpy()
+
+            # 2. Update RunningMeanStd statistics
+            self.reward_rms.update(batch_rewards_np)
+
+            # 3. Normalize the original tensor using the updated stats
+            # Convert mean and std back to tensors on the correct device
+            mean = torch.tensor(
+                self.reward_rms.mean,
+                dtype=rewards_tensor.dtype,
+                device=rewards_tensor.device,
+            )
+            # Ensure std is calculated safely (using epsilon)
+            std_val = np.sqrt(
+                self.reward_rms.var + self.reward_epsilon
+            )  # Use stored epsilon
+            std = torch.tensor(
+                std_val, dtype=rewards_tensor.dtype, device=rewards_tensor.device
+            )
+
+            # Apply normalization: (x - mean) / std
+            rewards_tensor = (rewards_tensor - mean) / std
+
+        # Reshape to (batch_size, 1) as expected by SB3 samples
+        return rewards_tensor.reshape(-1, 1)
+
+    def sample(self, batch_size: int, env=None) -> ReplayBufferSamples:
+        # Get the original samples from the env interactions
+        original_samples = super().sample(batch_size=batch_size, env=env)
+
+        # Extract information from original samples
+        obs = original_samples.observations
+        actions = original_samples.actions
+        next_obs = original_samples.next_observations
+        dones = original_samples.dones
+
+        # Query reward model in batch
+        airl_rewards = self.predict_batch_rewards(obs, dones, next_obs)
+
+        # Create new ReplayBufferSamples with AIRL reward
+        modified_samples = ReplayBufferSamples(
+            obs, actions, next_obs, dones, airl_rewards
+        )
+
+        return modified_samples

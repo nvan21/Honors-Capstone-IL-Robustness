@@ -34,6 +34,7 @@ class AIRLDiscrim(nn.Module):
         self.gamma = gamma
 
     def f(self, states, dones, next_states):
+
         rs = self.g(states)
         vs = self.h(states)
         next_vs = self.h(next_states)

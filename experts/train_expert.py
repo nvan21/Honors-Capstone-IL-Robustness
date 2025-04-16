@@ -10,16 +10,18 @@ from stable_baselines3.common.callbacks import (
     EvalCallback,
     CheckpointCallback,
 )  # For evaluation and saving
+from stable_baselines3.common.buffers import ReplayBuffer
+from stable_baselines3.common.type_aliases import ReplayBufferSamples
 from wandb.integration.sb3 import WandbCallback  # W&B specific callback
 
 # Your existing utility functions (assuming they return Gymnasium-compatible envs)
 from imitation_learning.utils.env import (
     make_env,
-    make_custom_reward_env,
     make_flattened_env,
 )
 from imitation_learning.utils.utils import get_config, get_hidden_units_from_state_dict
 from imitation_learning.network import AIRLDiscrim
+from imitation_learning.utils.buffer import AIRLReplayBuffer
 
 
 def parse_args():
@@ -82,6 +84,39 @@ def run_training():
     print(f"Logging locally to: {log_dir}")
     # ---------------------------------
 
+    reward_model_instance = None
+    if config.get("use_reward_model", False):
+        print("Loading AIRL reward model...")
+        # Need state shape *before* creating the model
+        # Create a temporary env to get shapes
+        temp_env = make_env(config["env_id"])
+        if isinstance(temp_env.unwrapped, GoalEnv):
+            temp_env = make_flattened_env(temp_env)
+        state_shape = temp_env.observation_space.shape
+        temp_env.close()
+        del temp_env
+
+        hidden_layers = get_hidden_units_from_state_dict(config["reward_model_path"])
+        reward_model_instance = AIRLDiscrim(
+            state_shape=state_shape,
+            gamma=config.get(
+                "reward_model_gamma", 0.99
+            ),  # Pass gamma if AIRLDiscrim needs it
+            hidden_units_r=hidden_layers["g"],
+            hidden_units_v=hidden_layers["h"],
+        ).to(
+            device
+        )  # Send reward model to the primary device initially
+
+        reward_model_instance.load_state_dict(
+            torch.load(config["reward_model_path"], map_location=device)
+        )
+        reward_model_instance.eval()  # Set to evaluation mode
+
+        # Log reward model info to W&B config AFTER init
+        run.config.update({"disc_hidden_layers": hidden_layers}, allow_val_change=True)
+        print(f"AIRL reward model loaded from: {config['reward_model_path']}")
+
     # --- Environment Setup ---
     # Create the base training environment function
     def create_train_env():
@@ -97,34 +132,6 @@ def run_training():
         if isinstance(env.unwrapped, GoalEnv):
             # Important: Flatten AFTER potential custom reward wrapping if reward uses dict obs
             env = make_flattened_env(env)
-
-        # Alter environment to use AIRL reward if specified
-        if config.get("use_reward_model", False):
-            state_shape = (
-                env.observation_space.shape
-            )  # Get shape AFTER flattening if applicable
-            hidden_layers = get_hidden_units_from_state_dict(
-                config["reward_model_path"]
-            )
-            reward_model = AIRLDiscrim(
-                state_shape=state_shape,
-                gamma=config.get("reward_model_gamma", 0.99),
-                hidden_units_r=hidden_layers["g"],
-                hidden_units_v=hidden_layers["h"],
-            ).to(
-                device
-            )  # Send reward model to correct device
-            # Make sure device used here matches the device SB3 will use
-            reward_model.load_state_dict(
-                torch.load(config["reward_model_path"], map_location=device)
-            )
-            env = make_custom_reward_env(
-                env=env, reward_model=reward_model, device=device, normalize_reward=True
-            )
-            # Log reward model info to W&B config AFTER init
-            run.config.update(
-                {"disc_hidden_layers": hidden_layers}, allow_val_change=True
-            )
 
         return env
 
@@ -148,9 +155,7 @@ def run_training():
         _env_test = make_env(config["env_id"], xml_file=xml_file)
         if isinstance(_env_test.unwrapped, GoalEnv):
             _env_test = make_flattened_env(_env_test)
-        # We typically DON'T use the custom reward model for *evaluation* unless specifically desired.
-        # Evaluation usually measures performance on the TRUE environment task reward.
-        # If you DO want to eval on the learned reward, uncomment the AIRL wrapping here too.
+
         return _env_test
 
     # vec_eval_env = make_vec_env(create_test_env, n_envs=1, seed=config["seed"] + 1000) # Use different seed
@@ -229,34 +234,40 @@ def run_training():
     # Using a single 'learning_rate' from config as a common case.
     learning_rate = config.get("learning_rate", 3e-4)
 
-    model = SAC(
-        policy="MlpPolicy",  # Standard policy for continuous spaces
-        env=env,  # Pass the single, wrapped training environment
-        learning_rate=learning_rate,
-        buffer_size=config.get("buffer_size", 1_000_000),
-        learning_starts=config.get("start_steps", 10000),
-        batch_size=config.get("batch_size", 256),
-        tau=config.get("tau", 0.005),
-        gamma=config.get("discount_factor", 0.99),
-        # train_freq / gradient_steps control how often/much updates happen
-        # train_freq=1, gradient_steps=1 is default (update once per env step)
-        # If your 'update_steps' meant 'N updates per env step', set gradient_steps:
-        train_freq=(1, "step"),  # Check documentation if using "episode" frequency
-        gradient_steps=config.get("update_steps", 1),
-        # action_noise=None, # SAC usually doesn't use action noise during training
-        # optimize_memory_usage=False, # Can set True for large replay buffers
-        # ent_coef='auto', # Default: learn entropy coefficient
-        # target_update_interval=1, # Default
-        # target_entropy='auto', # Default
-        policy_kwargs=policy_kwargs,
-        verbose=1,  # Set to 1 for training updates, 0 for quiet
-        seed=config["seed"],
-        device=device,
-        tensorboard_log=os.path.join(
-            log_dir, "tb_logs"
-        ),  # Local TB log dir (sync'd by W&B)
-    )
-    # ------------------------------------
+    sac_kwargs = {
+        "policy": "MlpPolicy",
+        "env": env,
+        "learning_rate": learning_rate,
+        "buffer_size": config.get("buffer_size", 1_000_000),
+        "learning_starts": config.get("start_steps", 10000),
+        "batch_size": config.get("batch_size", 256),
+        "tau": config.get("tau", 0.005),
+        "gamma": config.get("discount_factor", 0.99),
+        "train_freq": (config["train_freq"], "step"),
+        "gradient_steps": config.get("update_steps", 1),
+        "policy_kwargs": policy_kwargs,
+        "verbose": 1,
+        "seed": config["seed"],
+        "device": device,
+        "use_sde": config["use_sde"],
+        "tensorboard_log": os.path.join(log_dir, "tb_logs"),
+    }
+
+    if config.get("use_reward_model", False) and reward_model_instance is not None:
+        print(">>> Using AIRLReplayBuffer <<<")
+        sac_kwargs["replay_buffer_class"] = AIRLReplayBuffer
+        sac_kwargs["replay_buffer_kwargs"] = dict(
+            reward_model=reward_model_instance,
+            # Pass other args AIRLReplayBuffer might need from config
+            gamma=config.get(
+                "discount_factor", 0.99
+            ),  # Make sure buffer gamma matches agent gamma for consistency
+            normalize_reward=True,  # Match the flag from your original make_custom_reward_env call
+        )
+    else:
+        print(">>> Using standard SB3 ReplayBuffer <<<")
+
+    model = SAC(**sac_kwargs)
 
     # --- Start Training ---
     print("Starting training...")
