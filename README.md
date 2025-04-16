@@ -155,3 +155,8 @@ _Fill in modified environments here_
   - Rows will be the algorithms
   - Columns will be the environments
   - I'll need a table for base dynamics (will have every environment), and then a separate table for each of the modified dynamics in the environments
+- I've changed from using my own experts to using pretrained experts
+- I have generated new buffers for Hopper, Pusher, and Ant
+- I need to retrain an AIRL model on hopper and pusher
+- Need to retrain SAC on all modified dynamics with the ground truth using stable baselines
+- Need to train an SAC policy on all modified reward environments once I get new AIRL discriminators
