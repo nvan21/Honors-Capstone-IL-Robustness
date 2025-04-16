@@ -7,8 +7,7 @@
 #SBATCH --time=48:00:00   # walltime limit (HH:MM:SS)
 #SBATCH --nodes=1   # number of nodes
 #SBATCH --ntasks-per-node=8   # 8 processor core(s) per node 
-#SBATCH --gres=gpu:1
-#SBATCH --constraint=a100
+#SBATCH --gres=gpu:a100:1
 #SBATCH --mail-user=nvan21@iastate.edu   # email address
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
@@ -20,25 +19,25 @@ cd /work/flemingc/nvan21/projects/Honors-Capstone
 conda activate honors
 
 # --- Ant Modifications (Standard Reward) ---
-python scripts/train_expert.py --env Ant-v5 --experiment torso_mass_p20_ant
-python scripts/train_expert.py --env Ant-v5 --experiment torso_mass_p50_ant
-python scripts/train_expert.py --env Ant-v5 --experiment gear_m20_ant
-python scripts/train_expert.py --env Ant-v5 --experiment gear_m50_ant
+python experts/train_expert.py --env Ant-v5 --experiment torso_mass_p20_ant
+python experts/train_expert.py --env Ant-v5 --experiment torso_mass_p50_ant
+python experts/train_expert.py --env Ant-v5 --experiment gear_m20_ant
+python experts/train_expert.py --env Ant-v5 --experiment gear_m50_ant
 
 # --- Hopper Modifications (Standard Reward) ---
-python scripts/train_expert.py --env Hopper-v5 --experiment torso_mass_p20_hopper
-python scripts/train_expert.py --env Hopper-v5 --experiment torso_mass_p50_hopper
-python scripts/train_expert.py --env Hopper-v5 --experiment friction_m20_hopper
-python scripts/train_expert.py --env Hopper-v5 --experiment friction_m50_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment torso_mass_p20_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment torso_mass_p50_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment friction_m20_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment friction_m50_hopper
 
 # --- InvertedPendulum Modifications (Standard Reward) ---
-python scripts/train_expert.py --env InvertedPendulum-v5 --experiment pole_mass_p20_invpend
-python scripts/train_expert.py --env InvertedPendulum-v5 --experiment pole_mass_p50_invpend
-python scripts/train_expert.py --env InvertedPendulum-v5 --experiment cart_mass_p20_invpend
-python scripts/train_expert.py --env InvertedPendulum-v5 --experiment cart_mass_p50_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment pole_mass_p20_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment pole_mass_p50_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment cart_mass_p20_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment cart_mass_p50_invpend
 
 # --- Pusher Modifications (Standard Reward) ---
-python scripts/train_expert.py --env Pusher-v5 --experiment puck_mass_p20_pusher
-python scripts/train_expert.py --env Pusher-v5 --experiment puck_mass_p50_pusher
-python scripts/train_expert.py --env Pusher-v5 --experiment goal_shift_small_pusher
-python scripts/train_expert.py --env Pusher-v5 --experiment goal_shift_large_pusher
+python experts/train_expert.py --env Pusher-v5 --experiment puck_mass_p20_pusher
+python experts/train_expert.py --env Pusher-v5 --experiment puck_mass_p50_pusher
+python experts/train_expert.py --env Pusher-v5 --experiment goal_shift_small_pusher
+python experts/train_expert.py --env Pusher-v5 --experiment goal_shift_large_pusher
