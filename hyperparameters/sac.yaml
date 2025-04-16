@@ -17,6 +17,8 @@ defaults:
   start_steps: 10000
   tau: 0.005
   update_steps: 8 # number of times to update SAC when the update method is called
+  train_freq: 8 # steps
+  use_sde: true # state dependent exploration
   cuda: true
 
 # Environment-specific defaults

@@ -243,12 +243,13 @@ def run_training():
         "batch_size": config.get("batch_size", 256),
         "tau": config.get("tau", 0.005),
         "gamma": config.get("discount_factor", 0.99),
-        "train_freq": (1, "step"),
+        "train_freq": (config["train_freq"], "step"),
         "gradient_steps": config.get("update_steps", 1),
         "policy_kwargs": policy_kwargs,
         "verbose": 1,
         "seed": config["seed"],
         "device": device,
+        "use_sde": config["use_sde"],
         "tensorboard_log": os.path.join(log_dir, "tb_logs"),
     }
 
