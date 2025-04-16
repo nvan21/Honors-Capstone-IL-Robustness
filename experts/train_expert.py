@@ -3,7 +3,7 @@ import argparse
 import torch
 from datetime import datetime
 import wandb
-from gymnasium.core import GoalEnv  # Use gymnasium directly
+from gymnasium_robotics.core import GoalEnv  # Use gymnasium directly
 from stable_baselines3 import SAC  # Import SB3 SAC
 from stable_baselines3.common.env_util import make_vec_env  # Useful for SB3
 from stable_baselines3.common.callbacks import (
@@ -36,15 +36,6 @@ def parse_args():
         default=None,
         help="Experiment name (e.g., small_network, high_lr)",
     )
-    # Optional overrides
-    parser.add_argument("--seed", type=int, help="Override config seed")
-    parser.add_argument("--num-steps", type=int, help="Override total training steps")
-    parser.add_argument(
-        "--eval-interval", type=int, help="Override evaluation interval"
-    )
-    parser.add_argument(
-        "--save-interval", type=int, help="Override model save interval"
-    )
 
     return parser.parse_args()
 
@@ -56,28 +47,9 @@ def run_training():
     # Load configuration
     config = get_config("sac", args.env, args.experiment)
 
-    # --- Override config with command-line args if provided ---
-    if args.seed is not None:
-        config["seed"] = args.seed
-    if args.num_steps is not None:
-        config["num_steps"] = args.num_steps
-    if args.eval_interval is not None:
-        config["eval_interval"] = args.eval_interval
-    if args.save_interval is not None:
-        # Define a save interval if not present, used by CheckpointCallback
-        config["save_interval"] = args.save_interval
-    # ----------------------------------------------------------
-
     # --- Set Device ---
     if config["cuda"] and torch.cuda.is_available():
         device = "cuda"
-    elif (
-        config.get("mps", False)
-        and torch.backends.mps.is_available()
-        and torch.backends.mps.is_built()
-    ):
-        # Add MPS support if requested and available (for Apple Silicon)
-        device = "mps"
     else:
         device = "cpu"
     print(f"Using device: {device}")
@@ -232,18 +204,17 @@ def run_training():
         render=False,  # Keep render false unless you need evaluation videos locally
     )
 
-    # Checkpoint Callback (Optional: if you want local saves beyond the best model)
-    # checkpoint_callback = CheckpointCallback(
-    #     save_freq=max(config.get("save_interval", 10000), 1), # Freq in steps
-    #     save_path=log_dir,
-    #     name_prefix="sac_model",
-    #     save_replay_buffer=False, # Usually false for SAC to save space
-    #     save_vecnormalize=False # Set True if using VecNormalize wrapper
-    # )
+    # Checkpoint Callback
+    checkpoint_callback = CheckpointCallback(
+        save_freq=max(config.get("save_interval", 10000), 1),  # Freq in steps
+        save_path=log_dir,
+        name_prefix="sac_model",
+        save_replay_buffer=False,  # Usually false for SAC to save space
+        save_vecnormalize=False,  # Set True if using VecNormalize wrapper
+    )
 
     # Combine callbacks
-    # callback_list = [wandb_callback, eval_callback, checkpoint_callback]
-    callback_list = [wandb_callback, eval_callback]
+    callback_list = [wandb_callback, eval_callback, checkpoint_callback]
     # ------------------------
 
     # --- Instantiate SB3 SAC Algorithm ---

@@ -3,7 +3,6 @@ from torch import nn
 import torch.nn.functional as F
 
 from imitation_learning.utils.utils import build_mlp
-from imitation_learning.utils.env import RunningMeanStd
 
 
 class AIRLDiscrim(nn.Module):
@@ -34,8 +33,6 @@ class AIRLDiscrim(nn.Module):
 
         self.gamma = gamma
 
-        self.normalizer = RunningMeanStd(device=torch.device("cuda"))
-
     def f(self, states, dones, next_states):
         rs = self.g(states)
         vs = self.h(states)
@@ -49,13 +46,7 @@ class AIRLDiscrim(nn.Module):
     def calculate_reward(self, states, dones, log_pis, next_states):
         with torch.no_grad():
             logits = self.forward(states, dones, log_pis, next_states)
-            rewards = -F.logsigmoid(-logits)
-
-            # Update and normalize rewards
-            self.normalizer.update(rewards)
-            normalized_rewards = self.normalizer.normalize(rewards, clip_range=10.0)
-
-            return normalized_rewards
+            return -F.logsigmoid(-logits)
 
 
 class GAILDiscrim(nn.Module):

@@ -54,7 +54,7 @@ environments:
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
-    buffer: "./buffers/Ant-v5/size1000000_std0.01_prand0.0_return3075.9.pth"
+    buffer: "buffers/Ant-v5/size1000000_std0.01_prand0.0_return5354.1.pth"
     num_steps: 10000000
     rollout_length: 10000
     hidden_sizes: [256, 256]
