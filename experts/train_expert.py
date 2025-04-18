@@ -3,7 +3,6 @@ import argparse
 import torch
 from datetime import datetime
 import wandb
-from gymnasium_robotics.core import GoalEnv  # Use gymnasium directly
 from stable_baselines3 import SAC  # Import SB3 SAC
 from stable_baselines3.common.env_util import make_vec_env  # Useful for SB3
 from stable_baselines3.common.callbacks import (
@@ -90,8 +89,7 @@ def run_training():
         # Need state shape *before* creating the model
         # Create a temporary env to get shapes
         temp_env = make_env(config["env_id"])
-        if isinstance(temp_env.unwrapped, GoalEnv):
-            temp_env = make_flattened_env(temp_env)
+
         state_shape = temp_env.observation_space.shape
         temp_env.close()
         del temp_env
@@ -121,17 +119,8 @@ def run_training():
     # Create the base training environment function
     def create_train_env():
         # Instantiate base env - handle XML file logic here
-        xml_file = (
-            config.get("xml_file")
-            if not isinstance(make_env(config["env_id"]).unwrapped, GoalEnv)
-            else None
-        )
+        xml_file = config.get("xml_file")
         env = make_env(config["env_id"], xml_file=xml_file)
-
-        # Add observation flattening wrapper if it's a robotics env
-        if isinstance(env.unwrapped, GoalEnv):
-            # Important: Flatten AFTER potential custom reward wrapping if reward uses dict obs
-            env = make_flattened_env(env)
 
         return env
 
@@ -147,14 +136,9 @@ def run_training():
     # --- Create Test Environment (for EvalCallback) ---
     # Test env should generally have the same wrapping as the train env
     def create_test_env():
-        xml_file = (
-            config.get("xml_file")
-            if not isinstance(make_env(config["env_id"]).unwrapped, GoalEnv)
-            else None
-        )
+        xml_file = config.get("xml_file")
+
         _env_test = make_env(config["env_id"], xml_file=xml_file)
-        if isinstance(_env_test.unwrapped, GoalEnv):
-            _env_test = make_flattened_env(_env_test)
 
         return _env_test
 

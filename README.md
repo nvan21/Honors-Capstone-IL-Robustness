@@ -124,7 +124,7 @@ _Fill in modified environments here_
   - DAgger: E:\Coding Projects\Honors-Capstone\logs\InvertedPendulum-v5\DAgger\normal_env-seed0-20250404-2313\model\step10000
   - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/expert/sac/seed0-20250403-0841/model/step100000
 - Hopper-v5
-  - AIRL: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\airl\normal_env-seed0-20250412-1700\model\step10000000
+  - AIRL: ./logs\Hopper-v5\airl\normal_env-seed10-20250418-0835/model/step9800000
   - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/gail/normal_env-seed0-20250407-0239/model/step10000000
   - BC: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\BC\normal_env-seed0-20250413-0720\model\step29
   - DAgger: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\DAgger\normal_env-seed0-20250413-0738\model\step119000
@@ -148,6 +148,7 @@ _Fill in modified environments here_
 - RQ2: Once I have all of the policies, then I can run visualize_expert to get the data. I will eventually need to make something that creates tables from the data (plotter.ipynb)
 - RQ3: I'm still trying to figure out why the reward from AIRL isn't transferring to SAC. Maybe I should try learning with a different algorithm. Once I get it to work on Hopper, then I can run all of the experiments on the HPC. I already trained all of the SAC on the modified dynamics with the ground truth reward.
 - RQ4: This will be easy once I finish RQ3.
+- Reasons I think SAC might not be learning on
 
 # Action Items
 

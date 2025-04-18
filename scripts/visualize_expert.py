@@ -4,10 +4,10 @@ import torch
 import json
 import os
 from datetime import datetime
-from gymnasium_robotics.core import GoalEnv
+import stable_baselines3 as sb
 
 from imitation_learning.utils.env import make_env, make_flattened_env
-from imitation_learning.algos import SACExpert, PPOExpert, BCExpert
+from imitation_learning.algos import SACExpert, PPOExpert, BCExpert, SBSAC
 from imitation_learning.utils.utils import visualize_expert
 
 
@@ -16,20 +16,11 @@ def run(args):
 
     render_mode = "human" if args.display else None
 
-    # Start by making it without the xml file to get around gymnasium_robotics env instantiation
-    env = make_env(args.env, render_mode=render_mode)
-    env_test = make_env(args.env, render_mode=render_mode)
-
-    # Add observation flattening wrapper if it's a robotics env
-    if isinstance(env.unwrapped, GoalEnv):
-        env = make_flattened_env(env)
-        env_test = make_flattened_env(env_test)
-    else:
-        env = make_env(args.env, xml_file=xml_file, render_mode=render_mode)
-        env_test = make_env(args.env, xml_file=xml_file, render_mode=render_mode)
+    env = make_env(args.env, xml_file=xml_file, render_mode=render_mode)
 
     weights_path = Path(args.weights)
     weights_split = [part.lower() for part in weights_path.parts]
+    is_sb_model = weights_path.suffix
     algo_name = None
 
     if "sac" in weights_split:
@@ -64,6 +55,10 @@ def run(args):
             device=torch.device("cuda" if args.cuda else "cpu"),
             path=args.weights,
         )
+
+    # Overwrite model if it's an SB3 model. This keeps the algo_name update from previously though
+    if is_sb_model:
+        algo = SBSAC(weights=args.weights, env=env)
 
     returns = visualize_expert(env, algo, args.seed, args.num_eval_episodes)
     time_str = datetime.now().strftime("%Y%m%d-%H%M")

@@ -83,7 +83,7 @@ experiments:
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250418-0835/model/step9800000/disc.pth"
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True

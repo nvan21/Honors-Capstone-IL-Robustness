@@ -2,6 +2,7 @@ import os
 import torch
 from torch import nn
 from torch.optim import Adam
+import stable_baselines3 as sb
 
 from imitation_learning.algos.base import Algorithm
 from imitation_learning.utils.buffer import Buffer
@@ -283,3 +284,11 @@ class SACExpert(SAC):
 
         disable_gradient(self.actor)
         self.device = device
+
+
+class SBSAC:
+    def __init__(self, weights, env):
+        self.model = sb.SAC.load(weights, env=env)
+
+    def exploit(self, obs):
+        return self.model.predict(obs)

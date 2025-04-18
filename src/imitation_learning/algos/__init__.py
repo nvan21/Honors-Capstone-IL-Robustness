@@ -1,4 +1,4 @@
-from .sac import SAC, SACExpert
+from .sac import SAC, SACExpert, SBSAC
 from .ppo import PPO, PPOExpert
 from .base import Algorithm
 from .airl_ppo import AIRLPPO

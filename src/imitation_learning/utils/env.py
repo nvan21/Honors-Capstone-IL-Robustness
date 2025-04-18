@@ -1,5 +1,4 @@
 import gymnasium as gym
-import gymnasium_robotics
 from gymnasium.wrappers import RescaleAction, NormalizeObservation, NormalizeReward
 from gymnasium.core import ObservationWrapper
 from gymnasium import spaces
@@ -8,8 +7,6 @@ import numpy as np
 from copy import copy
 
 from imitation_learning.utils.utils import disable_gradient
-
-gym.register_envs(gymnasium_robotics)
 
 
 def make_env(env_id, **kwargs):
