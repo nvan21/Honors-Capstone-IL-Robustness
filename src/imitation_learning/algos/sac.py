@@ -291,4 +291,4 @@ class SBSAC:
         self.model = sb.SAC.load(weights, env=env)
 
     def exploit(self, obs):
-        return self.model.predict(obs)
+        return self.model.predict(obs)[0]
