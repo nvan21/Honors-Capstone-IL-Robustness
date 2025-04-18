@@ -4,11 +4,10 @@
 #    sbatch thefilename
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
-#SBATCH --time=48:00:00   # walltime limit (HH:MM:SS)
+#SBATCH --time=8:00:00   # walltime limit (HH:MM:SS)
 #SBATCH --nodes=1   # number of nodes
 #SBATCH --ntasks-per-node=8   # 8 processor core(s) per node 
-#SBATCH --gres=gpu:1
-#SBATCH --constraint=a100
+#SBATCH --gres=gpu:a100:1
 #SBATCH --mail-user=nvan21@iastate.edu   # email address
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
@@ -18,6 +17,5 @@
 source ~/.bashrc
 cd /work/flemingc/nvan21/projects/Honors-Capstone
 conda activate honors
+python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_hopper
 
-# TRAIN AIRL ON ALL ENVS
-python scripts/run_airl_hopper_sweep.py
