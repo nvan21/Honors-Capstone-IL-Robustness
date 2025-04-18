@@ -241,7 +241,7 @@ class AIRLReplayBuffer(ReplayBuffer):
         dones = dones.to(torch.float32)
 
         # Calculate raw AIRL rewards
-        rewards_tensor = self.reward_model.g(obs)
+        rewards_tensor = self.reward_model.f(obs, dones, next_obs)
 
         # Ensure rewards are shaped correctly (batch_size,) before normalization
         rewards_tensor = rewards_tensor.squeeze()
