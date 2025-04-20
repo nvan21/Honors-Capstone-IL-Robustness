@@ -20,5 +20,4 @@ conda activate honors
 
 # TRAIN AIRL ON ALL ENVS
 python scripts/train_il.py --env Hopper-v5 --algo airl --experiment normal_env
-python scripts/train_il.py --env Pusher-v5 --algo airl --experiment normal_env
 

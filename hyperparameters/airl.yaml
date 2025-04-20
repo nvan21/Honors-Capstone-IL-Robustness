@@ -26,8 +26,8 @@ environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
     buffer: "./buffers/Hopper-v5/size1000000_std0.0_prand0.0_return3891.2.pth"
-    num_steps: 10000000
-    rollout_length: 10000
+    num_steps: 20000000
+    rollout_length: 20000
     hidden_sizes: [256, 256]
     gamma: 0.999
     gae_lambda: 0.99
