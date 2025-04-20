@@ -20,6 +20,8 @@ defaults:
   train_freq: 8 # steps
   use_sde: true # state dependent exploration
   cuda: true
+  policy: "MlpPolicy"
+  ent_coef: "auto"
 
 # Environment-specific defaults
 environments:
@@ -87,6 +89,8 @@ experiments:
     use_sde: False
     learning_rate: 0.00001
     hidden_sizes: [256, 256]
+    tau: 0.02
+    discount_factor: 0.98
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
