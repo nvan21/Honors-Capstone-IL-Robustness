@@ -5,7 +5,7 @@ from torch.optim import Adam
 import stable_baselines3 as sb
 
 from imitation_learning.algos.base import Algorithm
-from imitation_learning.utils.buffer import Buffer
+from imitation_learning.utils.buffer import Buffer  # , AIRLReplayBuffer
 from imitation_learning.utils.utils import (
     soft_update,
     disable_gradient,
@@ -286,9 +286,28 @@ class SACExpert(SAC):
         self.device = device
 
 
+class AIRLReplayBuffer:
+    def __init__(
+        buffer_size: int,
+        observation_space,
+        action_space,
+        reward_model,
+        device: str = "auto",
+        n_envs: int = 1,
+        optimize_memory_usage: bool = False,
+        handle_timeout_termination: bool = True,
+        gamma: float = 0.99,
+        normalize_reward: bool = True,
+        reward_norm_epsilon: float = 1e-8,
+    ):
+        pass
+
+
 class SBSAC:
     def __init__(self, weights, env):
-        self.model = sb.SAC.load(weights, env=env)
+        self.model = sb.SAC.load(
+            weights, env=None, custom_objects={"replay_buffer_class": AIRLReplayBuffer}
+        )  # , env=env)
 
     def exploit(self, obs):
         return self.model.predict(obs)[0]
