@@ -28,7 +28,7 @@ environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
     learning_rate: 0.00005
-    dicount_factor: 0.99
+    discount_factor: 0.99
     hidden_sizes: [400, 300]
 
   HalfCheetah-v5:
@@ -88,9 +88,12 @@ experiments:
     reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
     use_sde: False
     learning_rate: 0.00001
+    alpha_lr: 0.00005
     hidden_sizes: [256, 256]
     tau: 0.02
     discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True

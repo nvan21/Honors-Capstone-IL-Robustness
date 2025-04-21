@@ -3,7 +3,6 @@ import argparse
 import torch
 from datetime import datetime
 import wandb
-from gymnasium_robotics.core import GoalEnv
 
 from imitation_learning.utils.env import (
     make_env,
