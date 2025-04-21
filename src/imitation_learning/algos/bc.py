@@ -84,7 +84,7 @@ class BCExpert(BC):
         units_actor=(256, 256),
     ):
         actor_path = os.path.join(path, "actor.pth")
-        units_actor = get_hidden_units_from_state_dict(actor_path)
+        units_actor = get_hidden_units_from_state_dict(actor_path)["net"]
 
         self.actor = StateIndependentPolicy(
             state_shape=state_shape,

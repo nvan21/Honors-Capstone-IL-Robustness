@@ -45,7 +45,8 @@ def run(args):
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
             device=torch.device("cuda" if args.cuda else "cpu"),
-            path=args.weights,)
+            path=args.weights,
+        )
     elif "bc" in weights_split:
         algo_name = "bc"
         algo = BCExpert(
