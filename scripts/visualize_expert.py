@@ -66,6 +66,7 @@ def run(args):
 
     # Overwrite model if it's an SB3 model. This keeps the algo_name update from previously though
     if is_sb_model:
+        algo_name = "sac"
         algo = SBSAC(weights=args.weights, env=env)
 
     returns = visualize_expert(env, algo, args.seed, args.num_eval_episodes)
