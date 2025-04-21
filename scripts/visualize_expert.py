@@ -28,7 +28,7 @@ def run(args):
         algo = SACExpert(
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
-            device=torch.device("cuda" if args.cuda else "cpu"),
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
             path=args.weights,
         )
     elif "airl" in weights_split or "airl_ppo" in weights_split:
@@ -36,7 +36,7 @@ def run(args):
         algo = PPOExpert(
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
-            device=torch.device("cuda" if args.cuda else "cpu"),
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
             path=args.weights,
         )
     elif "gail" in weights_split:
@@ -44,7 +44,7 @@ def run(args):
         algo = PPOExpert(
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
-            device=torch.device("cuda" if args.cuda else "cpu"),
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
             path=args.weights,
         )
     elif "bc" in weights_split:
@@ -52,7 +52,7 @@ def run(args):
         algo = BCExpert(
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
-            device=torch.device("cuda" if args.cuda else "cpu"),
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
             path=args.weights,
         )
     elif "dagger" in weights_split:
@@ -60,7 +60,7 @@ def run(args):
         algo = BCExpert(
             state_shape=env.observation_space.shape,
             action_shape=env.action_space.shape,
-            device=torch.device("cuda" if args.cuda else "cpu"),
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
             path=args.weights,
         )
 
