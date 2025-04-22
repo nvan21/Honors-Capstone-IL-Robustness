@@ -105,22 +105,54 @@ experiments:
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p20.xml"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.02
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
 
   modified_reward_torso_mass_p50_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.02
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
 
   modified_reward_friction_m20_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.02
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m20.xml"
 
   modified_reward_friction_m50_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed0-20250412-1700/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.02
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m50.xml"
 
   # --- InvertedPendulum Modifications (Learned Reward) ---
