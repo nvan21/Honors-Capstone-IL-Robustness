@@ -310,4 +310,4 @@ class SBSAC:
         )  # , env=env)
 
     def exploit(self, obs):
-        return self.model.predict(obs)[0]
+        return self.model.predict(obs, deterministic=True)[0]

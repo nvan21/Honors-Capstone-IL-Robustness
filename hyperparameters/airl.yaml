@@ -58,15 +58,15 @@ environments:
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
     buffer: "./buffers/Ant-v5/size1000000_std0.0_prand0.0_return5323.7.pth"
-    num_steps: 10000000
-    rollout_length: 10000
+    num_steps: 20000000
+    rollout_length: 20000
     hidden_sizes: [256, 256]
     gae_lambda: 0.9
     hidden_units_r: [32]
     hidden_units_v: [32, 32]
     disc_lr: 0.00005
     max_grad_norm: 0.7
-    learning_rate: 0.0001
+    learning_rate: 0.00005
     clip_ratio: 0.7
     batch_size: 256
     epoch_ppo: 40
