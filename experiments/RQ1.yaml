@@ -22,7 +22,7 @@ environments:
   InvertedPendulum-v5:
     xml_file: "invpend.xml"
     experts:
-      bc: "./logs/InvertedPendulum-v5/bc/normal_env-seed0-20250416-1125/model/step18"
-      airl: "./logs/InvertedPendulum-v5/airl/normal_env-seed10-20250416-1700/model/step9450000"
+      bc: "./logs/InvertedPendulum-v5/bc/normal_env-seed0-20250406-2001/model/step9"
+      airl: "./logs/InvertedPendulum-v5/airl/normal_env-seed10-20250421-1812/model/step250000"
       gail: "./logs/InvertedPendulum-v5/gail/normal_env-seed0-20250407-0237/model/step250000"
       sac: "./logs/InvertedPendulum-v5/sac/seed0-20250218-1704/model/step100000"
