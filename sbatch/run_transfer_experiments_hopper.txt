@@ -20,8 +20,8 @@ cd /work/flemingc/nvan21/projects/Honors-Capstone
 conda activate honors
 
 # --- Hopper Modifications (Learned Reward on Modified Env) ---
-python scripts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p20_hopper
-python scripts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p50_hopper
-python scripts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m20_hopper
-python scripts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m50_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p20_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p50_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m20_hopper
+python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m50_hopper
 
