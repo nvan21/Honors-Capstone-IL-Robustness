@@ -183,7 +183,7 @@ experiments:
   # --- Pusher Modifications (Learned Reward) ---
   modified_reward_pusher:
     use_reward_model: True
-    reward_model_path: "./logs/Pusher-v5/airl/normal_env-seed10-20250416-1700/model/step9450000"
+    reward_model_path: "./logs/Pusher-v5/airl/normal_env-seed10-20250416-1700/model/step9450000/disc.pth"
     num_steps: 3000000
     use_sde: False
     learning_rate: 0.00003
