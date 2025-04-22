@@ -305,9 +305,7 @@ class AIRLReplayBuffer:
 
 class SBSAC:
     def __init__(self, weights, env):
-        self.model = sb.SAC.load(
-            weights, env=None, custom_objects={"replay_buffer_class": AIRLReplayBuffer}
-        )  # , env=env)
+        self.model = sb.SAC.load(weights, env=None)
 
     def exploit(self, obs):
         return self.model.predict(obs, deterministic=True)[0]
