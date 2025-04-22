@@ -61,6 +61,14 @@ experiments:
     use_reward_model: True
     reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     num_steps: 2000000
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.005
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
