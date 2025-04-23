@@ -30,7 +30,7 @@ environments:
     learning_rate: 0.00005
     discount_factor: 0.99
     hidden_sizes: [400, 300]
-    num_steps: 2000000 
+    num_steps: 2000000
 
   HalfCheetah-v5:
     xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
@@ -103,6 +103,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
+    use_actions_disc: False
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
@@ -116,6 +117,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
+    use_actions_disc: False
 
   modified_reward_torso_mass_p50_hopper:
     use_reward_model: True
@@ -129,6 +131,7 @@ experiments:
     batch_size: 512
     buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
+    use_actions_disc: False
 
   modified_reward_friction_m20_hopper:
     use_reward_model: True
@@ -142,6 +145,7 @@ experiments:
     batch_size: 512
     buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m20.xml"
+    use_actions_disc: False
 
   modified_reward_friction_m50_hopper:
     use_reward_model: True
@@ -155,6 +159,7 @@ experiments:
     batch_size: 512
     buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m50.xml"
+    use_actions_disc: False
 
   # --- InvertedPendulum Modifications (Learned Reward) ---
   modified_reward_invpend:

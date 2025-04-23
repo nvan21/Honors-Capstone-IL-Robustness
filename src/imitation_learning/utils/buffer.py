@@ -197,6 +197,7 @@ class AIRLReplayBuffer(ReplayBuffer):
         observation_space,
         action_space,
         reward_model,
+        use_actions_disc: bool,
         device: str = "auto",
         n_envs: int = 1,
         optimize_memory_usage: bool = False,
@@ -220,6 +221,7 @@ class AIRLReplayBuffer(ReplayBuffer):
         self.gamma = gamma
         self.normalize_reward = normalize_reward
         self.reward_epsilon = reward_norm_epsilon
+        self.use_actions_disc = use_actions_disc
 
         if self.normalize_reward:
             print("Initializing RunningMeanStd for reward normalization.")
@@ -241,7 +243,10 @@ class AIRLReplayBuffer(ReplayBuffer):
         dones = dones.to(torch.float32)
 
         # Calculate raw AIRL rewards
-        rewards_tensor = self.reward_model.f(obs, dones, next_obs)
+        if self.use_actions_disc:
+            rewards_tensor = self.reward_model.f(obs, dones, next_obs)
+        else:
+            rewards_tensor = self.reward_model.g(obs)
 
         # Ensure rewards are shaped correctly (batch_size,) before normalization
         rewards_tensor = rewards_tensor.squeeze()
