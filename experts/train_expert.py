@@ -37,6 +37,12 @@ def parse_args():
         default=None,
         help="Experiment name (e.g., small_network, high_lr)",
     )
+    parser.add_argument(
+        "--weights",
+        type=str,
+        default=None,  # Defaults to None if not provided
+        help="Path to SB3 model (.zip file) to load and continue training.",
+    )
 
     return parser.parse_args()
 
@@ -251,17 +257,27 @@ def run_training():
     else:
         print(">>> Using standard SB3 ReplayBuffer <<<")
 
-    model = SAC(**sac_kwargs)
+    # --- Instantiate or Load SB3 SAC Algorithm ---
+    if args.weights:
+        print(f"--- Loading model from: {args.weights} ---")
+        # Load the model
+        model = SAC.load(args.weights, **sac_kwargs)
+        print("Model loaded successfully.")
+    else:
+        print("--- Creating new SAC model ---")
+        model = SAC(env=env, **sac_kwargs)
+        print("New model created.")
 
     # --- Start Training ---
     print("Starting training...")
+    reset_timesteps = args.weights is None  # Reset if NOT loading from weights
     model.learn(
         total_timesteps=config["num_steps"],
         callback=callback_list,  # Pass the list of callbacks
         log_interval=config.get(
             "log_interval", 4
         ),  # How often to log training stats (in episodes)
-        # reset_num_timesteps=False # Set True if you want to continue training from a loaded model
+        reset_num_timesteps=reset_timesteps,
     )
     print("Training finished.")
     # ----------------------
