@@ -226,7 +226,6 @@ def run_training():
 
     sac_kwargs = {
         "policy": "MlpPolicy",
-        "env": env,
         "learning_rate": learning_rate,
         "buffer_size": config.get("buffer_size", 1_000_000),
         "learning_starts": config.get("start_steps", 10000),
@@ -261,11 +260,11 @@ def run_training():
     if args.weights:
         print(f"--- Loading model from: {args.weights} ---")
         # Load the model
-        model = SAC.load(path=args.weights, kwargs=sac_kwargs)
+        model = SAC.load(path=args.weights, env=env, kwargs=sac_kwargs)
         print("Model loaded successfully.")
     else:
         print("--- Creating new SAC model ---")
-        model = SAC(**sac_kwargs)
+        model = SAC(env=env, kwargs=sac_kwargs)
         print("New model created.")
 
     # --- Start Training ---
