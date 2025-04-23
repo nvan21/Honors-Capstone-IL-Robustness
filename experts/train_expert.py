@@ -261,11 +261,11 @@ def run_training():
     if args.weights:
         print(f"--- Loading model from: {args.weights} ---")
         # Load the model
-        model = SAC.load(args.weights, **sac_kwargs)
+        model = SAC.load(path=args.weights, kwargs=sac_kwargs)
         print("Model loaded successfully.")
     else:
         print("--- Creating new SAC model ---")
-        model = SAC(env=env, **sac_kwargs)
+        model = SAC(**sac_kwargs)
         print("New model created.")
 
     # --- Start Training ---
