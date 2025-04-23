@@ -252,7 +252,7 @@ def run_training():
                 "discount_factor", 0.99
             ),  # Make sure buffer gamma matches agent gamma for consistency
             normalize_reward=True,  # Match the flag from your original make_custom_reward_env call
-            use_actions=config["use_actions_disc"],
+            use_actions_disc=config["use_actions_disc"],
         )
     else:
         print(">>> Using standard SB3 ReplayBuffer <<<")
