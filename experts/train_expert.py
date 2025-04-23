@@ -265,7 +265,7 @@ def run_training():
         print("Model loaded successfully.")
     else:
         print("--- Creating new SAC model ---")
-        model = SAC(**sac_kwargs)
+        model = SAC(env=env, **sac_kwargs)
         print("New model created.")
 
     # --- Start Training ---
