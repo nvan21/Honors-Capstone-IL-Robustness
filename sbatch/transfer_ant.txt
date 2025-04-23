@@ -17,5 +17,5 @@
 source ~/.bashrc
 cd /work/flemingc/nvan21/projects/Honors-Capstone
 conda activate honors
-python experts/train_expert.py --env Ant-v5 --experiment modified_reward_ant
+python experts/train_expert.py --env Ant-v5 --experiment modified_reward_ant --weights ./logs/sb3/reizz2zp/final_model.zip 
 

@@ -60,7 +60,7 @@ experiments:
   # --- Ant Modifications (Learned Reward) ---
   modified_reward_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed10-20250422-0839/model/step20000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     num_steps: 4000000
     use_sde: False
     learning_rate: 0.00001
