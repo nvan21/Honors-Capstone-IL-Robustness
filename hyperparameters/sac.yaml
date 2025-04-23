@@ -60,8 +60,8 @@ experiments:
   # --- Ant Modifications (Learned Reward) ---
   modified_reward_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed10-20250422-0839/model/step20000000/disc.pth"
-    num_steps: 4000000
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
+    num_steps: 3000000
     use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
@@ -70,26 +70,67 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
+    use_actions_disc: False
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
     reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_torso_mass_p20.xml"
+    num_steps: 3000000
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.005
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
+    use_actions_disc: False
 
   modified_reward_torso_mass_p50_ant:
     use_reward_model: True
     reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_torso_mass_p50.xml"
+    num_steps: 3000000
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.005
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
+    use_actions_disc: False
 
   modified_reward_gear_m20_ant:
     use_reward_model: True
     reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_gear_m20.xml"
+    num_steps: 3000000
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.005
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
+    use_actions_disc: False
 
   modified_reward_gear_m50_ant:
     use_reward_model: True
     reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_gear_m50.xml"
+    num_steps: 3000000
+    use_sde: False
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+    hidden_sizes: [256, 256]
+    tau: 0.005
+    discount_factor: 0.98
+    batch_size: 512
+    buffer_size: 1000000
+    use_actions_disc: False
 
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
