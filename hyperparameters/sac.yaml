@@ -144,7 +144,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
-    use_actions_disc: False
+    use_actions_disc: True
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
@@ -158,7 +158,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
-    use_actions_disc: False
+    use_actions_disc: True
 
   modified_reward_torso_mass_p50_hopper:
     use_reward_model: True
@@ -172,7 +172,7 @@ experiments:
     batch_size: 512
     buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
-    use_actions_disc: False
+    use_actions_disc: True
 
   modified_reward_friction_m20_hopper:
     use_reward_model: True
@@ -186,7 +186,7 @@ experiments:
     batch_size: 512
     buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m20.xml"
-    use_actions_disc: False
+    use_actions_disc: True
 
   modified_reward_friction_m50_hopper:
     use_reward_model: True
@@ -200,7 +200,7 @@ experiments:
     batch_size: 512
     buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m50.xml"
-    use_actions_disc: False
+    use_actions_disc: True
 
   # --- InvertedPendulum Modifications (Learned Reward) ---
   modified_reward_invpend:
