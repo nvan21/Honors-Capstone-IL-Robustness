@@ -34,7 +34,5 @@ python experts/train_expert.py --env InvertedPendulum-v5 --experiment gravity_p2
 python experts/train_expert.py --env InvertedPendulum-v5 --experiment gravity_p50_invpend
 
 # --- Pusher Modifications (Standard Reward) ---
-python experts/train_expert.py --env Pusher-v5 --experiment puck_mass_p20_pusher
-python experts/train_expert.py --env Pusher-v5 --experiment puck_mass_p50_pusher
 python experts/train_expert.py --env Pusher-v5 --experiment goal_shift_small_pusher
 python experts/train_expert.py --env Pusher-v5 --experiment goal_shift_large_pusher
