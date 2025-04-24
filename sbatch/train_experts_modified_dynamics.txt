@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Copy/paste this job script into a text file and submit with the command:
-#    sbatch thefilename
+# Copy/paste this job script into a text file and submit with the command: sbatch thefilename
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
 #SBATCH --time=48:00:00   # walltime limit (HH:MM:SS)
@@ -31,10 +30,8 @@ python experts/train_expert.py --env Hopper-v5 --experiment friction_m20_hopper
 python experts/train_expert.py --env Hopper-v5 --experiment friction_m50_hopper
 
 # --- InvertedPendulum Modifications (Standard Reward) ---
-python experts/train_expert.py --env InvertedPendulum-v5 --experiment pole_mass_p20_invpend
-python experts/train_expert.py --env InvertedPendulum-v5 --experiment pole_mass_p50_invpend
-python experts/train_expert.py --env InvertedPendulum-v5 --experiment cart_mass_p20_invpend
-python experts/train_expert.py --env InvertedPendulum-v5 --experiment cart_mass_p50_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment gravity_p20_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment gravity_p50_invpend
 
 # --- Pusher Modifications (Standard Reward) ---
 python experts/train_expert.py --env Pusher-v5 --experiment puck_mass_p20_pusher
