@@ -266,15 +266,19 @@ experiments:
   # --- Ant Modifications (Standard Reward) ---
   torso_mass_p20_ant:
     xml_file: "./xml/Ant-v5/ant_torso_mass_p20.xml"
+    num_steps: 2000000
 
   torso_mass_p50_ant:
     xml_file: "./xml/Ant-v5/ant_torso_mass_p50.xml"
+    num_steps: 2000000
 
   gear_m20_ant:
     xml_file: "./xml/Ant-v5/ant_gear_m20.xml"
+    num_steps: 2000000
 
   gear_m50_ant:
     xml_file: "./xml/Ant-v5/ant_gear_m50.xml"
+    num_steps: 2000000
 
   # --- Hopper Modifications (Standard Reward) ---
   torso_mass_p20_hopper:
