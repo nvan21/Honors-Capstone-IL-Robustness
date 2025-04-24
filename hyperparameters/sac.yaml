@@ -70,7 +70,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
-    use_actions_disc: True
+    use_actions_disc: False
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
@@ -85,7 +85,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
-    use_actions_disc: True
+    use_actions_disc: False
 
   modified_reward_torso_mass_p50_ant:
     use_reward_model: True
@@ -100,7 +100,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
-    use_actions_disc: True
+    use_actions_disc: False
 
   modified_reward_gear_m20_ant:
     use_reward_model: True
@@ -115,7 +115,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
-    use_actions_disc: True
+    use_actions_disc: False
 
   modified_reward_gear_m50_ant:
     use_reward_model: True
@@ -130,7 +130,7 @@ experiments:
     discount_factor: 0.98
     batch_size: 512
     buffer_size: 1000000
-    use_actions_disc: True
+    use_actions_disc: False
 
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
