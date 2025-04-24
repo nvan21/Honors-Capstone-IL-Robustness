@@ -74,7 +74,7 @@ experiments:
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_torso_mass_p20.xml"
     num_steps: 3000000
     use_sde: False
@@ -89,7 +89,7 @@ experiments:
 
   modified_reward_torso_mass_p50_ant:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_torso_mass_p50.xml"
     num_steps: 3000000
     use_sde: False
@@ -104,7 +104,7 @@ experiments:
 
   modified_reward_gear_m20_ant:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_gear_m20.xml"
     num_steps: 3000000
     use_sde: False
@@ -119,7 +119,7 @@ experiments:
 
   modified_reward_gear_m50_ant:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_gear_m50.xml"
     num_steps: 3000000
     use_sde: False
