@@ -300,11 +300,11 @@ experiments:
   pole_mass_p50_invpend:
     xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
 
-  cart_mass_p20_invpend:
-    xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p20.xml"
+  pole_mass_p20_invpend:
+    xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p20.xml"
 
-  cart_mass_p50_invpend:
-    xml_file: "./xml/InvertedPendulum-v5/invpend_cart_mass_p50.xml"
+  pole_mass_p50_invpend:
+    xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
 
   # --- Pusher Modifications (Standard Reward) ---
   puck_mass_p20_pusher:
