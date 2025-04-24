@@ -10,48 +10,43 @@ defaults:
   # SAC specific parameters
   learning_rate: 0.0003 # lr_actor and lr_critic
   alpha_lr: 0.0003 # lr_alpha
-  discount_factor: 0.98 # gamma
+  discount_factor: 0.99 # gamma
   hidden_sizes: [256, 256]
   batch_size: 256
-  buffer_size: 300000
+  buffer_size: 1000000
   start_steps: 10000
   tau: 0.005
-  update_steps: 8 # number of times to update SAC when the update method is called
-  train_freq: 8 # steps
-  use_sde: true # state dependent exploration
+  update_steps: 1 # number of times to update SAC when the update method is called
+  train_freq: 1 # steps
+  use_sde: false # state dependent exploration
   cuda: true
   policy: "MlpPolicy"
   ent_coef: "auto"
+  learning_starts: 10000
 
 # Environment-specific defaults
 environments:
   Hopper-v5:
     xml_file: "./xml/Hopper-v5/hopper.xml"
-    learning_rate: 0.00005
-    discount_factor: 0.99
-    hidden_sizes: [400, 300]
-    num_steps: 2000000
-
-  HalfCheetah-v5:
-    xml_file: "./xml/HalfCheetah-v5/halfcheetah.xml"
+    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
+    use_actions_disc: True
 
   InvertedPendulum-v5:
     xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
+    reward_model_path: "./logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
+    use_actions_disc: True
     num_steps: 250000
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
-    learning_rate: 0.00005
-    discount_factor: 0.99
-    hidden_sizes: [400, 300]
-    buffer_size: 500000
-    alpha_lr: 0.00005
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
+    use_actions_disc: True
+    num_steps: 2000000
 
   Pusher-v5:
     xml_file: "./xml/Pusher-v5/pusher.xml"
-
-  PointMaze_LargeDense-v3:
-    xml_file: "./xml/PointMaze-v3/point.xml"
+    reward_model_path: "./logs/Pusher-v5/airl/normal_env-seed10-20250416-1700/model/step9450000/disc.pth"
+    use_actions_disc: True
 
 experiments:
   normal_env:
@@ -60,205 +55,108 @@ experiments:
   # --- Ant Modifications (Learned Reward) ---
   modified_reward_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     num_steps: 3000000
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
-    use_actions_disc: True
 
   modified_reward_torso_mass_p20_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_torso_mass_p20.xml"
     num_steps: 3000000
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
-    use_actions_disc: True
 
   modified_reward_torso_mass_p50_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_torso_mass_p50.xml"
     num_steps: 3000000
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
-    use_actions_disc: True
 
   modified_reward_gear_m20_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_gear_m20.xml"
     num_steps: 3000000
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
-    use_actions_disc: True
 
   modified_reward_gear_m50_ant:
     use_reward_model: True
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
     xml_file: "./xml/Ant-v5/ant_gear_m50.xml"
     num_steps: 3000000
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
-    use_actions_disc: True
 
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
-    use_actions_disc: True
 
   modified_reward_torso_mass_p20_hopper:
     use_reward_model: True
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p20.xml"
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
-    use_actions_disc: True
 
   modified_reward_torso_mass_p50_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
-    use_actions_disc: True
 
   modified_reward_friction_m20_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m20.xml"
-    use_actions_disc: True
 
   modified_reward_friction_m50_hopper:
     use_reward_model: True
-    reward_model_path: "./logs/Hopper-v5/airl/normal_env-seed10-20250419-1100/model/step12750000/disc.pth"
-    use_sde: False
     learning_rate: 0.00001
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.98
-    batch_size: 512
-    buffer_size: 1000000
     xml_file: "./xml/Hopper-v5/hopper_friction_m50.xml"
-    use_actions_disc: True
 
   # --- InvertedPendulum Modifications (Learned Reward) ---
   modified_reward_invpend:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
 
   modified_reward_pole_mass_p20_invpend:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p20.xml"
 
   modified_reward_pole_mass_p50_invpend:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
 
   modified_reward_gravity_p20_invpend:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_gravity_p20.xml"
 
   modified_reward_gravity_p50_invpend:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000/disc.pth"
     xml_file: "./xml/InvertedPendulum-v5/invpend_gravity_p50.xml"
 
   # --- Pusher Modifications (Learned Reward) ---
   modified_reward_pusher:
     use_reward_model: True
-    reward_model_path: "./logs/Pusher-v5/airl/normal_env-seed10-20250416-1700/model/step9450000/disc.pth"
-    num_steps: 3000000
-    use_sde: False
     learning_rate: 0.00003
     alpha_lr: 0.00005
-    hidden_sizes: [256, 256]
-    tau: 0.005
-    discount_factor: 0.99
-    batch_size: 512
-    buffer_size: 1000000
 
   modified_reward_puck_mass_p20_pusher:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p20.xml"
 
   modified_reward_puck_mass_p50_pusher:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
 
   modified_reward_goal_shift_small_pusher:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_goal_shift_small.xml"
 
   modified_reward_goal_shift_large_pusher:
     use_reward_model: True
-    reward_model_path: "/work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000/disc.pth"
     xml_file: "./xml/Pusher-v5/pusher_goal_shift_large.xml"
 
   # --- NEW: Modifications with Standard Reward ---
@@ -300,11 +198,11 @@ experiments:
   pole_mass_p50_invpend:
     xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
 
-  pole_mass_p20_invpend:
-    xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p20.xml"
+  gravity_p20_invpend:
+    xml_file: "./xml/InvertedPendulum-v5/invpend_gravity_p20.xml"
 
-  pole_mass_p50_invpend:
-    xml_file: "./xml/InvertedPendulum-v5/invpend_pole_mass_p50.xml"
+  gravity_p50_invpend:
+    xml_file: "./xml/InvertedPendulum-v5/invpend_gravity_p50.xml"
 
   # --- Pusher Modifications (Standard Reward) ---
   puck_mass_p20_pusher:
