@@ -9,13 +9,13 @@ from imitation_learning.utils.env import make_env
 
 
 class SBPolicyWrapper:
-    def __init__(self, model, device):
+    def __init__(self, model: sb.SAC, device):
         self.model = model
         self.device = device
 
     def exploit(self, state):
         with torch.no_grad():
-            action = self.model.predict(state)
+            action = self.model.predict(state, deterministic=True)
         return action[0]
 
 

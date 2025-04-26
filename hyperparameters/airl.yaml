@@ -74,7 +74,7 @@ environments:
 
   Pusher-v5:
     xml_file: "./xml/Pusher-v5/pusher.xml"
-    buffer: "./buffers/Pusher-v5/size1000000_std0.0_prand0.0_return-36.2.pth"
+    buffer: "./buffers/Pusher-v5/size1000000_std0.0_prand0.0_return-31.2.pth"
     num_steps: 10000000
     rollout_length: 10000
     gae_lambda: 0.9

@@ -150,13 +150,9 @@ experiments:
     use_reward_model: True
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
 
-  modified_reward_goal_shift_small_pusher:
+  modified_reward_goal_shift_pusher:
     use_reward_model: True
-    xml_file: "./xml/Pusher-v5/pusher_goal_shift_small.xml"
-
-  modified_reward_goal_shift_large_pusher:
-    use_reward_model: True
-    xml_file: "./xml/Pusher-v5/pusher_goal_shift_large.xml"
+    xml_file: "./xml/Pusher-v5/pusher_goal_shift.xml"
 
   # --- NEW: Modifications with Standard Reward ---
 
@@ -206,8 +202,5 @@ experiments:
   puck_mass_p50_pusher:
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
 
-  goal_shift_small_pusher:
+  goal_shift_pusher:
     xml_file: "./xml/Pusher-v5/pusher_goal_shift_small.xml"
-
-  goal_shift_large_pusher:
-    xml_file: "./xml/Pusher-v5/pusher_goal_shift_large.xml"
