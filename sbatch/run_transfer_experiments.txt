@@ -22,22 +22,22 @@ conda activate honors
 # python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_reward_invpend
 # python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_reward_pole_mass_p20_invpend
 # python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_reward_pole_mass_p50_invpend
-# python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_reward_cart_mass_p20_invpend
-# python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_reward_cart_mass_p50_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_reward_gravity_p20_invpend
+python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_reward_gravity_p50_invpend
 
 # --- Hopper Modifications (Learned Reward on Modified Env) ---
-python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_hopper
-python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p20_hopper
-python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p50_hopper
-python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m20_hopper
-python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m50_hopper
+# python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_hopper
+# python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p20_hopper
+# python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_torso_mass_p50_hopper
+# python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m20_hopper
+# python experts/train_expert.py --env Hopper-v5 --experiment modified_reward_friction_m50_hopper
 
 # --- Ant Modifications (Learned Reward on Modified Env) ---
-python experts/train_expert.py --env Ant-v5 --experiment modified_reward_ant
-python experts/train_expert.py --env Ant-v5 --experiment modified_reward_torso_mass_p20_ant
-python experts/train_expert.py --env Ant-v5 --experiment modified_reward_torso_mass_p50_ant
-python experts/train_expert.py --env Ant-v5 --experiment modified_reward_gear_m20_ant
-python experts/train_expert.py --env Ant-v5 --experiment modified_reward_gear_m50_ant
+# python experts/train_expert.py --env Ant-v5 --experiment modified_reward_ant
+# python experts/train_expert.py --env Ant-v5 --experiment modified_reward_torso_mass_p20_ant
+# python experts/train_expert.py --env Ant-v5 --experiment modified_reward_torso_mass_p50_ant
+# python experts/train_expert.py --env Ant-v5 --experiment modified_reward_gear_m20_ant
+# python experts/train_expert.py --env Ant-v5 --experiment modified_reward_gear_m50_ant
 
 # --- Pusher Modifications (Learned Reward on Modified Env) ---
 # python experts/train_expert.py --env Pusher-v5 --experiment modified_reward_pusher
