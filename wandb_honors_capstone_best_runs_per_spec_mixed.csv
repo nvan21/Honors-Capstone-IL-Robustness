@@ -1,0 +1,33 @@
+tag_specification,metric_value,metric_name_used,run_name,run_id,created_at,run_state
+airl AND normal_env,5571.4494,return/test,airl-Ant-v5-normal_env-seed10,l51x11zj,2025-04-22 13:38:56,finished
+friction_m20_hopper,2981.1227,return/test,sac-Hopper-v5-friction_m20_hopper-seed0,ny4d80ba,2025-04-10 10:26:20,finished
+friction_m50_hopper,2838.2840,eval/mean_reward,sb3-sac-Hopper-v5-friction_m50_hopper-seed0,lf4le8hi,2025-04-25 15:17:31,finished
+gear_m20_ant,5215.5366,eval/mean_reward,sb3-sac-Ant-v5-gear_m20_ant-seed0,tuua5f9r,2025-04-25 04:24:40,finished
+gear_m50_ant,3022.1980,eval/mean_reward,sb3-sac-Ant-v5-gear_m50_ant-seed0,2cwvext4,2025-04-16 22:55:30,finished
+gravity_p20_invpend,1000.0000,eval/mean_reward,sb3-sac-InvertedPendulum-v5-gravity_p20_invpend-seed0,dl0gkqpw,2025-04-25 17:29:18,finished
+gravity_p50_invpend,1000.0000,eval/mean_reward,sb3-sac-InvertedPendulum-v5-gravity_p50_invpend-seed0,72cbwpsw,2025-04-25 18:02:15,finished
+modified_reward_ant,3195.8630,eval/mean_reward,sb3-sac-Ant-v5-modified_reward_ant-seed0,v9mcagoo,2025-04-23 14:15:42,crashed
+modified_reward_friction_m20_hopper,2002.1307,eval/mean_reward,sb3-sac-Hopper-v5-modified_reward_friction_m20_hopper-seed0,q1jerbv4,2025-04-25 07:08:08,finished
+modified_reward_friction_m50_hopper,881.9719,eval/mean_reward,sb3-sac-Hopper-v5-modified_reward_friction_m50_hopper-seed0,nm2p2kfs,2025-04-25 09:25:33,finished
+modified_reward_gear_m20_ant,2315.8235,eval/mean_reward,sb3-sac-Ant-v5-modified_reward_gear_m20_ant-seed0,fi2zc573,2025-04-26 09:08:04,finished
+modified_reward_gear_m50_ant,-520.5126,eval/mean_reward,sb3-sac-Ant-v5-modified_reward_gear_m50_ant-seed0,1d1r4247,2025-04-26 16:00:48,finished
+modified_reward_gravity_p50_invpend,2.0000,return/test,sac-InvertedPendulum-v5-modified_reward_gravity_p50_invpend-seed0,stmqfjsm,2025-04-09 21:52:26,killed
+modified_reward_hopper,3431.7358,eval/mean_reward,sb3-sac-Hopper-v5-modified_reward_hopper-seed0,mut086j4,2025-04-22 01:50:19,finished
+modified_reward_invpend,1000.0000,return/test,sac-InvertedPendulum-v5-modified_reward_invpend-seed0,e89w9n7d,2025-04-08 01:35:29,finished
+modified_reward_pole_mass_p20_invpend,1000.0000,return/test,sac-InvertedPendulum-v5-modified_reward_pole_mass_p20_invpend-seed0,78k5cf24,2025-04-09 23:22:50,finished
+modified_reward_pole_mass_p50_invpend,1000.0000,return/test,sac-InvertedPendulum-v5-modified_reward_pole_mass_p50_invpend-seed0,rrr8ukdb,2025-04-09 23:46:01,finished
+modified_reward_puck_mass_p20_pusher,-56.7758,return/test,sac-Pusher-v5-modified_reward_puck_mass_p20_pusher-seed0,9q95q27z,2025-04-10 17:09:12,finished
+modified_reward_puck_mass_p50_pusher,-61.7725,return/test,sac-Pusher-v5-modified_reward_puck_mass_p50_pusher-seed0,0bgcbjwe,2025-04-10 18:39:07,finished
+modified_reward_pusher,-51.2086,return/test,sac-Pusher-v5-modified_reward_pusher-seed0,6jpzgxgh,2025-04-08 03:19:24,finished
+modified_reward_torso_mass_p20_ant,1138.9198,eval/mean_reward,sb3-sac-Ant-v5-modified_reward_torso_mass_p20_ant-seed0,a126hf2t,2025-04-25 18:32:03,finished
+modified_reward_torso_mass_p20_hopper,2813.0220,eval/mean_reward,sb3-sac-Hopper-v5-modified_reward_torso_mass_p20_hopper-seed0,5917png1,2025-04-25 02:25:09,finished
+modified_reward_torso_mass_p50_ant,3.3368,return/test,sac-Ant-v5-modified_reward_torso_mass_p50_ant-seed0,chd676cv,2025-04-10 10:52:52,finished
+modified_reward_torso_mass_p50_hopper,2985.6170,eval/mean_reward,sb3-sac-Hopper-v5-modified_reward_torso_mass_p50_hopper-seed0,qhhjw19s,2025-04-25 04:45:38,finished
+pole_mass_p20_invpend,1000.0000,return/test,sac-InvertedPendulum-v5-pole_mass_p20_invpend-seed0,7i4gvg7b,2025-04-10 13:31:55,finished
+pole_mass_p50_invpend,1000.0000,return/test,sac-InvertedPendulum-v5-pole_mass_p50_invpend-seed0,23kdcy3r,2025-04-10 13:55:23,finished
+puck_mass_p20_pusher,-22.8730,eval/mean_reward,sb3-sac-Pusher-v5-puck_mass_p20_pusher-seed0,fqbhnabk,2025-04-17 11:23:22,finished
+puck_mass_p50_pusher,-31.3861,return/test,sac-Pusher-v5-puck_mass_p50_pusher-seed0,beg53jf6,2025-04-10 15:50:12,finished
+torso_mass_p20_ant,3403.1938,eval/mean_reward,sb3-sac-Ant-v5-torso_mass_p20_ant-seed0,p7enqx0t,2025-04-24 23:52:50,finished
+torso_mass_p20_hopper,3203.3632,return/test,sac-Hopper-v5-torso_mass_p20_hopper-seed0,xta2758j,2025-04-10 07:19:44,finished
+torso_mass_p50_ant,4342.1029,return/test,sac-Ant-v5-torso_mass_p50_ant-seed0,qvzsm0hv,2025-04-10 02:25:41,finished
+torso_mass_p50_hopper,3484.5798,eval/mean_reward,sb3-sac-Hopper-v5-torso_mass_p50_hopper-seed0,37yw161p,2025-04-25 10:52:19,finished
