@@ -40,7 +40,7 @@ python experts/train_expert.py --env InvertedPendulum-v5 --experiment modified_r
 # python experts/train_expert.py --env Ant-v5 --experiment modified_reward_gear_m50_ant
 
 # --- Pusher Modifications (Learned Reward on Modified Env) ---
-# python experts/train_expert.py --env Pusher-v5 --experiment modified_reward_pusher
+python experts/train_expert.py --env Pusher-v5 --experiment modified_reward_pusher
 # python experts/train_expert.py --env Pusher-v5 --experiment modified_reward_puck_mass_p20_pusher
 # python experts/train_expert.py --env Pusher-v5 --experiment modified_reward_puck_mass_p50_pusher
 # python experts/train_expert.py --env Pusher-v5 --experiment modified_reward_goal_shift_small_pusher
