@@ -139,8 +139,7 @@ experiments:
   # --- Pusher Modifications (Learned Reward) ---
   modified_reward_pusher:
     use_reward_model: True
-    learning_rate: 0.00003
-    alpha_lr: 0.00005
+    learning_rate: 0.0001
 
   modified_reward_puck_mass_p20_pusher:
     use_reward_model: True
