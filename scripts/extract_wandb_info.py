@@ -3,6 +3,7 @@ import pandas as pd
 import sys
 import yaml
 from datetime import datetime  # Import datetime for timestamp conversion
+import os
 
 # --- Configuration ---
 # User-provided values
@@ -335,12 +336,8 @@ if best_runs_list:
     print(best_runs_df)
 
     try:
-        # Ensure the directory exists (optional, creates ./runs/ if not present)
-        import os
 
-        output_dir = "runs"
-        os.makedirs(output_dir, exist_ok=True)
-        output_filename = os.path.join(output_dir, "best_runs_per_tag.csv")
+        output_filename = os.path.join("runs", "best_runs_per_tag.csv")
 
         # Save to CSV with formatted dates
         best_runs_df.to_csv(
