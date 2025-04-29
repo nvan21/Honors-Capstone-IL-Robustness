@@ -89,7 +89,7 @@ print(f"\nGenerated {len(tags_to_process)} tag specifications to process:")
 # --- Derived Configuration ---
 runs_path_base = f"{entity}/{project}"  # Base path used in api.runs()
 # Define the desired output date format string
-OUTPUT_DATE_FORMAT = "-%Y%m%d-%H%M"
+OUTPUT_DATE_FORMAT = "%Y%m%d-%H%M"
 
 # --- Initialization ---
 best_run_results = {}
@@ -231,12 +231,30 @@ for tag_spec in tags_to_process:
                         )
                         num_steps = None
 
+                num_epochs = run.config.get("epochs")
+                # Validate if it's a number, otherwise set to None or a default
+                if (
+                    num_epochs is None
+                    or not isinstance(num_epochs, (int, float))
+                    or pd.isna(num_epochs)
+                ):
+                    num_epochs = None  # Set to None if missing, not a number, or NaN
+                else:
+                    try:
+                        num_epochs = int(num_epochs)  # Ensure it's an integer
+                    except (ValueError, TypeError):
+                        print(
+                            f"  Warning: Could not convert num_epochs '{num_epochs}' to int for run {run.id}. Setting to None."
+                        )
+                        num_epochs = None
+
                 # Store details
                 best_run_details_for_tag = {
                     "run_name": run.name,
                     "run_id": run.id,
                     "env_id": env_id,
                     "num_steps": num_steps,  # <-- ADDED num_steps from config
+                    "num_epochs": num_epochs,
                     "run_path": f"{entity}/{project}/{run.id}",
                     "xml_file": xml_basename,
                     "created_at": run.created_at,
@@ -281,9 +299,8 @@ for tag_spec in tags_to_process:
         if not xml_file_str:
             xml_file_str = "N/A"
         env_id_str = best_run_details_for_tag.get("env_id", "N/A")
-        num_steps_str = best_run_details_for_tag.get(
-            "num_steps"
-        )  # Changed from 'steps'
+        num_steps_str = best_run_details_for_tag.get("num_steps")
+        num_epochs_str = best_run_details_for_tag.get("num_epochs")
         # Format num_steps for printing, handle None
         if num_steps_str is None:
             num_steps_str = "N/A"
@@ -389,11 +406,23 @@ if best_runs_list:
         # If the column wasn't created because no runs had the config key
         best_runs_df["num_steps"] = 0
 
+    if "num_epochs" in best_runs_df.columns:
+        best_runs_df["num_epochs"] = pd.to_numeric(
+            best_runs_df["num_epochs"], errors="coerce"
+        )
+        # Choose how to fill NaN. 0 or a specific marker like -1 might be appropriate.
+        # Let's use 0 for now, assuming missing means 0 or wasn't set properly.
+        best_runs_df["num_epochs"] = best_runs_df["num_epochs"].fillna(0).astype(int)
+    else:
+        # If the column wasn't created because no runs had the config key
+        best_runs_df["num_epochs"] = 0
+
     # Define final column order including num_steps
     column_order = [
         "tag_specification",
         "env_id",
-        "num_steps",  # <-- UPDATED column name
+        "num_steps",
+        "num_epochs",
         "xml_file",
         "metric_value",
         "metric_name_used",
