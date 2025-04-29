@@ -19,7 +19,6 @@ defaults:
   coef_ent: 0.0
   max_grad_norm: 10.0
   cuda: true
-  num_vec_envs: 8
 
 # Environment-specific defaults
 environments:
@@ -66,14 +65,14 @@ environments:
     xml_file: "./xml/Pusher-v5/pusher.xml"
     buffer: "./buffers/Pusher-v5/size1000000_std0.0_prand0.0_return-31.2.pth"
     num_steps: 10000000
-    rollout_length: 10000
+    rollout_length: 2048
     gae_lambda: 0.9
-    max_grad_norm: 0.7
+    max_grad_norm: 0.5
     disc_lr: 0.00005
-    epoch_ppo: 20
-    epoch_disc: 20
+    epoch_ppo: 30
+    epoch_disc: 30
     clip_ratio: 0.4
-    learning_rate: 0.00005
+    learning_rate: 0.0001
     max_grad_norm: 0.5
     hidden_sizes: [256, 256]
     gamma: 0.99

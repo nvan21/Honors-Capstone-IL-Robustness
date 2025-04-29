@@ -1,7 +1,7 @@
 {
-    "algo": null,
+    "algo": "sac",
     "env": "Ant-v5",
-    "mean_return": 5358.383366866127,
+    "mean_return": 5754.074188061842,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 945.4743254570119,
-    "time": "20250421-1759",
+    "std_return": 434.775599852687,
+    "time": "20250428-1859",
     "weights_path": "./experts/ant-v5-sac-expert.zip",
     "xml_file": "./xml\\Ant-v5\\ant.xml"
 }
