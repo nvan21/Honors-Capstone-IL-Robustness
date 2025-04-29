@@ -3,24 +3,35 @@ import os
 
 best_runs = pd.read_csv("runs/best_runs_per_tag.csv")
 
-# Remove the rows that have AND
-col = "tag_specification"
-value = "AND"
-del_condition = best_runs[col].str.contains("AND", case=True, na=False)
-best_runs = best_runs[~del_condition]
+run_config = {}
+all_envs = {
+    env: sorted(xml_list.tolist())
+    for env, xml_list in best_runs.groupby("env_id")["xml_file"].unique().items()
+}
 
-rq = {"environments": {}}
-envs = set(best_runs["env_id"])
-configs = {}
 
-for env in envs:
-    env_df = best_runs[best_runs["env_id"] == env]
-    xml_files = env_df["xml_file"].to_list()
-    model_ids = env_df["run_id"].to_list()
-    model_paths = [
-        os.path.join(".", "logs", "sb3", model_id, "best_model", "best_model.zip")
-        for model_id in model_ids
-    ]
-    print(model_paths)
-    print(xml_files)
-    rq["environments"][env] = {}
+def make_base_model_path(run_name: str, created_at: str, num_steps: str):
+    run_name_split = run_name.split("-")
+    algo_name = run_name_split[0]
+    run_id = f"{run_name_split[-2]}-{run_name_split[-1]}-{created_at}"
+    print(run_id)
+    path = os.path.join(".", "logs", run_id, "model", f"step{num_steps}")
+
+
+def make_sb3_model_path(run_name: str):
+    path = os.path.join(".", "logs", "sb3", run_name, "best_model", "best_model.zip")
+
+    return path
+
+
+for index, row in best_runs.iterrows():
+    if "AND" in row["tag_specification"]:
+        model_path = make_base_model_path(
+            run_name=row["run_name"],
+            created_at=row["created_at_str"],
+            num_steps=row["Steps"],
+        )
+        run_config[model_path] = all_envs
+    else:
+        model_path = make_sb3_model_path(row["run_name"])
+        run_config[row["run_name"]]

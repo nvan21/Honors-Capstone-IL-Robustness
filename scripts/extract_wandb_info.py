@@ -6,6 +6,7 @@ import sys
 import yaml
 from datetime import datetime  # Import datetime for timestamp conversion
 import os  # Import os for path joining, directory creation, and basename
+import numpy as np  # Import numpy for potential NaN handling
 
 # --- Configuration ---
 # User-provided values
@@ -15,9 +16,10 @@ metric_names_priority = [
     "eval/mean_reward",  # Try this metric first
     "return/test",  # If the first isn't found, try this one
 ]
-# --- Define Potential Config Keys for Environment ID ---
-# List of keys to check in run.config, in order of preference
+# --- Define Potential Config Keys ---
 ENV_ID_CONFIG_KEYS = ["env_id", "env", "environment_id", "environment"]
+# Specific key for number of steps in config
+NUM_STEPS_CONFIG_KEY = "num_steps"
 
 tags_to_process = []
 
@@ -87,7 +89,7 @@ print(f"\nGenerated {len(tags_to_process)} tag specifications to process:")
 # --- Derived Configuration ---
 runs_path_base = f"{entity}/{project}"  # Base path used in api.runs()
 # Define the desired output date format string
-OUTPUT_DATE_FORMAT = "%Y%m%d-%H%M"
+OUTPUT_DATE_FORMAT = "-%Y%m%d-%H%M"
 
 # --- Initialization ---
 best_run_results = {}
@@ -202,24 +204,45 @@ for tag_spec in tags_to_process:
                         )
                         xml_basename = full_xml_path
 
-                # --- Get Environment ID from Config Safely ---
+                # Get Environment ID from Config Safely
                 env_id = None
                 for key in ENV_ID_CONFIG_KEYS:
                     env_id = run.config.get(key)
-                    if env_id:  # Found a non-empty value
-                        break  # Stop checking keys
-                if not env_id:  # If still None after checking all keys
-                    env_id = "N/A"  # Default value if not found
+                    if env_id:
+                        break
+                if not env_id:
+                    env_id = "N/A"
 
-                # Store details, including env_id and run path
+                # --- Get num_steps from Config Safely ---
+                num_steps = run.config.get(NUM_STEPS_CONFIG_KEY)
+                # Validate if it's a number, otherwise set to None or a default
+                if (
+                    num_steps is None
+                    or not isinstance(num_steps, (int, float))
+                    or pd.isna(num_steps)
+                ):
+                    num_steps = None  # Set to None if missing, not a number, or NaN
+                else:
+                    try:
+                        num_steps = int(num_steps)  # Ensure it's an integer
+                    except (ValueError, TypeError):
+                        print(
+                            f"  Warning: Could not convert num_steps '{num_steps}' to int for run {run.id}. Setting to None."
+                        )
+                        num_steps = None
+
+                # Store details
                 best_run_details_for_tag = {
                     "run_name": run.name,
                     "run_id": run.id,
-                    "env_id": env_id,  # <-- ADDED Env ID
+                    "env_id": env_id,
+                    "num_steps": num_steps,  # <-- ADDED num_steps from config
                     "run_path": f"{entity}/{project}/{run.id}",
                     "xml_file": xml_basename,
                     "created_at": run.created_at,
-                    "last_updated_ts": run.summary.get("_timestamp"),
+                    "last_updated_ts": run.summary.get(
+                        "_timestamp"
+                    ),  # Keep timestamp from summary
                     "metric_value": best_metric_value_for_tag,
                     "metric_name_used": current_run_metric_used,
                     "run_state": run.state,
@@ -257,13 +280,22 @@ for tag_spec in tags_to_process:
         xml_file_str = best_run_details_for_tag.get("xml_file", "N/A")
         if not xml_file_str:
             xml_file_str = "N/A"
-
-        # Get env_id for printing
         env_id_str = best_run_details_for_tag.get("env_id", "N/A")
+        num_steps_str = best_run_details_for_tag.get(
+            "num_steps"
+        )  # Changed from 'steps'
+        # Format num_steps for printing, handle None
+        if num_steps_str is None:
+            num_steps_str = "N/A"
+        else:
+            try:
+                num_steps_str = f"{int(num_steps_str):,}"  # Format with commas
+            except (ValueError, TypeError):
+                num_steps_str = str(num_steps_str)
 
         print(
             f"  Best run selected for '{tag_key_string}': {best_run_details_for_tag['run_name']} "
-            f"(Env: {env_id_str}, XML: {xml_file_str}, Created: {created_at_str_print}, Last Updated: {last_updated_str_print}) "  # Added Env to print
+            f"(Env: {env_id_str}, Num Steps: {num_steps_str}, XML: {xml_file_str}, Created: {created_at_str_print}, Last Updated: {last_updated_str_print}) "  # Updated print
             f"with value {best_run_details_for_tag['metric_value']:.4f}"
         )
     elif runs_checked_count > 0 and runs_with_metric_count == 0:
@@ -344,10 +376,24 @@ if best_runs_list:
     else:
         best_runs_df["last_updated_str"] = "N/A"
 
-    # Define final column order including env_id
+    # --- Handle 'num_steps' column: Fill missing values ---
+    # Use pd.to_numeric to handle potential non-numeric types first, coercing errors
+    if "num_steps" in best_runs_df.columns:
+        best_runs_df["num_steps"] = pd.to_numeric(
+            best_runs_df["num_steps"], errors="coerce"
+        )
+        # Choose how to fill NaN. 0 or a specific marker like -1 might be appropriate.
+        # Let's use 0 for now, assuming missing means 0 or wasn't set properly.
+        best_runs_df["num_steps"] = best_runs_df["num_steps"].fillna(0).astype(int)
+    else:
+        # If the column wasn't created because no runs had the config key
+        best_runs_df["num_steps"] = 0
+
+    # Define final column order including num_steps
     column_order = [
         "tag_specification",
-        "env_id",  # <-- ADDED column
+        "env_id",
+        "num_steps",  # <-- UPDATED column name
         "xml_file",
         "metric_value",
         "metric_name_used",
@@ -369,7 +415,7 @@ if best_runs_list:
     print("\n--- Best Run per Tag Specification ---")
     pd.set_option("display.max_rows", len(best_runs_df_final) + 10)
     pd.set_option("display.max_columns", 20)
-    pd.set_option("display.width", 320)  # Increase width further
+    pd.set_option("display.width", 350)
     print(best_runs_df_final)
 
     try:
@@ -379,7 +425,7 @@ if best_runs_list:
         best_runs_df_final.to_csv(
             output_filename,
             index=False,
-            float_format="%.4f",
+            float_format="%.4f",  # For metric_value
         )
         print(f"\nBest run results saved to {output_filename}")
     except Exception as e:
