@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     # List of directory paths you want to check
     with open("test.yaml", "r") as f:
-        DIRS_TO_CHECK = [yaml.safe_load(f).keys]
+        DIRS_TO_CHECK = list(yaml.safe_load(f).keys())
 
     # Get the current working directory for context
     print(f"Current Working Directory: {os.getcwd()}")
