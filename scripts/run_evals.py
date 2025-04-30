@@ -73,8 +73,8 @@ def run_script_worker(args_list):
         end_time = time.time()
         duration = end_time - start_time
 
-        success = True
-        status_msg = "SUCCESS"
+        success = result.returncode == 0
+        status_msg = "SUCCESS" if success else f"FAILED (Code: {result.returncode})"
 
         print(
             f"[Worker {process_id}] Finished: {' '.join(args_list)} -> {status_msg} in {duration:.2f}s",
