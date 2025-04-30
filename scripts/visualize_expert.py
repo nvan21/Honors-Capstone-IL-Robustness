@@ -65,7 +65,6 @@ def run(args):
         )
 
     # Overwrite model if it's an SB3 model. This keeps the algo_name update from previously though
-    print(is_sb_model, weights_split)
     if is_sb_model:
         algo_name = "sac"
         algo = SBSAC(weights=args.weights, env=env)
