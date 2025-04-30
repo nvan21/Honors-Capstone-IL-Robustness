@@ -234,6 +234,21 @@ for tag_spec in tags_to_process:
                             f"  Warning: Could not convert num_steps '{num_steps}' to int for run {run.id}. Setting to None."
                         )
                         num_steps = None
+                num_epochs = run.config.get("epochs")
+                if (
+                    num_epochs is None
+                    or not isinstance(num_epochs, (int, float))
+                    or pd.isna(num_epochs)
+                ):
+                    num_epochs = None
+                else:
+                    try:
+                        num_epochs = int(num_epochs)
+                    except (ValueError, TypeError):
+                        print(
+                            f"  Warning: Could not convert num_epochs '{num_epochs}' to int for run {run.id}. Setting to None."
+                        )
+                        num_epochs = None
 
                 # Store details (keep original times for now)
                 best_run_details_for_tag = {
@@ -241,6 +256,7 @@ for tag_spec in tags_to_process:
                     "run_id": run.id,
                     "env_id": env_id,
                     "num_steps": num_steps,
+                    "num_epochs": num_epochs,
                     "run_path": f"{entity}/{project}/{run.id}",
                     "xml_file": xml_basename,
                     "created_at": run.created_at,  # Original value from API
