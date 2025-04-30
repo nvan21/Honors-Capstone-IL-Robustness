@@ -1,15 +1,15 @@
 tag_specification,env_id,num_steps,num_epochs,xml_file,metric_value,metric_name_used,run_name,run_id,run_path,created_at_str,last_updated_str,run_state
 Ant-v5 AND airl AND normal_env,Ant-v5,20000000,0,ant.xml,5571.4494,return/test,airl-Ant-v5-normal_env-seed10,l51x11zj,nvanutrecht/Honors Capstone/l51x11zj,20250422-0838,20250422-1316,finished
-Ant-v5 AND bc AND normal_env,Ant-v5,0,30,ant.xml,4943.0108,return/test,bc-Ant-v5-normal_env-seed0,s2b95ahx,nvanutrecht/Honors Capstone/s2b95ahx,20250416-1114,20250416-1124,finished
+Ant-v5 AND bc AND normal_env,Ant-v5,0,29,ant.xml,4943.0108,return/test,bc-Ant-v5-normal_env-seed0,s2b95ahx,nvanutrecht/Honors Capstone/s2b95ahx,20250416-1114,20250416-1124,finished
 Ant-v5 AND gail AND normal_env,Ant-v5,10000000,0,ant.xml,4959.3398,return/test,gail-Ant-v5-normal_env-seed0,v475rd1n,nvanutrecht/Honors Capstone/v475rd1n,20250421-1958,20250421-2220,finished
 Hopper-v5 AND airl AND normal_env,Hopper-v5,10000000,0,hopper.xml,3369.7005,return/test,airl-Hopper-v5-normal_env-seed0,mdq9fdgl,nvanutrecht/Honors Capstone/mdq9fdgl,20250406-2033,20250406-2135,finished
-Hopper-v5 AND bc AND normal_env,Hopper-v5,0,20,hopper.xml,3521.5729,return/test,bc-Hopper-v5-normal_env-seed0,olyq3t1i,nvanutrecht/Honors Capstone/olyq3t1i,20250404-2204,20250404-2205,finished
+Hopper-v5 AND bc AND normal_env,Hopper-v5,0,19,hopper.xml,3521.5729,return/test,bc-Hopper-v5-normal_env-seed0,olyq3t1i,nvanutrecht/Honors Capstone/olyq3t1i,20250404-2204,20250404-2205,finished
 Hopper-v5 AND gail AND normal_env,Hopper-v5,10000000,0,hopper.xml,3478.5733,return/test,gail-Hopper-v5-normal_env-seed0,jvw49us9,nvanutrecht/Honors Capstone/jvw49us9,20250407-0239,20250407-0342,finished
 InvertedPendulum-v5 AND airl AND normal_env,InvertedPendulum-v5,2500000,0,invpend.xml,1000.0000,return/test,airl-InvertedPendulum-v5-normal_env-seed10,xkgdjj1i,nvanutrecht/Honors Capstone/xkgdjj1i,20250421-1812,20250421-1816,killed
-InvertedPendulum-v5 AND bc AND normal_env,InvertedPendulum-v5,0,10,invpend.xml,1000.0000,return/test,bc-InvertedPendulum-v5-normal_env-seed0,ie1f8kf8,nvanutrecht/Honors Capstone/ie1f8kf8,20250406-2001,20250406-2004,finished
+InvertedPendulum-v5 AND bc AND normal_env,InvertedPendulum-v5,0,9,invpend.xml,1000.0000,return/test,bc-InvertedPendulum-v5-normal_env-seed0,ie1f8kf8,nvanutrecht/Honors Capstone/ie1f8kf8,20250406-2001,20250406-2004,finished
 InvertedPendulum-v5 AND gail AND normal_env,InvertedPendulum-v5,250000,0,invpend.xml,1000.0000,return/test,gail-InvertedPendulum-v5-normal_env-seed0,qg7xtovn,nvanutrecht/Honors Capstone/qg7xtovn,20250407-0237,20250407-0239,finished
 Pusher-v5 AND airl AND normal_env,Pusher-v5,10000000,0,pusher.xml,-34.7089,return/test,airl-Pusher-v5-normal_env-seed0,x60ctnv9,nvanutrecht/Honors Capstone/x60ctnv9,20250414-1714,20250414-2123,finished
-Pusher-v5 AND bc AND normal_env,Pusher-v5,0,20,pusher.xml,-29.1244,return/test,bc-Pusher-v5-normal_env-seed0,meavv79y,nvanutrecht/Honors Capstone/meavv79y,20250416-1125,20250416-1130,finished
+Pusher-v5 AND bc AND normal_env,Pusher-v5,0,19,pusher.xml,-29.1244,return/test,bc-Pusher-v5-normal_env-seed0,meavv79y,nvanutrecht/Honors Capstone/meavv79y,20250416-1125,20250416-1130,finished
 Pusher-v5 AND gail AND normal_env,Pusher-v5,10000000,0,pusher.xml,-36.5622,return/test,gail-Pusher-v5-normal_env-seed0,kabk93r8,nvanutrecht/Honors Capstone/kabk93r8,20250407-0603,20250407-0658,finished
 friction_m20_hopper,Hopper-v5,1000000,0,hopper_friction_m20.xml,2981.1227,return/test,sac-Hopper-v5-friction_m20_hopper-seed0,ny4d80ba,nvanutrecht/Honors Capstone/ny4d80ba,20250410-0526,20250410-0658,finished
 friction_m50_hopper,Hopper-v5,1000000,0,hopper_friction_m50.xml,2838.2840,eval/mean_reward,sb3-sac-Hopper-v5-friction_m50_hopper-seed0,lf4le8hi,nvanutrecht/Honors Capstone/lf4le8hi,20250425-1017,20250425-1229,finished
