@@ -446,11 +446,20 @@ if best_runs_list:
     else:
         best_runs_df["num_steps"] = 0
 
+    if "num_epochs" in best_runs_df.columns:
+        best_runs_df["num_epochs"] = pd.to_numeric(
+            best_runs_df["num_epochs"], errors="coerce"
+        )
+        best_runs_df["num_epochs"] = best_runs_df["num_epochs"].fillna(0).astype(int)
+    else:
+        best_runs_df["num_epochs"] = 0
+
     # --- Define final column order ---
     column_order = [
         "tag_specification",
         "env_id",
         "num_steps",
+        "num_epochs",
         "xml_file",
         "metric_value",
         "metric_name_used",
