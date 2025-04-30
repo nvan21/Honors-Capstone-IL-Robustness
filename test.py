@@ -56,7 +56,7 @@ for index, row in best_runs.iterrows():
 
 # Manual addition of random SAC experts because I'm lazy
 run_config["./experts/ant-v5-sac-expert.zip"] = {"Ant-v5": all_envs["Ant-v5"]}
-run_config["./experts/hopper-v5-SAC-expert.zip"] = {"Hopper-v5": all_envs["Hopper-5"]}
+run_config["./experts/hopper-v5-SAC-expert.zip"] = {"Hopper-v5": all_envs["Hopper-v5"]}
 run_config["./experts/pusher-v5-SAC-expert.zip"] = {"Pusher-v5": all_envs["Pusher-v5"]}
 run_config[
     "./logs/InvertedPendulum-v5/sac/normal_env-seed0-20250412-1007/model/step250000"
