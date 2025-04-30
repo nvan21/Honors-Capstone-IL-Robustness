@@ -29,7 +29,7 @@ for path, envs in experiments.items():
                 NUM_EVAL_EPISODES,
                 "--log",
             ]
-            if "modified" in xml_file:
+            if "modified" in path:
                 command.append("--modified")
 
             ARGUMENT_SETS.append(command)
