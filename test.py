@@ -22,8 +22,14 @@ def make_base_model_path(run_name: str, created_at: str, num_steps: str, env: st
     return path
 
 
-def make_sb3_model_path(run_name: str):
-    path = os.path.join(".", "logs", "sb3", run_name, "best_model", "best_model.zip")
+def make_sb3_model_path(
+    run_name: str, created_at: str, num_steps: str, run_id: str, env: str
+):
+    if "sb3" not in run_name.split("-"):
+        return make_base_model_path(
+            run_name=run_name, created_at=created_at, num_steps=num_steps, env=env
+        )
+    path = os.path.join(".", "logs", "sb3", run_id, "best_model", "best_model.zip")
 
     return path
 
@@ -39,7 +45,13 @@ for index, row in best_runs.iterrows():
         )
         run_config[model_path] = all_envs
     else:
-        model_path = make_sb3_model_path(row["run_id"])
+        model_path = make_sb3_model_path(
+            run_name=row["run_name"],
+            created_at=row["created_at_str"],
+            num_steps=num_steps,
+            run_id=row["run_id"],
+            env=row["env_id"],
+        )
         run_config[model_path] = {row["env_id"]: [row["xml_file"]]}
 
 # Manual addition of random SAC experts because I'm lazy

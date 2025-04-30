@@ -39,7 +39,7 @@
 ./logs/Pusher-v5/airl/normal_env-seed0-20250414-1714/model/step10000000: *id001
 ./logs/Pusher-v5/bc/normal_env-seed0-20250416-1125/model/step19: *id001
 ./logs/Pusher-v5/gail/normal_env-seed0-20250407-0603/model/step10000000: *id001
-./logs/sb3/0bgcbjwe/best_model/best_model.zip:
+./logs/Pusher-v5/sac/modified_reward_puck_mass_p50_pusher-seed0-20250410-1339/model/step1000000:
   Pusher-v5:
     - pusher_puck_mass_p50.xml
 ./logs/sb3/1d1r4247/best_model/best_model.zip:
