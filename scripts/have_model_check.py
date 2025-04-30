@@ -84,22 +84,5 @@ if __name__ == "__main__":
     with open("test.yaml", "r") as f:
         DIRS_TO_CHECK = list(yaml.safe_load(f).keys())
 
-    # Get the current working directory for context
-    print(f"Current Working Directory: {os.getcwd()}")
-
-    # Ensure the project directory path is handled correctly
-    # (abspath takes care of making it absolute based on CWD if it's relative)
-
-    # Filter the list
-    external_dirs = find_external_dirs(DIRS_TO_CHECK, MY_PROJECT_DIR)
-
-    # Print the results
-    print("\n" + "=" * 30)
-    print("Directories NOT within the project directory:")
-    print(f"(Project directory was: {os.path.abspath(MY_PROJECT_DIR)})")
-    print("=" * 30)
-    if external_dirs:
-        for d in external_dirs:
-            print(f"- {d}")
-    else:
-        print("None found.")
+    for dir in DIRS_TO_CHECK:
+        print(f"Path: {dir}       Exists: {os.path.exists(dir)}")
