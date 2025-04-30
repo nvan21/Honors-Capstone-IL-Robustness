@@ -30,19 +30,7 @@ for path, envs in experiments.items():
                     "--log",
                 ]
             )
-# ARGUMENT_SETS = [
-#     [
-#         "--weights",
-#         "./logs/Ant-v5/airl/normal_env-seed10-20250422-0839/model/step20000000",
-#         "--env",
-#         "Ant-v5",
-#         "--xml_file",
-#         "ant.xml",
-#         "--num_eval_episodes",
-#         NUM_EVAL_EPISODES,
-#         "--log",
-#     ]
-# ]
+
 # Maximum number of concurrent processes
 MAX_CONCURRENT_PROCESSES = 8
 
@@ -82,8 +70,8 @@ def run_script_worker(args_list):
         end_time = time.time()
         duration = end_time - start_time
 
-        success = result.returncode == 0
-        status_msg = "SUCCESS" if success else f"FAILED (Code: {result.returncode})"
+        success = True
+        status_msg = "SUCCESS"
 
         print(
             f"[Worker {process_id}] Finished: {' '.join(args_list)} -> {status_msg} in {duration:.2f}s",

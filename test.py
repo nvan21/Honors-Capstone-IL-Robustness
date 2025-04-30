@@ -43,7 +43,7 @@ for index, row in best_runs.iterrows():
             num_steps=num_steps,
             env=row["env_id"],
         )
-        run_config[model_path] = all_envs
+        run_config[model_path] = all_envs[row["env_id"]]
     else:
         model_path = make_sb3_model_path(
             run_name=row["run_name"],
@@ -55,12 +55,12 @@ for index, row in best_runs.iterrows():
         run_config[model_path] = {row["env_id"]: [row["xml_file"]]}
 
 # Manual addition of random SAC experts because I'm lazy
-run_config["./experts/ant-v5-sac-expert.zip"] = all_envs
-run_config["./experts/hopper-v5-SAC-expert.zip"] = all_envs
-run_config["./experts/pusher-v5-SAC-expert.zip"] = all_envs
+run_config["./experts/ant-v5-sac-expert.zip"] = all_envs["Ant-v5"]
+run_config["./experts/hopper-v5-SAC-expert.zip"] = all_envs["Hopper-5"]
+run_config["./experts/pusher-v5-SAC-expert.zip"] = all_envs["Pusher-v5"]
 run_config[
     "./logs/InvertedPendulum-v5/sac/normal_env-seed0-20250412-1007/model/step250000"
-] = all_envs
+] = all_envs["InvertedPendulum-v5"]
 
 with open("test.yaml", "w") as f:
     yaml.safe_dump(run_config, f)
