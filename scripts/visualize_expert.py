@@ -20,7 +20,7 @@ def run(args):
 
     weights_path = Path(args.weights)
     weights_split = [part.lower() for part in weights_path.parts]
-    is_sb_model = "sb3" in weights_split
+    is_sb_model = weights_path.suffix == ".zip"
     algo_name = None
 
     if "sac" in weights_split:
