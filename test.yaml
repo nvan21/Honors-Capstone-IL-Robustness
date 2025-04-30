@@ -33,7 +33,7 @@
   Ant-v5:
     - ant_torso_mass_p50.xml
 ./logs/Hopper-v5/airl/normal_env-seed0-20250406-2033/model/step10000000: *id001
-./logs/Hopper-v5/bc/normal_env-seed0-20250404-2204/model/step19: *id001
+./logs/Hopper-v5/bc/normal_env-seed0-20250404-2204/model/step9: *id001
 ./logs/Hopper-v5/gail/normal_env-seed0-20250407-0239/model/step10000000: *id001
 ./logs/Hopper-v5/sac/friction_m20_hopper-seed0-20250410-0526/model/step1000000:
   Hopper-v5:
@@ -41,7 +41,7 @@
 ./logs/Hopper-v5/sac/torso_mass_p20_hopper-seed0-20250410-0219/model/step1000000:
   Hopper-v5:
     - hopper_torso_mass_p20.xml
-./logs/InvertedPendulum-v5/airl/normal_env-seed10-20250421-1812/model/step2500000: *id001
+./logs/InvertedPendulum-v5/airl/normal_env-seed10-20250421-1812/model/step250000: *id001
 ./logs/InvertedPendulum-v5/bc/normal_env-seed0-20250406-2001/model/step9: *id001
 ./logs/InvertedPendulum-v5/gail/normal_env-seed0-20250407-0237/model/step250000: *id001
 ./logs/InvertedPendulum-v5/sac/modified_reward_invpend-seed0-20250411-1425/model/step220000:
