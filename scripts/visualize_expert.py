@@ -66,12 +66,11 @@ def run(args):
 
     # Overwrite model if it's an SB3 model. This keeps the algo_name update from previously though
     if is_sb_model:
+        algo_name = "sac"
         algo = SBSAC(weights=args.weights, env=env)
 
-    if args.modified:
+    if args.modified and algo_name == "sac":
         algo_name = "modified_sac"
-    else:
-        algo_name = "sac"
 
     returns = visualize_expert(env, algo, args.seed, args.num_eval_episodes)
     time_str = datetime.now().strftime("%Y%m%d-%H%M")
