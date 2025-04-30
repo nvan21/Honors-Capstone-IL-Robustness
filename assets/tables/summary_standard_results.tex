@@ -1,15 +1,15 @@
 \begin{table}
 \caption{Algorithm Performance on Standard Environments (Mean $\pm$ Std Return)}
 \label{tab:perf_standard}
-\begin{tabular}{lllllllll}
+\begin{tabular}{lccccccccccccccccccccccccccccccccccccc}
 \toprule
- & Ant & Hopper & Invpend & Pusher & Xml\ant-v5\ant & Xml\hopper-v5\hopper & Xml\invertedpendulum-v5\invpend & Xml\pusher-v5\pusher \\
+ & ant & ant_gear_m20 & ant_gear_m50 & ant_torso_mass_p20 & ant_torso_mass_p50 & hopper & hopper_friction_m20 & hopper_friction_m50 & hopper_torso_mass_p20 & hopper_torso_mass_p50 & invpend & invpend_gravity_p20 & invpend_gravity_p50 & invpend_pole_mass_p20 & invpend_pole_mass_p50 & pusher & pusher_puck_mass_p20 & pusher_puck_mass_p50 & xml\Ant-v5\ant & xml\Ant-v5\ant_gear_m20 & xml\Ant-v5\ant_gear_m50 & xml\Ant-v5\ant_torso_mass_p20 & xml\Ant-v5\ant_torso_mass_p50 & xml\Hopper-v5\hopper & xml\Hopper-v5\hopper_friction_m20 & xml\Hopper-v5\hopper_friction_m50 & xml\Hopper-v5\hopper_torso_mass_p20 & xml\Hopper-v5\hopper_torso_mass_p50 & xml\InvertedPendulum-v5\invpend & xml\InvertedPendulum-v5\invpend_gravity_p20 & xml\InvertedPendulum-v5\invpend_gravity_p50 & xml\InvertedPendulum-v5\invpend_pole_mass_p20 & xml\InvertedPendulum-v5\invpend_pole_mass_p50 & xml\Pusher-v5\pusher & xml\Pusher-v5\pusher_goal_shift & xml\Pusher-v5\pusher_puck_mass_p20 & xml\Pusher-v5\pusher_puck_mass_p50 \\
 \midrule
-AIRL & - & - & - & - & 5205.05 \pm 707.87 & 3403.94 \pm 16.07 & 1000.00 \pm 0.00 & -39.14 \pm 5.89 \\
-BC & - & - & - & - & 5503.66 \pm 1151.45 & 3471.23 \pm 6.66 & 1000.00 \pm 0.00 & -31.54 \pm 8.18 \\
-GAIL & - & - & - & - & - & 3476.13 \pm 1.66 & 1000.00 \pm 0.00 & -49.70 \pm 4.95 \\
-MODIFIED_SAC & - & - & 1000.00 \pm 0.00 & -52.08 \pm 5.58 & - & - & - & - \\
-SAC & 4801.66 \pm 1314.59 & 3476.10 \pm 1.60 & 1000.00 \pm 0.00 & -35.43 \pm 7.19 & - & - & - & - \\
+AIRL & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & 5205.05 \pm 707.87 & 4989.61 \pm 102.72 & 2800.96 \pm 153.14 & 5049.39 \pm 1141.41 & 5115.35 \pm 1116.44 & 3403.94 \pm 16.07 & 1686.59 \pm 680.70 & 649.26 \pm 23.22 & 3399.60 \pm 103.98 & 1076.80 \pm 7.81 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & -39.14 \pm 5.89 & -85.29 \pm 17.93 & -37.70 \pm 4.94 & -36.44 \pm 4.59 \\
+BC & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & 5503.66 \pm 1151.45 & 5231.48 \pm 80.09 & 1326.35 \pm 88.73 & 5443.61 \pm 1282.86 & 5612.46 \pm 1006.11 & 3471.23 \pm 6.66 & 736.87 \pm 80.88 & 353.10 \pm 3.74 & 734.79 \pm 75.04 & 478.27 \pm 121.66 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 440.23 \pm 306.34 & 994.15 \pm 58.11 & 904.48 \pm 216.95 & -31.54 \pm 8.18 & -58.51 \pm 9.63 & -29.95 \pm 8.59 & -26.16 \pm 7.46 \\
+Expert SAC & 4801.66 \pm 1314.59 & 2270.94 \pm 304.65 & 982.30 \pm 2.52 & 3788.05 \pm 1182.42 & 4702.85 \pm 1549.73 & 3476.10 \pm 1.60 & 2955.07 \pm 160.87 & 2918.38 \pm 456.25 & 2589.99 \pm 439.62 & 2968.82 \pm 26.46 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & -35.43 \pm 7.19 & -22.69 \pm 2.91 & -26.34 \pm 3.90 & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & -67.63 \pm 18.21 & - & - \\
+GAIL & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & 3476.13 \pm 1.66 & 1113.50 \pm 52.23 & 576.62 \pm 6.76 & 1388.60 \pm 442.74 & 830.11 \pm 28.70 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & -49.70 \pm 4.95 & -68.40 \pm 8.98 & -51.10 \pm 5.09 & -51.41 \pm 4.73 \\
+Modified SAC & - & - & - & - & -3.56 \pm 3.14 & - & - & - & - & - & 1000.00 \pm 0.00 & - & - & 1000.00 \pm 0.00 & 1000.00 \pm 0.00 & -52.08 \pm 5.58 & -56.19 \pm 6.12 & -53.72 \pm 5.83 & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - & - \\
 \bottomrule
 \end{tabular}
 \end{table}
