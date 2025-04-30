@@ -1,12 +1,15 @@
 \begin{table}
 \caption{Algorithm Performance on Modified Pusher Environments (Mean $\pm$ Std Return)}
 \label{tab:perf_mod_pusher}
-\begin{tabular}{lll}
+\begin{tabular}{lccc}
 \toprule
- & Puck Mass +20\% & Puck Mass +50\% \\
+ & Pusher Puck Mass +20\% & Pusher Puck Mass +50\% & Pusher Goal Shift \\
 \midrule
-MODIFIED_SAC & -56.19 \pm 6.12 & -53.72 \pm 5.83 \\
-SAC & -22.69 \pm 2.91 & -26.34 \pm 3.90 \\
+AIRL & -45.14 $\pm$ 5.88 & -44.73 $\pm$ 6.01 & -85.29 $\pm$ 17.93 \\
+BC & -29.00 $\pm$ 13.15 & -30.75 $\pm$ 15.15 & -58.51 $\pm$ 9.63 \\
+Expert SAC & -22.69 $\pm$ 2.91 & -26.34 $\pm$ 3.90 & -67.63 $\pm$ 18.21 \\
+GAIL & -34.99 $\pm$ 6.83 & -34.19 $\pm$ 7.83 & -68.40 $\pm$ 8.98 \\
+Modified SAC & -22.69 $\pm$ 2.91 & -26.10 $\pm$ 4.13 & - \\
 \bottomrule
 \end{tabular}
 \end{table}

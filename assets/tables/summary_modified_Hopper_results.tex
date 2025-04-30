@@ -1,11 +1,15 @@
 \begin{table}
 \caption{Algorithm Performance on Modified Hopper Environments (Mean $\pm$ Std Return)}
 \label{tab:perf_mod_hopper}
-\begin{tabular}{lllll}
+\begin{tabular}{lcccc}
 \toprule
- & Friction -20\% & Friction -50\% & Torso Mass +20\% & Torso Mass +50\% \\
+ & Hopper Friction -20\% & Hopper Friction -50\% & Hopper Torso Mass +20\% & Hopper Torso Mass +50\% \\
 \midrule
-SAC & 2955.07 \pm 160.87 & 2918.38 \pm 456.25 & 2589.99 \pm 439.62 & 2968.82 \pm 26.46 \\
+AIRL & 3292.83 $\pm$ 82.85 & 751.24 $\pm$ 43.32 & 3498.83 $\pm$ 3.20 & 1810.75 $\pm$ 171.19 \\
+BC & 880.35 $\pm$ 25.26 & 490.32 $\pm$ 29.09 & 1413.67 $\pm$ 528.24 & 781.39 $\pm$ 63.29 \\
+Expert SAC & 2955.07 $\pm$ 160.87 & 2918.38 $\pm$ 456.25 & 2589.99 $\pm$ 439.62 & 2968.82 $\pm$ 26.46 \\
+GAIL & 1107.00 $\pm$ 55.79 & 578.50 $\pm$ 6.61 & 1416.40 $\pm$ 510.31 & 831.86 $\pm$ 33.17 \\
+Modified SAC & 2955.07 $\pm$ 160.87 & 2929.59 $\pm$ 483.66 & 2590.57 $\pm$ 435.91 & 2967.84 $\pm$ 27.05 \\
 \bottomrule
 \end{tabular}
 \end{table}
