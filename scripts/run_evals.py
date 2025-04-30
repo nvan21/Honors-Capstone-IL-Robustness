@@ -7,7 +7,8 @@ import yaml
 
 # --- Configuration ---
 TARGET_SCRIPT = "scripts/visualize_expert.py"
-with open("test.yaml", "r") as f:
+EVAL_YAML = "runs/eval.yaml"
+with open(EVAL_YAML, "r") as f:
     experiments = yaml.safe_load(f)
 
 # Each inner list represents the command line arguments for one run,
@@ -17,19 +18,21 @@ ARGUMENT_SETS = []
 for path, envs in experiments.items():
     for env, xml_files in envs.items():
         for xml_file in xml_files:
-            ARGUMENT_SETS.append(
-                [
-                    "--weights",
-                    path,
-                    "--env",
-                    env,
-                    "--xml_file",
-                    xml_file,
-                    "--num_eval_episodes",
-                    NUM_EVAL_EPISODES,
-                    "--log",
-                ]
-            )
+            command = [
+                "--weights",
+                path,
+                "--env",
+                env,
+                "--xml_file",
+                xml_file,
+                "--num_eval_episodes",
+                NUM_EVAL_EPISODES,
+                "--log",
+            ]
+            if "modified" in xml_file:
+                command.append("--modified")
+
+            ARGUMENT_SETS.append(command)
 
 # Maximum number of concurrent processes
 MAX_CONCURRENT_PROCESSES = 8
