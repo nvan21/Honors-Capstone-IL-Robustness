@@ -448,7 +448,7 @@ if best_runs_list:
 
     if "num_epochs" in best_runs_df.columns:
         best_runs_df["num_epochs"] = pd.to_numeric(
-            best_runs_df["num_epochs"], errors="coerce"
+            best_runs_df["num_epochs"] - 1, errors="coerce"
         )
         best_runs_df["num_epochs"] = best_runs_df["num_epochs"].fillna(0).astype(int)
     else:
