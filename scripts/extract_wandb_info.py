@@ -18,8 +18,13 @@ metric_names_priority = [
 ]
 # --- Define Potential Config Keys ---
 ENV_ID_CONFIG_KEYS = ["env_id", "env", "environment_id", "environment"]
-# Specific key for number of steps in config
 NUM_STEPS_CONFIG_KEY = "num_steps"
+
+# --- Timezone Configuration ---
+# Timezone WandB returns (almost always UTC)
+SOURCE_TIMEZONE = "UTC"
+# Your target local timezone (e.g., 'US/Eastern', 'America/New_York', 'America/Chicago', 'Etc/GMT+5')
+TARGET_TIMEZONE = "US/Central"  # Changed to Central Time
 
 tags_to_process = []
 
@@ -98,7 +103,7 @@ api = None
 # --- Authentication and API Initialization ---
 try:
     api = wandb.Api(timeout=60)
-    print(f"\nSuccessfully connected to Wandb API.")
+    print(f"\nSuccessfully connected to WandB API.")
     print(f"Processing project: {runs_path_base}")
     _ = api.project(name=project, entity=entity)
     print(f"Confirmed access to project '{project}' under entity '{entity}'.")
@@ -213,54 +218,35 @@ for tag_spec in tags_to_process:
                 if not env_id:
                     env_id = "N/A"
 
-                # --- Get num_steps from Config Safely ---
+                # Get num_steps from Config Safely
                 num_steps = run.config.get(NUM_STEPS_CONFIG_KEY)
-                # Validate if it's a number, otherwise set to None or a default
                 if (
                     num_steps is None
                     or not isinstance(num_steps, (int, float))
                     or pd.isna(num_steps)
                 ):
-                    num_steps = None  # Set to None if missing, not a number, or NaN
+                    num_steps = None
                 else:
                     try:
-                        num_steps = int(num_steps)  # Ensure it's an integer
+                        num_steps = int(num_steps)
                     except (ValueError, TypeError):
                         print(
                             f"  Warning: Could not convert num_steps '{num_steps}' to int for run {run.id}. Setting to None."
                         )
                         num_steps = None
 
-                num_epochs = run.config.get("epochs")
-                # Validate if it's a number, otherwise set to None or a default
-                if (
-                    num_epochs is None
-                    or not isinstance(num_epochs, (int, float))
-                    or pd.isna(num_epochs)
-                ):
-                    num_epochs = None  # Set to None if missing, not a number, or NaN
-                else:
-                    try:
-                        num_epochs = int(num_epochs)  # Ensure it's an integer
-                    except (ValueError, TypeError):
-                        print(
-                            f"  Warning: Could not convert num_epochs '{num_epochs}' to int for run {run.id}. Setting to None."
-                        )
-                        num_epochs = None
-
-                # Store details
+                # Store details (keep original times for now)
                 best_run_details_for_tag = {
                     "run_name": run.name,
                     "run_id": run.id,
                     "env_id": env_id,
-                    "num_steps": num_steps,  # <-- ADDED num_steps from config
-                    "num_epochs": num_epochs,
+                    "num_steps": num_steps,
                     "run_path": f"{entity}/{project}/{run.id}",
                     "xml_file": xml_basename,
-                    "created_at": run.created_at,
+                    "created_at": run.created_at,  # Original value from API
                     "last_updated_ts": run.summary.get(
                         "_timestamp"
-                    ),  # Keep timestamp from summary
+                    ),  # Original Unix timestamp
                     "metric_value": best_metric_value_for_tag,
                     "metric_name_used": current_run_metric_used,
                     "run_state": run.state,
@@ -275,44 +261,55 @@ for tag_spec in tags_to_process:
             "status": "found_best",
             "details": best_run_details_for_tag,
         }
-        # Temporarily format dates for the print statement
-        created_at_str_print = str(best_run_details_for_tag["created_at"])
+        # --- Format times LOCALLY for printing ---
+        created_at_local_str = "N/A"
         try:
-            created_dt_print = pd.to_datetime(best_run_details_for_tag["created_at"])
-            if pd.notna(created_dt_print):
-                created_at_str_print = created_dt_print.strftime(OUTPUT_DATE_FORMAT)
-        except Exception:
-            pass
+            created_dt = pd.to_datetime(best_run_details_for_tag["created_at"])
+            if pd.notna(created_dt):
+                if created_dt.tz is None:
+                    created_dt = created_dt.tz_localize(SOURCE_TIMEZONE)
+                created_local = created_dt.tz_convert(TARGET_TIMEZONE)
+                created_at_local_str = created_local.strftime(OUTPUT_DATE_FORMAT)
+        except Exception as e:
+            print(
+                f"  Warn (print format): Could not convert created_at {best_run_details_for_tag['created_at']} - {e}"
+            )
+            created_at_local_str = str(best_run_details_for_tag["created_at"])
 
+        last_updated_local_str = "N/A"
         last_updated_ts = best_run_details_for_tag.get("last_updated_ts")
-        last_updated_str_print = "N/A"
         if last_updated_ts:
             try:
-                last_updated_dt_print = datetime.fromtimestamp(last_updated_ts)
-                last_updated_str_print = last_updated_dt_print.strftime(
-                    OUTPUT_DATE_FORMAT
+                last_updated_dt = pd.to_datetime(last_updated_ts, unit="s")
+                if pd.notna(last_updated_dt):
+                    last_updated_local = last_updated_dt.tz_localize(
+                        SOURCE_TIMEZONE
+                    ).tz_convert(TARGET_TIMEZONE)
+                    last_updated_local_str = last_updated_local.strftime(
+                        OUTPUT_DATE_FORMAT
+                    )
+            except Exception as e:
+                print(
+                    f"  Warn (print format): Could not convert last_updated_ts {last_updated_ts} - {e}"
                 )
-            except Exception:
-                last_updated_str_print = str(last_updated_ts)
+                last_updated_local_str = str(last_updated_ts)
 
         xml_file_str = best_run_details_for_tag.get("xml_file", "N/A")
         if not xml_file_str:
             xml_file_str = "N/A"
         env_id_str = best_run_details_for_tag.get("env_id", "N/A")
         num_steps_str = best_run_details_for_tag.get("num_steps")
-        num_epochs_str = best_run_details_for_tag.get("num_epochs")
-        # Format num_steps for printing, handle None
         if num_steps_str is None:
             num_steps_str = "N/A"
         else:
             try:
-                num_steps_str = f"{int(num_steps_str):,}"  # Format with commas
+                num_steps_str = f"{int(num_steps_str):,}"
             except (ValueError, TypeError):
                 num_steps_str = str(num_steps_str)
 
         print(
             f"  Best run selected for '{tag_key_string}': {best_run_details_for_tag['run_name']} "
-            f"(Env: {env_id_str}, Num Steps: {num_steps_str}, XML: {xml_file_str}, Created: {created_at_str_print}, Last Updated: {last_updated_str_print}) "  # Updated print
+            f"(Env: {env_id_str}, Num Steps: {num_steps_str}, XML: {xml_file_str}, Created: {created_at_local_str}, Last Updated: {last_updated_local_str}) "
             f"with value {best_run_details_for_tag['metric_value']:.4f}"
         )
     elif runs_checked_count > 0 and runs_with_metric_count == 0:
@@ -363,12 +360,15 @@ for tag_key, result_info in best_run_results.items():
 if best_runs_list:
     best_runs_df = pd.DataFrame(best_runs_list)
 
-    # Convert original time columns to datetime objects
+    # --- Convert, Localize, Convert Timezone, and Format ---
+    print(f"\nConverting timestamps from {SOURCE_TIMEZONE} to {TARGET_TIMEZONE}...")
+
     try:
         best_runs_df["created_at_dt"] = pd.to_datetime(
             best_runs_df["created_at"], errors="coerce"
         )
-    except Exception:
+    except Exception as e:
+        print(f"Warning: Error during initial 'created_at' conversion: {e}")
         best_runs_df["created_at_dt"] = pd.NaT
     try:
         best_runs_df["last_updated_dt"] = pd.to_datetime(
@@ -376,61 +376,73 @@ if best_runs_list:
         )
     except KeyError:
         best_runs_df["last_updated_dt"] = pd.NaT
-    except Exception:
+    except Exception as e:
+        print(f"Warning: Error during initial 'last_updated_ts' conversion: {e}")
         best_runs_df["last_updated_dt"] = pd.NaT
 
-    # Create STRING columns with the desired format
     if "created_at_dt" in best_runs_df.columns:
-        best_runs_df["created_at_str"] = best_runs_df["created_at_dt"].apply(
+        if best_runs_df["created_at_dt"].dt.tz is None:
+            best_runs_df["created_at_dt"] = best_runs_df[
+                "created_at_dt"
+            ].dt.tz_localize(SOURCE_TIMEZONE, ambiguous="infer")
+        else:
+            best_runs_df["created_at_dt"] = best_runs_df["created_at_dt"].dt.tz_convert(
+                SOURCE_TIMEZONE
+            )
+    if "last_updated_dt" in best_runs_df.columns:
+        if best_runs_df["last_updated_dt"].dt.tz is None:
+            best_runs_df["last_updated_dt"] = best_runs_df[
+                "last_updated_dt"
+            ].dt.tz_localize(SOURCE_TIMEZONE, ambiguous="infer")
+        else:
+            best_runs_df["last_updated_dt"] = best_runs_df[
+                "last_updated_dt"
+            ].dt.tz_convert(SOURCE_TIMEZONE)
+
+    if "created_at_dt" in best_runs_df.columns:
+        best_runs_df["created_at_local"] = best_runs_df["created_at_dt"].dt.tz_convert(
+            TARGET_TIMEZONE
+        )
+    if "last_updated_dt" in best_runs_df.columns:
+        best_runs_df["last_updated_local"] = best_runs_df[
+            "last_updated_dt"
+        ].dt.tz_convert(TARGET_TIMEZONE)
+
+    if "created_at_local" in best_runs_df.columns:
+        best_runs_df["created_at_str"] = best_runs_df["created_at_local"].apply(
             lambda x: x.strftime(OUTPUT_DATE_FORMAT) if pd.notna(x) else "N/A"
         )
     else:
         best_runs_df["created_at_str"] = "N/A"
-    if "last_updated_dt" in best_runs_df.columns:
-        best_runs_df["last_updated_str"] = best_runs_df["last_updated_dt"].apply(
+    if "last_updated_local" in best_runs_df.columns:
+        best_runs_df["last_updated_str"] = best_runs_df["last_updated_local"].apply(
             lambda x: x.strftime(OUTPUT_DATE_FORMAT) if pd.notna(x) else "N/A"
         )
     else:
         best_runs_df["last_updated_str"] = "N/A"
 
-    # --- Handle 'num_steps' column: Fill missing values ---
-    # Use pd.to_numeric to handle potential non-numeric types first, coercing errors
+    # Handle 'num_steps' column
     if "num_steps" in best_runs_df.columns:
         best_runs_df["num_steps"] = pd.to_numeric(
             best_runs_df["num_steps"], errors="coerce"
         )
-        # Choose how to fill NaN. 0 or a specific marker like -1 might be appropriate.
-        # Let's use 0 for now, assuming missing means 0 or wasn't set properly.
         best_runs_df["num_steps"] = best_runs_df["num_steps"].fillna(0).astype(int)
     else:
-        # If the column wasn't created because no runs had the config key
         best_runs_df["num_steps"] = 0
 
-    if "num_epochs" in best_runs_df.columns:
-        best_runs_df["num_epochs"] = pd.to_numeric(
-            best_runs_df["num_epochs"], errors="coerce"
-        )
-        # Choose how to fill NaN. 0 or a specific marker like -1 might be appropriate.
-        # Let's use 0 for now, assuming missing means 0 or wasn't set properly.
-        best_runs_df["num_epochs"] = best_runs_df["num_epochs"].fillna(0).astype(int)
-    else:
-        # If the column wasn't created because no runs had the config key
-        best_runs_df["num_epochs"] = 0
-
-    # Define final column order including num_steps
+    # --- Define final column order ---
     column_order = [
         "tag_specification",
         "env_id",
         "num_steps",
-        "num_epochs",
         "xml_file",
         "metric_value",
         "metric_name_used",
         "run_name",
         "run_id",
         "run_path",
-        "created_at_str",
-        "last_updated_str",
+        "created_at_str",  # Formatted LOCAL string
+        "last_updated_str",  # Formatted LOCAL string
         "run_state",
     ]
     existing_columns = [col for col in column_order if col in best_runs_df.columns]
@@ -454,7 +466,7 @@ if best_runs_list:
         best_runs_df_final.to_csv(
             output_filename,
             index=False,
-            float_format="%.4f",  # For metric_value
+            float_format="%.4f",
         )
         print(f"\nBest run results saved to {output_filename}")
     except Exception as e:
