@@ -35,8 +35,8 @@ def make_sb3_model_path(
 
 
 for index, row in best_runs.iterrows():
+    num_steps = row["num_steps"] if row["num_steps"] != 0 else row["num_epochs"]
     if "AND" in row["tag_specification"]:
-        num_steps = row["num_steps"] if row["num_steps"] != 0 else row["num_epochs"]
         model_path = make_base_model_path(
             run_name=row["run_name"],
             created_at=row["created_at_str"],
