@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Pusher-v5",
-    "mean_return": -25.74218078514715,
+    "mean_return": -24.415209519976077,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 4.975701188763489,
-    "time": "20250428-1959",
-    "weights_path": "./experts/pusher-v5-sac-expert.zip",
-    "xml_file": "./xml\\Pusher-v5\\pusher_puck_mass_p50.xml"
+    "std_return": 12.62162463177509,
+    "time": "20250429-1751",
+    "weights_path": "./experts/pusher-v5-SAC-expert.zip",
+    "xml_file": "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
 }

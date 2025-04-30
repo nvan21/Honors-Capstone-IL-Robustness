@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Ant-v5",
-    "mean_return": 1619.2355435599225,
+    "mean_return": 1624.0407058280832,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 160.17439846761533,
-    "time": "20250428-1956",
+    "std_return": 178.79295121475138,
+    "time": "20250429-1859",
     "weights_path": "./experts/ant-v5-sac-expert.zip",
-    "xml_file": "./xml\\Ant-v5\\ant_gear_m50.xml"
+    "xml_file": "./xml/Ant-v5/ant_gear_m50.xml"
 }

@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Hopper-v5",
-    "mean_return": 544.0437440462962,
+    "mean_return": 544.0437619177438,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 260.6864430416631,
-    "time": "20250428-1957",
-    "weights_path": "./experts/hopper-v5-sac-expert.zip",
-    "xml_file": "./xml\\Hopper-v5\\hopper_friction_m20.xml"
+    "std_return": 260.68647013751166,
+    "time": "20250429-1834",
+    "weights_path": "./experts/hopper-v5-SAC-expert.zip",
+    "xml_file": "./xml/Hopper-v5/hopper_friction_m20.xml"
 }

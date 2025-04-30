@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Hopper-v5",
-    "mean_return": 702.944579032588,
+    "mean_return": 702.9445810536572,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 5.422251022432358,
-    "time": "20250428-1958",
-    "weights_path": "./experts/hopper-v5-sac-expert.zip",
-    "xml_file": "./xml\\Hopper-v5\\hopper_torso_mass_p50.xml"
+    "std_return": 5.422251045170221,
+    "time": "20250429-1854",
+    "weights_path": "./experts/hopper-v5-SAC-expert.zip",
+    "xml_file": "./xml/Hopper-v5/hopper_torso_mass_p50.xml"
 }

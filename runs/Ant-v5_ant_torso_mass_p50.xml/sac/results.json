@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Ant-v5",
-    "mean_return": 5528.5234425944245,
+    "mean_return": 5686.958518905579,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 1138.5936298366582,
-    "time": "20250428-1958",
+    "std_return": 894.2114545106621,
+    "time": "20250429-1903",
     "weights_path": "./experts/ant-v5-sac-expert.zip",
-    "xml_file": "./xml\\Ant-v5\\ant_torso_mass_p50.xml"
+    "xml_file": "./xml/Ant-v5/ant_torso_mass_p50.xml"
 }
