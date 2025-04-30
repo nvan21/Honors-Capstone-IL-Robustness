@@ -197,7 +197,7 @@ class AIRLReplayBuffer(ReplayBuffer):
         observation_space,
         action_space,
         reward_model,
-        use_actions_disc: bool,
+        use_actions_disc: bool = True,
         device: str = "auto",
         n_envs: int = 1,
         optimize_memory_usage: bool = False,
