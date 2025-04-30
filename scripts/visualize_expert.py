@@ -85,7 +85,7 @@ def run(args):
     )
 
     if args.log:
-        run_path = f"./runs/{args.env}_{args.xml_file}/{algo_name}"
+        run_path = f"./runs/{args.env}_{Path(args.xml_file).stem}/{algo_name}"
         os.makedirs(run_path, exist_ok=True)
         with open(os.path.join(run_path, f"results.json"), "w") as f:
             json.dump(returns, f, indent=4, sort_keys=True)
