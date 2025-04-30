@@ -105,7 +105,7 @@
         628604922
     ],
     "std_return": 456.25282128609194,
-    "time": "20250429-2304",
+    "time": "20250430-1014",
     "weights_path": "./logs/sb3/lf4le8hi/best_model/best_model.zip",
     "xml_file": "./xml/Hopper-v5/hopper_friction_m50.xml"
 }

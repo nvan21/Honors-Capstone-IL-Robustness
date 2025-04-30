@@ -105,7 +105,7 @@
         628604922
     ],
     "std_return": 0.0,
-    "time": "20250429-2310",
+    "time": "20250430-1019",
     "weights_path": "./logs/sb3/72cbwpsw/best_model/best_model.zip",
     "xml_file": "./xml/InvertedPendulum-v5/invpend_gravity_p50.xml"
 }

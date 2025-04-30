@@ -19,4 +19,4 @@ cd /work/flemingc/nvan21/projects/Honors-Capstone
 conda activate honors
 
 # --- Hopper Modifications (Learned Reward on Modified Env) ---
-python test_eval.py
+python scripts/run_evals.py

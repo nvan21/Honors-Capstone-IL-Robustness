@@ -105,7 +105,7 @@
         628604922
     ],
     "std_return": 1182.420712937021,
-    "time": "20250429-2305",
+    "time": "20250430-1015",
     "weights_path": "./logs/sb3/p7enqx0t/best_model/best_model.zip",
     "xml_file": "./xml/Ant-v5/ant_torso_mass_p20.xml"
 }

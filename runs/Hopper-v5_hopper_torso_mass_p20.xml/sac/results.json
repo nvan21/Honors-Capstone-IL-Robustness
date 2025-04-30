@@ -105,7 +105,7 @@
         628604922
     ],
     "std_return": 439.6162987565947,
-    "time": "20250429-2305",
+    "time": "20250430-1015",
     "weights_path": "./logs/sb3/5917png1/best_model/best_model.zip",
     "xml_file": "./xml/Hopper-v5/hopper_torso_mass_p20.xml"
 }

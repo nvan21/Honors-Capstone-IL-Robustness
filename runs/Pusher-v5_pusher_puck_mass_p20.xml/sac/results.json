@@ -105,7 +105,7 @@
         628604922
     ],
     "std_return": 2.9114438149969954,
-    "time": "20250429-2253",
+    "time": "20250430-1003",
     "weights_path": "./logs/sb3/fqbhnabk/best_model/best_model.zip",
     "xml_file": "./xml/Pusher-v5/pusher_puck_mass_p20.xml"
 }
