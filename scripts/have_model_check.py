@@ -85,4 +85,5 @@ if __name__ == "__main__":
         DIRS_TO_CHECK = list(yaml.safe_load(f).keys())
 
     for dir in DIRS_TO_CHECK:
-        print(f"Path: {dir}       Exists: {os.path.exists(dir)}")
+        if not os.path.exists(dir):
+            print(f"Path: {dir}")
