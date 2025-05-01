@@ -439,8 +439,11 @@ def wrap_with_adjustbox(latex_table_string):
 
 
 # --- Helper function to create a minimal compilable LaTeX document string ---
-def create_standalone_latex_doc(table_content_string, threshold_percent):
-    """Creates a full LaTeX document string containing just the provided table content."""
+def create_standalone_latex_doc(table_content_string, threshold_percent, table_number):
+    """
+    Creates a full LaTeX document string containing just the provided table content.
+    Sets the table counter to ensure correct numbering when compiled individually.
+    """
     preamble = [
         "\\documentclass{article}",
         "\\usepackage{booktabs}",
@@ -451,6 +454,7 @@ def create_standalone_latex_doc(table_content_string, threshold_percent):
         "\\usepackage{geometry}",
         "\\geometry{a4paper, margin=1in, landscape}",  # Use landscape for individual files too
         f"% Bolding threshold for scores near max: {threshold_percent}%",
+        f"\\setcounter{{table}}{{{table_number - 1}}} % Set table counter",  # SET COUNTER
         "",
         "\\begin{document}",
         "\\pagestyle{empty}",  # Prevent page numbers on single-table files
@@ -605,11 +609,13 @@ if DEBUG_MODE:
 # --- Collect table LaTeX strings for the combined file ---
 # This list will hold ONLY the table environments (wrapped in adjustbox)
 combined_file_table_parts = []
+table_counter = 0  # Initialize counter for individual file numbering
 
 # 1. Standard Environments Table
 if not standard_table_data:
     print("No data found for the standard environments table.")
 else:
+    table_counter += 1  # Increment for this table
     print("--- Generating Standard Environments Table String ---")
     standard_df = pd.DataFrame.from_dict(standard_table_data, orient="index")
     standard_df = standard_df.sort_index(axis=0)  # Sort rows (formatted algos)
@@ -642,12 +648,14 @@ else:
 
         # --- Create and Save Individual Standard File ---
         standalone_std_doc = create_standalone_latex_doc(
-            wrapped_std_latex, bold_threshold_percent
+            wrapped_std_latex, bold_threshold_percent, table_counter
         )
         std_filename = individual_output_dir / "summary_standard_results.tex"
         with open(std_filename, "w", encoding="utf-8") as f:
             f.write(standalone_std_doc)
-        print(f"Individual standard table document saved to {std_filename}")
+        print(
+            f"Individual standard table document (Table {table_counter}) saved to {std_filename}"
+        )
 
         # --- Add table content to combined list ---
         combined_file_table_parts.append("% --- Standard Environment Results ---")
@@ -673,6 +681,8 @@ else:
         if not mod_data:
             print(f"  No data for {base_env_name_for_grouping} modified environments.")
             continue
+
+        table_counter += 1  # Increment for this table
 
         # Create DataFrame with formatted algo names as index & formatted modifications as columns
         mod_df = pd.DataFrame.from_dict(mod_data, orient="index")
@@ -714,7 +724,7 @@ else:
 
             # --- Create and Save Individual Modified File ---
             standalone_mod_doc = create_standalone_latex_doc(
-                wrapped_mod_latex, bold_threshold_percent
+                wrapped_mod_latex, bold_threshold_percent, table_counter
             )
             mod_filename = (
                 individual_output_dir
@@ -722,7 +732,9 @@ else:
             )
             with open(mod_filename, "w", encoding="utf-8") as f:
                 f.write(standalone_mod_doc)
-            print(f"Individual modified table document saved to {mod_filename}")
+            print(
+                f"Individual modified table document (Table {table_counter}) saved to {mod_filename}"
+            )
 
             # --- Add table content to combined list ---
             combined_file_table_parts.append(
@@ -771,7 +783,7 @@ if combined_file_table_parts:  # Check if any tables were actually generated
         print(f"  pdflatex {combined_latex_file}")
         print(f"  pdflatex {combined_latex_file} % Run twice for correct references")
         print(
-            "\nIndividual table .tex files (also compilable) saved in:",
+            "\nIndividual table .tex files (also compilable, with correct numbering) saved in:",
             individual_output_dir,
         )
     except Exception as e:
