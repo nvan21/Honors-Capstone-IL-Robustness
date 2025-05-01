@@ -1,7 +1,7 @@
 {
-    "algo": "sac",
-    "env": "Ant-v5",
-    "mean_return": 1021.6668158877098,
+    "algo": "modified_sac",
+    "env": "Pusher-v5",
+    "mean_return": -80.32040542933973,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 575.7961385307143,
-    "time": "20250501-1755",
-    "weights_path": "./experts/ant-v5-sac-expert.zip",
-    "xml_file": "./xml/Ant-v5/ant_disabled_leg.xml"
+    "std_return": 14.028295745039197,
+    "time": "20250501-1801",
+    "weights_path": "./logs/sb3/d68sjqik/best_model/best_model.zip",
+    "xml_file": "./xml/Pusher-v5/pusher_goal_shift.xml"
 }

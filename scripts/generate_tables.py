@@ -12,7 +12,7 @@ nan_replacement = "-"  # How to display missing results
 # Directory to save the INDIVIDUAL compilable LaTeX files for each table
 individual_output_dir = Path("assets") / "tables"
 # Name for the full combined LaTeX file in the root directory
-combined_latex_file = "all_results_single_page.tex"
+combined_latex_file = "./assets/tables/all_results_single_page.tex"
 bold_threshold_percent = 5  # Percentage threshold for bolding scores near the maximum
 
 # Ensure output directory exists
