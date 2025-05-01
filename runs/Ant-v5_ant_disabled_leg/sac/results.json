@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Ant-v5",
-    "mean_return": 4146.736272589884,
+    "mean_return": -285.8548696594815,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 1188.3445701416174,
-    "time": "20250501-1425",
-    "weights_path": "./logs/sb3/c19biy1u/best_model/best_model.zip",
+    "std_return": 128.88061701138156,
+    "time": "20250501-1633",
+    "weights_path": "/mnt/e/Coding-Projects/Honors-Capstone/logs/sb3/7ecknbdf/sac_model_3000000_steps.zip",
     "xml_file": "./xml/Ant-v5/ant_disabled_leg.xml"
 }

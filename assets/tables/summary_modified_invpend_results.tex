@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{caption}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in, landscape}
+% Bolding threshold for scores near max: 5%
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{table}
+\caption{Algorithm Performance on Modified Inverted Pendulum Environments (Mean $\pm$ Std Return)}
+\label{tab:perf_mod_invpend}
+\begin{adjustbox}{max width=\textwidth, center}
+\begin{tabular}{lcccc}
+\toprule
+ & Gravity +20\% & Gravity +50\% & Pole Mass +20\% & Pole Mass +50\% \\
+\midrule
+AIRL & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} \\
+BC & \textbf{1000.00 $\pm$ 0.00} & 421.98 $\pm$ 267.17 & 986.47 $\pm$ 83.89 & 871.55 $\pm$ 251.55 \\
+Expert SAC & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} \\
+GAIL & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} \\
+Modified SAC & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\end{document}

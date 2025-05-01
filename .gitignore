@@ -6,3 +6,4 @@ weights/
 wandb/
 slurm-*
 vscode-*
+.DS_Store

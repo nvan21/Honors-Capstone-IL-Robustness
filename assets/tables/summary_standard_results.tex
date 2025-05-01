@@ -1,15 +1,32 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{caption}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in, landscape}
+% Bolding threshold for scores near max: 5%
+
+\begin{document}
+\pagestyle{empty}
+
 \begin{table}
 \caption{Algorithm Performance on Standard Environments (Mean $\pm$ Std Return)}
 \label{tab:perf_standard}
+\begin{adjustbox}{max width=\textwidth, center}
 \begin{tabular}{lcccc}
 \toprule
- & Ant & Hopper & Invpend & Pusher \\
+ & Ant & Hopper & Inverted Pendulum & Pusher \\
 \midrule
-AIRL & 5233.60 $\pm$ 989.55 & 3410.27 $\pm$ 18.06 & 1000.00 $\pm$ 0.00 & -45.09 $\pm$ 5.98 \\
-BC & 5204.70 $\pm$ 1386.33 & 3233.93 $\pm$ 416.85 & 1000.00 $\pm$ 0.00 & -30.49 $\pm$ 11.30 \\
-Expert SAC & 5655.26 $\pm$ 882.56 & 4070.47 $\pm$ 307.83 & 1000.00 $\pm$ 0.00 & -52.98 $\pm$ 6.23 \\
-GAIL & 4576.90 $\pm$ 1649.49 & 3476.49 $\pm$ 1.49 & 1000.00 $\pm$ 0.00 & -35.51 $\pm$ 6.41 \\
-Modified SAC & 2865.51 $\pm$ 1029.50 & 3363.64 $\pm$ 378.97 & 1000.00 $\pm$ 0.00 & -52.08 $\pm$ 5.58 \\
+AIRL & 5233.60 $\pm$ 989.55 & 3410.27 $\pm$ 18.06 & \textbf{1000.00 $\pm$ 0.00} & -45.09 $\pm$ 5.98 \\
+BC & 5204.70 $\pm$ 1386.33 & 3233.93 $\pm$ 416.85 & \textbf{1000.00 $\pm$ 0.00} & \textbf{-30.49 $\pm$ 11.30} \\
+Expert SAC & \textbf{5655.26 $\pm$ 882.56} & \textbf{4070.47 $\pm$ 307.83} & \textbf{1000.00 $\pm$ 0.00} & \textbf{-30.53 $\pm$ 7.83} \\
+GAIL & 4576.90 $\pm$ 1649.49 & 3476.49 $\pm$ 1.49 & \textbf{1000.00 $\pm$ 0.00} & -35.51 $\pm$ 6.41 \\
+Modified SAC & 2865.51 $\pm$ 1029.50 & 3363.64 $\pm$ 378.97 & \textbf{1000.00 $\pm$ 0.00} & -52.08 $\pm$ 5.58 \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
+
+\end{document}

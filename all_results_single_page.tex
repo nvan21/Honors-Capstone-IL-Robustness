@@ -1,8 +1,26 @@
-% This file contains raw LaTeX table code.
-% To use these tables, include \usepackage{adjustbox} in your main LaTeX document preamble.
-% You will also likely need \usepackage{booktabs}, \usepackage{amsmath}, and \usepackage{array}.
-% Adjust \textwidth in the adjustbox options if needed.
-% Scores within 5% of the max score in each column are bolded.
+\documentclass{article}
+
+\usepackage{booktabs}
+
+\usepackage{amsmath}
+
+\usepackage{array}
+
+\usepackage{adjustbox}
+
+\usepackage{caption}
+
+\usepackage{geometry}
+
+\geometry{a4paper, margin=1in, landscape}
+
+% Bolding threshold for scores near max: 5%
+
+
+
+\begin{document}
+
+\pagestyle{empty}
 
 % --- Standard Environment Results ---
 
@@ -16,7 +34,7 @@
 \midrule
 AIRL & 5233.60 $\pm$ 989.55 & 3410.27 $\pm$ 18.06 & \textbf{1000.00 $\pm$ 0.00} & -45.09 $\pm$ 5.98 \\
 BC & 5204.70 $\pm$ 1386.33 & 3233.93 $\pm$ 416.85 & \textbf{1000.00 $\pm$ 0.00} & \textbf{-30.49 $\pm$ 11.30} \\
-Expert SAC & \textbf{5655.26 $\pm$ 882.56} & \textbf{4070.47 $\pm$ 307.83} & \textbf{1000.00 $\pm$ 0.00} & -52.98 $\pm$ 6.23 \\
+Expert SAC & \textbf{5655.26 $\pm$ 882.56} & \textbf{4070.47 $\pm$ 307.83} & \textbf{1000.00 $\pm$ 0.00} & \textbf{-30.53 $\pm$ 7.83} \\
 GAIL & 4576.90 $\pm$ 1649.49 & 3476.49 $\pm$ 1.49 & \textbf{1000.00 $\pm$ 0.00} & -35.51 $\pm$ 6.41 \\
 Modified SAC & 2865.51 $\pm$ 1029.50 & 3363.64 $\pm$ 378.97 & \textbf{1000.00 $\pm$ 0.00} & -52.08 $\pm$ 5.58 \\
 \bottomrule
@@ -31,15 +49,15 @@ Modified SAC & 2865.51 $\pm$ 1029.50 & 3363.64 $\pm$ 378.97 & \textbf{1000.00 $\
 \caption{Algorithm Performance on Modified Ant Environments (Mean $\pm$ Std Return)}
 \label{tab:perf_mod_ant}
 \begin{adjustbox}{max width=\textwidth, center}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccc}
 \toprule
- & Gear -20\% & Gear -50\% & Torso Mass +20\% & Torso Mass +50\% \\
+ & Disabled leg & Gear -20\% & Gear -50\% \\
 \midrule
-AIRL & \textbf{5098.03 $\pm$ 82.18} & \textbf{2793.96 $\pm$ 173.87} & \textbf{5106.64 $\pm$ 1270.56} & 5404.03 $\pm$ 924.96 \\
-BC & \textbf{5171.09 $\pm$ 80.21} & 1710.13 $\pm$ 191.90 & \textbf{5245.96 $\pm$ 1459.53} & 5349.48 $\pm$ 1423.86 \\
-Expert SAC & 2270.94 $\pm$ 304.65 & 982.30 $\pm$ 2.52 & 1142.64 $\pm$ 83.83 & 4702.85 $\pm$ 1549.73 \\
-GAIL & 4917.77 $\pm$ 738.36 & 2447.46 $\pm$ 217.78 & 5028.41 $\pm$ 1152.66 & 5160.50 $\pm$ 1108.70 \\
-Modified SAC & 2318.00 $\pm$ 80.25 & 982.31 $\pm$ 2.49 & 3956.16 $\pm$ 1028.00 & \textbf{5610.31 $\pm$ 1031.82} \\
+AIRL & - & \textbf{5098.03 $\pm$ 82.18} & \textbf{2793.96 $\pm$ 173.87} \\
+BC & 844.20 $\pm$ 406.90 & \textbf{5171.09 $\pm$ 80.21} & 1710.13 $\pm$ 191.90 \\
+Expert SAC & -285.85 $\pm$ 128.88 & 2270.94 $\pm$ 304.65 & 982.30 $\pm$ 2.52 \\
+GAIL & \textbf{1002.13 $\pm$ 564.12} & 4917.77 $\pm$ 738.36 & 2447.46 $\pm$ 217.78 \\
+Modified SAC & - & 2318.00 $\pm$ 80.25 & 982.31 $\pm$ 2.49 \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -67,10 +85,10 @@ Modified SAC & 2955.07 $\pm$ 160.87 & \textbf{2929.59 $\pm$ 483.66} & 2590.57 $\
 \end{table}
 
 
-% --- Modified Invpend Results ---
+% --- Modified Inverted Pendulum Results ---
 
 \begin{table}
-\caption{Algorithm Performance on Modified Invpend Environments (Mean $\pm$ Std Return)}
+\caption{Algorithm Performance on Modified Inverted Pendulum Environments (Mean $\pm$ Std Return)}
 \label{tab:perf_mod_invpend}
 \begin{adjustbox}{max width=\textwidth, center}
 \begin{tabular}{lcccc}
@@ -100,10 +118,13 @@ Modified SAC & \textbf{1000.00 $\pm$ 0.00} & \textbf{1000.00 $\pm$ 0.00} & \text
 \midrule
 AIRL & -85.29 $\pm$ 17.93 & -45.14 $\pm$ 5.88 & -44.73 $\pm$ 6.01 \\
 BC & \textbf{-58.51 $\pm$ 9.63} & -29.00 $\pm$ 13.15 & -30.75 $\pm$ 15.15 \\
-Expert SAC & -67.63 $\pm$ 18.21 & \textbf{-22.69 $\pm$ 2.91} & \textbf{-26.34 $\pm$ 3.90} \\
+Expert SAC & -67.63 $\pm$ 18.21 & \textbf{-22.69 $\pm$ 2.91} & -52.73 $\pm$ 5.48 \\
 GAIL & -68.40 $\pm$ 8.98 & -34.99 $\pm$ 6.83 & -34.19 $\pm$ 7.83 \\
 Modified SAC & - & \textbf{-22.69 $\pm$ 2.91} & \textbf{-26.10 $\pm$ 4.13} \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
 \end{table}
+
+
+\end{document}
