@@ -86,6 +86,13 @@ experiments:
     learning_rate: 0.00001
     alpha_lr: 0.00005
 
+  modified_reward_disabled_leg_ant:
+    use_reward_model: True
+    xml_file: "./xml/Ant-v5/ant_disabled_leg.xml"
+    num_steps: 3000000
+    learning_rate: 0.00001
+    alpha_lr: 0.00005
+
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
     use_reward_model: True
@@ -170,6 +177,9 @@ experiments:
 
   gear_m50_ant:
     xml_file: "./xml/Ant-v5/ant_gear_m50.xml"
+
+  disabled_leg_ant:
+    xml_file: "./xml/Ant-v5/ant_disabled_leg.xml"
 
   # --- Hopper Modifications (Standard Reward) ---
   torso_mass_p20_hopper:
