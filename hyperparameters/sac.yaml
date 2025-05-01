@@ -39,7 +39,7 @@ environments:
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250422-0839/model/step20000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed10-20250422-0839/model/step20000000/disc.pth"
     use_actions_disc: True
 
   Pusher-v5:
@@ -90,8 +90,9 @@ experiments:
     use_reward_model: True
     xml_file: "./xml/Ant-v5/ant_disabled_leg.xml"
     num_steps: 3000000
-    learning_rate: 0.00001
+    use_actions_disc: False
     alpha_lr: 0.00005
+
 
   # --- Hopper Modifications (Learned Reward) ---
   modified_reward_hopper:
