@@ -39,7 +39,7 @@ environments:
 
   Ant-v5:
     xml_file: "./xml/Ant-v5/ant.xml"
-    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250415-1902/model/step10000000/disc.pth"
+    reward_model_path: "./logs/Ant-v5/airl/normal_env-seed0-20250422-0839/model/step20000000/disc.pth"
     use_actions_disc: True
 
   Pusher-v5:
