@@ -144,14 +144,17 @@ experiments:
   modified_reward_puck_mass_p20_pusher:
     use_reward_model: True
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p20.xml"
+    learning_rate: 0.0001
 
   modified_reward_puck_mass_p50_pusher:
     use_reward_model: True
     xml_file: "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
+    learning_rate: 0.0001
 
   modified_reward_goal_shift_pusher:
     use_reward_model: True
     xml_file: "./xml/Pusher-v5/pusher_goal_shift.xml"
+    learning_rate: 0.0001
 
   # --- NEW: Modifications with Standard Reward ---
 
