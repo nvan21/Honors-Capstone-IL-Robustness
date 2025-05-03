@@ -1,5 +1,8 @@
-import torch
 import os
+
+import torch
+from gymnasium import Env
+from stable_baselines3 import SAC
 
 from .airl import AIRL
 from .ppo import PPO
@@ -18,6 +21,8 @@ class AIRLPPO(AIRL, PPO):
         action_shape,
         device,
         seed,
+        oracle_env: Env,
+        oracle: str | None = None,
         gamma=0.995,
         rollout_length=10000,
         mix_buffer=20,
@@ -73,6 +78,14 @@ class AIRLPPO(AIRL, PPO):
             needs_env=True,
         )
 
+        if oracle is not None:
+            self.oracle = SAC.load(oracle)
+        else:
+            self.oracle = oracle
+
+        self.oracle_env = oracle_env.unwrapped
+        self.dim_nq, self.dim_nv = self.oracle_env.model.nq, self.oracle_env.model.nv
+
     def update(self, writer):
         """
         Update both the discriminator and the policy.
@@ -88,10 +101,17 @@ class AIRLPPO(AIRL, PPO):
             states, _, _, dones, log_pis, next_states = self.buffer.sample(
                 self.batch_size
             )
-            # Samples from expert's demonstrations
-            states_exp, actions_exp, _, dones_exp, next_states_exp = (
-                self.buffer_exp.sample(self.batch_size)
-            )
+            # Samples either from expert's demonstrations or asks the oracle
+            if self.oracle is not None:
+                states_exp = states.copy_()
+                actions_exp, next_states_exp, dones_exp = self.probe_dynamics(
+                    states=states_exp
+                )
+            else:
+                states_exp, actions_exp, _, dones_exp, next_states_exp = (
+                    self.buffer_exp.sample(self.batch_size)
+                )
+
             # Calculate log probabilities of expert actions
             with torch.no_grad():
                 log_pis_exp = self.actor.evaluate_log_pi(states_exp, actions_exp)
@@ -117,6 +137,39 @@ class AIRLPPO(AIRL, PPO):
 
         # Update PPO using estimated rewards (method from PPO parent class)
         self.update_ppo(states, actions, rewards, dones, log_pis, next_states, writer)
+
+    def probe_dynamics(
+        self, states: torch.Tensor
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        # Create empty tensors
+        next_states = torch.empty_like(states)
+        dones = torch.empty_like(states.shape[0])
+
+        # Query oracle on states
+        actions = torch.tensor(
+            self.oracle.predict(observation=states, deterministic=True),
+            device=self.device,
+        )
+
+        # Loop through all states to run the dynamics
+        N = next_states.shape[0]
+        for i in range(N):
+            s = states[i]
+            a = actions[i]
+
+            # Split the state into qpos/qvel for MujoCo
+            qpos = s[: self.dim_nq]
+            qvel = s[self.dim_nq : self.dim_nq + self.dim_nv]
+
+            # Set the env state and forward the dynamics
+            self.oracle_env.set_state(qpos, qvel)
+            next_state, _, terminated, truncated, info = self.oracle_env.step(a)
+
+            # Add new expert data
+            next_states[i] = next_state
+            dones[i] = False if truncated else terminated
+
+        return actions, next_states, dones
 
     def save_models(self, save_dir):
         """

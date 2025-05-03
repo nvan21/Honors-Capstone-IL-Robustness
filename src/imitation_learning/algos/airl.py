@@ -1,17 +1,13 @@
-import torch
-from torch import nn
-import torch.nn.functional as F
-from torch.optim import Adam
 import os
 
-from .ppo import PPO
+import torch
+import torch.nn.functional as F
+from torch import nn
+from torch.optim import Adam
+
 from imitation_learning.network import AIRLDiscrim
 
-import torch
-from torch import nn
-import torch.nn.functional as F
-from torch.optim import Adam
-import os
+from .ppo import PPO
 
 
 class AIRL:

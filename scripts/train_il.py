@@ -1,15 +1,17 @@
-import os
-import torch
-from datetime import datetime
 import argparse
-import wandb
+import copy
+import os
+from datetime import datetime
 from pathlib import Path
 
-from imitation_learning.utils.env import make_env
-from imitation_learning.utils.utils import get_config
+import torch
+
+import wandb
+from imitation_learning.algos import AIRLPPO, BC, GAIL, PPO, SAC, DAgger, SACExpert
 from imitation_learning.utils.buffer import SerializedBuffer
+from imitation_learning.utils.env import make_env
 from imitation_learning.utils.trainer import Trainer
-from imitation_learning.algos import SAC, PPO, BC, AIRLPPO, GAIL, DAgger, SACExpert
+from imitation_learning.utils.utils import get_config
 
 
 def parse_args():
@@ -120,6 +122,8 @@ def get_algorithm(algo_name, config, env, buffer_exp=None, expert=None):
             action_shape=action_shape,
             device=device,
             seed=seed,
+            oracle_env=copy.deepcopy(env),
+            oracle=config.get("oracle"),
             gamma=config.get("discount_factor", 0.99),
             rollout_length=config.get("rollout_length", 10000),
             mix_buffer=config.get("mix_buffer", 20),
