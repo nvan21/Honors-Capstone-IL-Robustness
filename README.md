@@ -2,162 +2,178 @@
 
 ## Overview
 
-This project performs a comprehensive empirical comparison of various Imitation Learning (IL) algorithms, focusing on their robustness to environmental changes and the transferability of learned reward functions. Standard Behavioral Cloning (BC) can suffer from covariate shift and fail when the execution environment differs from the demonstration environment. More advanced methods like DAgger, GAIL, and AIRL aim to overcome these limitations. AIRL, in particular, attempts to learn a disentangled reward function, which might offer superior robustness and allow for effective transfer to train agents in modified environments.
+This project performs a comprehensive empirical comparison of various Imitation Learning (IL) algorithms, focusing on their robustness to environmental changes and the transferability of learned reward functions. Standard Behavioral Cloning (BC) can suffer from covariate shift and fail when the execution environment differs from the demonstration environment. More advanced methods like GAIL and AIRL aim to overcome these limitations. AIRL, in particular, attempts to learn a disentangled reward function, which might offer superior robustness and allow for effective transfer to train agents in modified environments.
 
 This research investigates:
 
-1.  The baseline imitation performance of different IL algorithms.
-2.  The robustness of policies learned via BC, DAgger, GAIL, and AIRL when deployed zero-shot in perturbed environments.
-3.  The quality and transferability of the reward function learned by AIRL.
-4.  How policies trained using the transferred AIRL reward compare to zero-shot policies in modified environments.
+1. The baseline imitation performance of BC, GAIL, and AIRL.
+2. The robustness of policies learned via BC, GAIL, and AIRL when deployed zero-shot in perturbed environments.
+3. The quality and transferability of the reward function learned by AIRL.
+4. How policies trained using the transferred AIRL reward compare to zero-shot policies in modified environments.
 
 ## Research Questions
 
-- **RQ1 (Baseline Imitation):** How well do BC, DAgger, GAIL, and AIRL replicate expert performance in the original demonstration environment?
-- **RQ2 (Policy Robustness):** How significantly does the performance of policies learned via BC, DAgger, GAIL, and AIRL degrade when deployed zero-shot in environments with variations (e.g., changed dynamics, goals)? Which method exhibits the most robust policies?
-- **RQ3 (AIRL Reward Quality):** Does the reward function learned by AIRL from base environment demonstrations capture meaningful task objectives? Can it be used to train an effective RL policy from scratch in the _modified_ environments?
-- **RQ4 (Transfer Comparison):** How does the performance of the policy trained via RL-using-transferred-AIRL-reward compare to the zero-shot performance of the original BC, DAgger, GAIL, and AIRL policies in the modified environments?
+* **RQ1 (Baseline Imitation):** How well do BC, GAIL, and AIRL replicate expert performance in the original demonstration environment?
+* **RQ2 (Policy Robustness):** How significantly does the performance of policies learned via BC, GAIL, and AIRL degrade when deployed zero-shot in environments with variations (e.g., changed dynamics, goals)? Which method exhibits the most robust policies?
+* **RQ3 (AIRL Reward Quality):** Does the reward function learned by AIRL from base environment demonstrations capture meaningful task objectives? Can it be used to train an effective RL policy from scratch in the *modified* environments?
+* **RQ4 (Transfer Comparison):** How does the performance of the policy trained via RL on the transferred AIRL reward compare to the zero-shot performance of the original BC, GAIL, and AIRL policies in the modified environments?
 
 ## Methodology
 
 ### Algorithms Compared
 
-1.  **Behavioral Cloning (BC):** Standard supervised learning (State -> Action) on expert data. Serves as a basic baseline.
-2.  **DAgger (Dataset Aggregation):** An iterative variant of BC that collects data under the current policy and queries an expert for labels to mitigate covariate shift.
-3.  **GAIL (Generative Adversarial Imitation Learning):** An adversarial IL method that learns a policy to match the expert's state-action visitation distribution, often without explicitly recovering a reward function.
-4.  **AIRL (Adversarial Inverse Reinforcement Learning):** An adversarial IRL method designed to recover a disentangled reward function, potentially invariant to environment dynamics. Both the learned policy and the learned reward function are analyzed.
-5.  **RL on Transferred AIRL Reward:** A standard RL algorithm (e.g., PPO/SAC) trained in a _modified_ environment using the reward function learned by AIRL in the _base_ environment.
+1. **Behavioral Cloning (BC):** Standard supervised learning (State → Action) on expert data.
+2. **GAIL (Generative Adversarial Imitation Learning):** An adversarial IL method that learns a policy to match the expert's state-action visitation distribution.
+3. **AIRL (Adversarial Inverse Reinforcement Learning):** An adversarial IRL method designed to recover a disentangled reward function, potentially invariant to environment dynamics.
+4. **RL on Transferred AIRL Reward:** A standard RL algorithm (e.g., PPO/SAC) trained in a *modified* environment using the reward function learned by AIRL in the *base* environment.
 
 ### Environments & Variations
 
-- **Base Environments:** Experiments are conducted on a selection of environments from standard benchmarks, such as:
-  - `Classic Control`: `CartPole-v1`, `Pendulum-v1`
-  - `MuJoCo (Simple)`: `Reacher-v4`, `InvertedPendulum-v4` (Requires MuJoCo license/setup)
-  - `GridWorld`: Custom or library-based grid worlds
-- **Variations:** For each base environment, several _modified_ versions are created to test robustness and transferability:
-  - **Small/Large Dynamics Changes:** Modifying physics parameters (e.g., mass, friction, gravity) by a small (10-20%) or larger (40-60%) amount.
-  - **Goal/Task Changes:** Altering the target state or objective location (e.g., different target coordinate in Reacher, different goal cell in GridWorld).
+Experiments are conducted on the following MuJoCo-based environments:
+
+* `Hopper-v5`
+* `Pusher-v5`
+* `Ant-v5`
+* `InvertedPendulum-v5`
+
+For each base environment, several *modified* versions are created to test robustness and transferability:
+
+* **Small/Large Dynamics Changes:** Modify physics parameters (mass, friction, gravity) by 10–20% (small) or 40–60% (large).
+* **Goal/Task Changes:** Alter target states or objectives (e.g., different push target location).
 
 ### Demonstration Data
 
-- Expert demonstrations are generated by training a high-performing RL agent (e.g., PPO/SAC from Stable-Baselines3) in each _base_ environment.
-- A fixed dataset of expert trajectories (`state`, `action`, `next_state`, `reward`, `done`) is collected for each base environment.
-- The _same_ demonstration dataset (excluding reward information where appropriate for algorithms like BC/GAIL) is used to train all imitation learning algorithms for fair comparison.
+* Expert demonstrations are generated by training a high-performing RL agent (PPO/SAC) in each base environment.
+* A fixed dataset of expert trajectories (`state`, `action`, `next_state`, `reward`, `done`) is collected for each base environment.
+* The same demonstration dataset (excluding reward for BC/GAIL) is used to train all IL algorithms.
 
 ### Evaluation Protocol
 
-- **Imitation Quality:** Policies (`pi_BC`, `pi_DAgger`, `pi_GAIL`, `pi_AIRL`) are evaluated in the _base_ environment (RQ1).
-- **Zero-Shot Robustness:** The same policies are evaluated without retraining in each _modified_ environment (RQ2). Performance degradation is measured.
-- **Reward Transfer:** The AIRL reward function (`r_AIRL`) learned on base demos is used to train a new RL agent (`pi_RL_AIRL_Transfer`) _from scratch_ within each _modified_ environment.
-- **Transfer Performance:** `pi_RL_AIRL_Transfer` is evaluated in the corresponding _modified_ environment (RQ3, RQ4) and compared against the zero-shot performance of the other IL policies.
-- **Metrics:** Primary metrics include Average Cumulative Return and Success Rate (if applicable). Learning curves for RL training are also analyzed.
+1. **Imitation Quality:** Evaluate BC, GAIL, and AIRL policies in the base environment (RQ1).
+2. **Zero-Shot Robustness:** Evaluate these policies without retraining in modified environments and measure performance degradation (RQ2).
+3. **Reward Transfer:** Use the AIRL reward function to train a new RL agent from scratch in each modified environment (RQ3).
+4. **Transfer Performance:** Compare RL-trained policies on transferred reward against zero-shot BC, GAIL, and AIRL policies (RQ4).
+
+Metrics include average cumulative return and success rate; learning curves are also analyzed.
 
 ## Setup & Installation
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd <repository-directory>
-    ```
-2.  **Create a virtual environment (recommended):**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-    _(Note: MuJoCo environments might require additional setup. Refer to Gymnasium documentation.)_
+```bash
+# Clone repository
+git clone <repository-url>
+cd <repository-directory>
+
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+*µNote*: MuJoCo environments require additional setup—refer to Gymnasium documentation.
 
 ## Usage (Example Workflow)
 
-Scripts should be provided to run the different stages of the experiment. The exact commands may vary based on implementation.
+1. **Generate Expert Demonstrations:**
 
-1.  **Generate Expert Demonstrations:**
-    ```bash
-    python scripts/generate_demos.py --env-id CartPole-v1 --num-trajectories 50 --save-path data/demos/cartpole_expert.npz
-    ```
-2.  **Train Imitation Learning Policies:**
+   ```bash
+   python scripts/generate_demos.py \
+     --env-id Hopper-v5 \
+     --num-trajectories 50 \
+     --save-path data/demos/hopper_expert.npz
+   ```
 
-    ```bash
-    # Behavioral Cloning
-    python scripts/train_bc.py --env-id CartPole-v1 --demo-path data/demos/cartpole_expert.npz --save-path models/bc_cartpole.pth
+2. **Train IL Policies:**
 
-    # DAgger
-    python scripts/train_dagger.py --env-id CartPole-v1 --demo-path data/demos/cartpole_expert.npz --expert-path path/to/expert_cartpole.zip --save-path models/dagger_cartpole.pth
+   ```bash
+   # BC\    
+   python scripts/train_bc.py --env-id Hopper-v5 --demo-path data/demos/hopper_expert.npz --save-path models/bc_hopper.pth
 
-    # GAIL (using 'imitation' library example)
-    python -m imitation.scripts.train_adversarial gail --env CartPole-v1 with demonstrations.load_path=data/demos/cartpole_expert.npz checkpoint_interval=0 # ... other GAIL args
+   # GAIL
+   python -m imitation.scripts.train_adversarial gail --env Hopper-v5 \
+     demonstrations.load_path=data/demos/hopper_expert.npz \
+     checkpoint_interval=0
 
-    # AIRL (using your custom script)
-    python scripts/train_airl.py --env-id CartPole-v1 --demo-path data/demos/cartpole_expert.npz --save-policy-path models/airl_cartpole.pth --save-reward-path models/airl_reward_cartpole.pkl
-    ```
+   # AIRL
+   python scripts/train_airl.py \
+     --env-id Hopper-v5 \
+     --demo-path data/demos/hopper_expert.npz \
+     --save-policy-path models/airl_hopper.pth \
+     --save-reward-path models/airl_reward_hopper.pkl
+   ```
 
-3.  **Train RL Agent with Transferred AIRL Reward:**
-    ```bash
-    # Assume CartPole-v1-Modified is a registered variant
-    python scripts/train_rl_transfer.py --env-id CartPole-v1-Modified --airl-reward-path models/airl_reward_cartpole.pkl --save-path models/rl_transfer_cartpole_modified.zip
-    ```
-4.  **Run Evaluations:**
+3. **Transfer AIRL Reward:**
 
-    ```bash
-    python scripts/evaluate_policies.py --env-id CartPole-v1 --policy-paths models/bc_cartpole.pth models/dagger_cartpole.pth ... --results-dir results/base_eval
+   ```bash
+   python scripts/train_rl_transfer.py \
+     --env-id Hopper-v5-Modified \
+     --airl-reward-path models/airl_reward_hopper.pkl \
+     --save-path models/rl_transfer_hopper_modified.zip
+   ```
 
-    python scripts/evaluate_policies.py --env-id CartPole-v1-Modified --policy-paths models/bc_cartpole.pth models/dagger_cartpole.pth ... models/rl_transfer_cartpole_modified.zip --results-dir results/modified_eval
-    ```
+4. **Evaluation:**
 
-5.  **Analyze Results:** Use scripts or notebooks to process data in the `results/` directory and generate plots/tables for the final report.
+   ```bash
+   # Base env
+   python scripts/evaluate_policies.py \
+     --env-id Hopper-v5 \
+     --policy-paths models/bc_hopper.pth models/gail_hopper.pth models/airl_hopper.pth \
+     --results-dir results/base_eval
 
-_(Note: The script names and arguments above are examples and should be adapted to the actual project structure.)_
+   # Modified env
+   python scripts/evaluate_policies.py \
+     --env-id Hopper-v5-Modified \
+     --policy-paths models/bc_hopper.pth models/gail_hopper.pth models/airl_hopper.pth models/rl_transfer_hopper_modified.zip \
+     --results-dir results/modified_eval
+   ```
+
+5. **Analyze Results:**
+
+   * Use notebooks (e.g., `plotter.ipynb`) to generate tables and plots from `results/`.
 
 ## Modified Environments
 
-_Fill in modified environments here_
+| Environment         | Variation                      |
+| ------------------- | ------------------------------ |
+| Hopper-v5           | Small/Large Dynamics, New Goal |
+| Pusher-v5           | Small/Large Dynamics, New Goal |
+| Ant-v5              | Small/Large Dynamics, New Goal |
+| InvertedPendulum-v5 | Small/Large Dynamics, New Goal |
 
 ## Expert Paths
 
-- InvertedPendulum-v5
-  - AIRL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/airl/normal_env-seed0-20250406-2032/model/step250000
-  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/gail/normal_env-seed0-20250407-0237/model/step250000
-  - BC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/bc/normal_env-seed0-20250406-2001/model/step9
-  - DAgger: E:\Coding Projects\Honors-Capstone\logs\InvertedPendulum-v5\DAgger\normal_env-seed0-20250404-2313\model\step10000
-  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/InvertedPendulum-v5/expert/sac/seed0-20250403-0841/model/step100000
-- Hopper-v5
-  - AIRL: ./logs\Hopper-v5\airl\normal_env-seed10-20250418-0835/model/step9800000
-  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/gail/normal_env-seed0-20250407-0239/model/step10000000
-  - BC: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\BC\normal_env-seed0-20250413-0720\model\step29
-  - DAgger: E:\Coding Projects\Honors-Capstone\logs\Hopper-v5\DAgger\normal_env-seed0-20250413-0738\model\step119000
-  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Hopper-v5/expert/sac/seed0-20250403-0850/model/step1000000
-- Ant-v5
-  - AIRL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/airl/normal_env-seed0-20250406-2135/model/step10000000
-  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/gail/normal_env-seed0-20250407-0342/model/step10000000
-  - BC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/bc/normal_env-seed0-20250405-1848/model/step29
-  - DAgger: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/dagger/normal_env-seed0-20250409-1624/model/step168000
-  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Ant-v5/expert/sac/seed0-20250403-1025/model/step1000000
-- Pusher-v5
-  - AIRL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/airl/normal_env-seed0-20250406-2355/model/step10000000
-  - GAIL: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/gail/normal_env-seed0-20250407-0603/model/step10000000
-  - BC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/bc/normal_env-seed0-20250405-1900/model/step19
-  - DAgger: E:\Coding Projects\Honors-Capstone\logs\Pusher-v5\dagger\normal_env-seed0-20250413-0807\model\step100000
-  - SAC: /work/flemingc/nvan21/projects/Honors-Capstone/logs/Pusher-v5/expert/sac/seed0-20250403-1206/model/step1000000
+* **Hopper-v5**
 
-# Notes
+  * AIRL: `/path/to/logs/Hopper-v5/airl/.../model/step10000000`
+  * GAIL: `/path/to/logs/Hopper-v5/gail/.../model/step10000000`
+  * BC:   `/path/to/logs/Hopper-v5/bc/.../model/step29`
+  * SAC (expert): `/path/to/logs/Hopper-v5/expert/sac/.../model/step1000000`
 
-- RQ1: I just need to train expert policies for DAgger on Hopper and Pusher. Then all of those experiments will be completed. I will plot training time and testing during training. Then I will run each policy 100 times to get the mean and std of the return. This will be a table. For the table, I'll need to start logging the results from visualize_expert.py. I'll log them with
-- RQ2: Once I have all of the policies, then I can run visualize_expert to get the data. I will eventually need to make something that creates tables from the data (plotter.ipynb)
-- RQ3: I'm still trying to figure out why the reward from AIRL isn't transferring to SAC. Maybe I should try learning with a different algorithm. Once I get it to work on Hopper, then I can run all of the experiments on the HPC. I already trained all of the SAC on the modified dynamics with the ground truth reward.
-- RQ4: This will be easy once I finish RQ3.
-- Reasons I think SAC might not be learning on
+* **Pusher-v5**
 
-# Action Items
+  * AIRL: `/path/to/logs/Pusher-v5/airl/.../model/step10000000`
+  * GAIL: `/path/to/logs/Pusher-v5/gail/.../model/step10000000`
+  * BC:   `/path/to/logs/Pusher-v5/bc/.../model/step19`
+  * SAC (expert): `/path/to/logs/Pusher-v5/expert/sac/.../model/step1000000`
 
-- Figure out table format
-  - Rows will be the algorithms
-  - Columns will be the environments
-  - I'll need a table for base dynamics (will have every environment), and then a separate table for each of the modified dynamics in the environments
-- I've changed from using my own experts to using pretrained experts
-- I have generated new buffers for Hopper, Pusher, and Ant
-- I need to retrain an AIRL model on hopper and pusher
-- Need to retrain SAC on all modified dynamics with the ground truth using stable baselines
-- Need to train an SAC policy on all modified reward environments once I get new AIRL discriminators
+* **Ant-v5**
+
+  * AIRL: `/path/to/logs/Ant-v5/airl/.../model/step10000000`
+  * GAIL: `/path/to/logs/Ant-v5/gail/.../model/step10000000`
+  * BC:   `/path/to/logs/Ant-v5/bc/.../model/step29`
+  * SAC (expert): `/path/to/logs/Ant-v5/expert/sac/.../model/step1000000`
+
+* **InvertedPendulum-v5**
+
+  * AIRL: `/path/to/logs/InvertedPendulum-v5/airl/.../model/step250000`
+  * GAIL: `/path/to/logs/InvertedPendulum-v5/gail/.../model/step250000`
+  * BC:   `/path/to/logs/InvertedPendulum-v5/bc/.../model/step9`
+  * SAC (expert): `/path/to/logs/InvertedPendulum-v5/expert/sac/.../model/step100000`
+
+## Action Items
+
+* Define table formats for base vs. modified dynamics
+* Retrain AIRL models on Hopper-v5, Pusher-v5, Ant-v5, and InvertedPendulum-v5
+* Retrain SAC on modified dynamics with ground-truth reward
+* Train RL policies using transferred AIRL rewards once new discriminators are available
