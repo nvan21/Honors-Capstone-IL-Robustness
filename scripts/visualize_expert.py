@@ -1,13 +1,14 @@
-from pathlib import Path
 import argparse
-import torch
 import json
 import os
 from datetime import datetime
-import stable_baselines3 as sb
+from pathlib import Path
 
+import stable_baselines3 as sb
+import torch
+
+from imitation_learning.algos import SBSAC, BCExpert, PPOExpert, SACExpert
 from imitation_learning.utils.env import make_env, make_flattened_env
-from imitation_learning.algos import SACExpert, PPOExpert, BCExpert, SBSAC
 from imitation_learning.utils.utils import visualize_expert
 
 
@@ -89,6 +90,8 @@ def run(args):
         os.makedirs(run_path, exist_ok=True)
         with open(os.path.join(run_path, f"results.json"), "w") as f:
             json.dump(returns, f, indent=4, sort_keys=True)
+
+        print(f"Logged to {run_path}")
 
 
 if __name__ == "__main__":

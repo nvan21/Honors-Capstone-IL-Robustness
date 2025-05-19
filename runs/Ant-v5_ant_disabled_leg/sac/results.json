@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Ant-v5",
-    "mean_return": 1021.6668158877098,
+    "mean_return": 4204.547167434257,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 575.7961385307143,
-    "time": "20250501-1755",
-    "weights_path": "./experts/ant-v5-sac-expert.zip",
+    "std_return": 1700.0838552756984,
+    "time": "20250519-0958",
+    "weights_path": "logs/sb3/58l3m1av/best_model/best_model.zip",
     "xml_file": "./xml/Ant-v5/ant_disabled_leg.xml"
 }

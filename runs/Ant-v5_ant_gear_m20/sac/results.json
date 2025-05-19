@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Ant-v5",
-    "mean_return": 2270.9375907655613,
+    "mean_return": 4997.16969161621,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 304.65034720074823,
-    "time": "20250430-1021",
-    "weights_path": "./logs/sb3/fi2zc573/best_model/best_model.zip",
+    "std_return": 1023.6644945253585,
+    "time": "20250515-1639",
+    "weights_path": "logs/sb3/tuua5f9r/best_model.zip",
     "xml_file": "./xml/Ant-v5/ant_gear_m20.xml"
 }

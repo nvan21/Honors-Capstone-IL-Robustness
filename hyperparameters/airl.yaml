@@ -39,7 +39,7 @@ environments:
   InvertedPendulum-v5:
     xml_file: "./xml/InvertedPendulum-v5/invpend.xml"
     buffer: "./buffers/InvertedPendulum-v5/size1000000_std0.0_prand0.0_return1000.pth"
-    num_steps: 2500000
+    num_steps: 250000
     eval_interval: 10000
     rollout_length: 2000
     hidden_sizes: [64, 64]

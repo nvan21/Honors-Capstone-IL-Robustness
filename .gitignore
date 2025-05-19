@@ -7,3 +7,4 @@ wandb/
 slurm-*
 vscode-*
 .DS_Store
+sbatch/*

@@ -1,7 +1,7 @@
 {
     "algo": "sac",
     "env": "Pusher-v5",
-    "mean_return": -25.741547662728987,
+    "mean_return": -22.53298109705656,
     "seeds": [
         1654615998,
         1806341205,
@@ -104,8 +104,8 @@
         432105997,
         628604922
     ],
-    "std_return": 4.975141432001938,
-    "time": "20250501-1742",
-    "weights_path": "./experts/pusher-v5-SAC-expert.zip",
+    "std_return": 2.976354937831746,
+    "time": "20250515-1610",
+    "weights_path": "logs/sb3/uk1mi7ed/best_model.zip",
     "xml_file": "./xml/Pusher-v5/pusher_puck_mass_p50.xml"
 }
