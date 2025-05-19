@@ -1,179 +1,41 @@
-# Comparative Analysis of Imitation Learning Robustness and Reward Transferability
+# From Demonstrations to Adaptations: Assessing Imitation Learning Robustness and Learned Reward Transferability
 
-## Overview
+This repository is associated with the research paper: "From Demonstrations to Adaptations: Assessing Imitation Learning Robustness and Learned Reward Transferability" by Nathan Van Utrecht and Cody Fleming (May 2025, Honors Capstone Project).
 
-This project performs a comprehensive empirical comparison of various Imitation Learning (IL) algorithms, focusing on their robustness to environmental changes and the transferability of learned reward functions. Standard Behavioral Cloning (BC) can suffer from covariate shift and fail when the execution environment differs from the demonstration environment. More advanced methods like GAIL and AIRL aim to overcome these limitations. AIRL, in particular, attempts to learn a disentangled reward function, which might offer superior robustness and allow for effective transfer to train agents in modified environments.
+**[Read the Full Paper (PDF)](assets/paper.pdf)**
 
-This research investigates:
+## Abstract
 
-1. The baseline imitation performance of BC, GAIL, and AIRL.
-2. The robustness of policies learned via BC, GAIL, and AIRL when deployed zero-shot in perturbed environments.
-3. The quality and transferability of the reward function learned by AIRL.
-4. How policies trained using the transferred AIRL reward compare to zero-shot policies in modified environments.
+Imitation Learning (IL) and Inverse Reinforcement Learning (IRL) offer promising alternatives to manual reward engineering in complex sequential decision-making tasks. However, the robustness of learned policies to environmental perturbations and the transferability of learned rewards remain critical challenges. This paper presents a comprehensive empirical study comparing Behavioral Cloning (BC), Generative Adversarial Imitation Learning (GAIL), and Adversarial Inverse Reinforcement Learning (AIRL) across four MuJoCo continuous control environments subjected to various dynamics and task modifications. We evaluate baseline imitation performance, zero-shot policy robustness, and the effectiveness of transferring AIRL-learned rewards to train new Soft Actor-Critic (SAC) agents in modified settings. Our findings indicate that while AIRL generally exhibits superior zero-shot robustness compared to BC and GAIL, all direct IL policies degrade significantly under substantial shifts. Furthermore, the success of AIRL reward transfer is highly context-dependent: it enables near-oracle performance in some modified environments (e.g., Hopper) but fails in others (e.g., Pusher goal shifts or Ant morphological changes), particularly when demonstrations lack diversity covering the test-time alterations. These results highlight current limitations and guide future research towards developing more broadly generalizable and robust imitation learning systems.
 
-## Research Questions
+## Research Overview
 
-* **RQ1 (Baseline Imitation):** How well do BC, GAIL, and AIRL replicate expert performance in the original demonstration environment?
-* **RQ2 (Policy Robustness):** How significantly does the performance of policies learned via BC, GAIL, and AIRL degrade when deployed zero-shot in environments with variations (e.g., changed dynamics, goals)? Which method exhibits the most robust policies?
-* **RQ3 (AIRL Reward Quality):** Does the reward function learned by AIRL from base environment demonstrations capture meaningful task objectives? Can it be used to train an effective RL policy from scratch in the *modified* environments?
-* **RQ4 (Transfer Comparison):** How does the performance of the policy trained via RL on the transferred AIRL reward compare to the zero-shot performance of the original BC, GAIL, and AIRL policies in the modified environments?
+This research investigates the capabilities of prominent imitation learning algorithms when faced with changes in their operating environments. Our study focuses on two key dimensions:
 
-## Methodology
+1.  **Zero-Shot Robustness:** How well do policies learned through Behavioral Cloning (BC), Generative Adversarial Imitation Learning (GAIL), and Adversarial Inverse Reinforcement Learning (AIRL) maintain performance when deployed in environments with altered dynamics or task objectives, without any retraining?
+2.  **Reward Transferability:** Can the reward function learned by AIRL in a base environment be effectively used to train a new reinforcement learning agent (Soft Actor-Critic) from scratch in these modified environments?
 
-### Algorithms Compared
+We conduct experiments across four continuous control benchmarks (InvertedPendulum, Hopper, Pusher, and Ant) using a range of modifications, including changes to physical parameters (mass, friction, gravity) and task goals.
 
-1. **Behavioral Cloning (BC):** Standard supervised learning (State → Action) on expert data.
-2. **GAIL (Generative Adversarial Imitation Learning):** An adversarial IL method that learns a policy to match the expert's state-action visitation distribution.
-3. **AIRL (Adversarial Inverse Reinforcement Learning):** An adversarial IRL method designed to recover a disentangled reward function, potentially invariant to environment dynamics.
-4. **RL on Transferred AIRL Reward:** A standard RL algorithm (e.g., PPO/SAC) trained in a *modified* environment using the reward function learned by AIRL in the *base* environment.
+## Key Contributions and Findings
 
-### Environments & Variations
+The primary contributions of this work include:
 
-Experiments are conducted on the following MuJoCo-based environments:
+*   A systematic baseline evaluation of BC, GAIL, and AIRL policies against expert performance in standard MuJoCo environments.
+*   An empirical assessment of the zero-shot robustness of these IL policies when transferred to perturbed environments, identifying relative strengths and weaknesses.
+*   An investigation into the efficacy of transferring AIRL-learned reward functions to train new agents in modified settings, highlighting scenarios of both successful adaptation and failure.
+*   A comparative analysis contrasting the performance of zero-shot IL policies against agents retrained using transferred AIRL rewards, revealing conditions under which reward transfer offers significant advantages.
 
-* `Hopper-v5`
-* `Pusher-v5`
-* `Ant-v5`
-* `InvertedPendulum-v5`
+Our findings indicate that while AIRL can offer improved robustness and its learned rewards can facilitate adaptation in some cases, significant challenges remain in achieving consistent generalization, particularly when modifications are severe or differ substantially from the training distribution of expert demonstrations.
 
-For each base environment, several *modified* versions are created to test robustness and transferability:
+## Environments Studied
 
-* **Small/Large Dynamics Changes:** Modify physics parameters (mass, friction, gravity) by 10–20% (small) or 40–60% (large).
-* **Goal/Task Changes:** Alter target states or objectives (e.g., different push target location).
+The study utilizes the following MuJoCo continuous control environments from the Gymnasium suite:
+*   InvertedPendulum-v5
+*   Hopper-v5
+*   Pusher-v5
+*   Ant-v5
 
-### Demonstration Data
+Each environment was subjected to specific modifications to its dynamics or task objectives. Detailed descriptions of these environments and the implemented perturbations can be found in Appendix B of the full paper.
 
-* Expert demonstrations are generated by training a high-performing RL agent (PPO/SAC) in each base environment.
-* A fixed dataset of expert trajectories (`state`, `action`, `next_state`, `reward`, `done`) is collected for each base environment.
-* The same demonstration dataset (excluding reward for BC/GAIL) is used to train all IL algorithms.
 
-### Evaluation Protocol
-
-1. **Imitation Quality:** Evaluate BC, GAIL, and AIRL policies in the base environment (RQ1).
-2. **Zero-Shot Robustness:** Evaluate these policies without retraining in modified environments and measure performance degradation (RQ2).
-3. **Reward Transfer:** Use the AIRL reward function to train a new RL agent from scratch in each modified environment (RQ3).
-4. **Transfer Performance:** Compare RL-trained policies on transferred reward against zero-shot BC, GAIL, and AIRL policies (RQ4).
-
-Metrics include average cumulative return and success rate; learning curves are also analyzed.
-
-## Setup & Installation
-
-```bash
-# Clone repository
-git clone <repository-url>
-cd <repository-directory>
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-*µNote*: MuJoCo environments require additional setup—refer to Gymnasium documentation.
-
-## Usage (Example Workflow)
-
-1. **Generate Expert Demonstrations:**
-
-   ```bash
-   python scripts/generate_demos.py \
-     --env-id Hopper-v5 \
-     --num-trajectories 50 \
-     --save-path data/demos/hopper_expert.npz
-   ```
-
-2. **Train IL Policies:**
-
-   ```bash
-   # BC\    
-   python scripts/train_bc.py --env-id Hopper-v5 --demo-path data/demos/hopper_expert.npz --save-path models/bc_hopper.pth
-
-   # GAIL
-   python -m imitation.scripts.train_adversarial gail --env Hopper-v5 \
-     demonstrations.load_path=data/demos/hopper_expert.npz \
-     checkpoint_interval=0
-
-   # AIRL
-   python scripts/train_airl.py \
-     --env-id Hopper-v5 \
-     --demo-path data/demos/hopper_expert.npz \
-     --save-policy-path models/airl_hopper.pth \
-     --save-reward-path models/airl_reward_hopper.pkl
-   ```
-
-3. **Transfer AIRL Reward:**
-
-   ```bash
-   python scripts/train_rl_transfer.py \
-     --env-id Hopper-v5-Modified \
-     --airl-reward-path models/airl_reward_hopper.pkl \
-     --save-path models/rl_transfer_hopper_modified.zip
-   ```
-
-4. **Evaluation:**
-
-   ```bash
-   # Base env
-   python scripts/evaluate_policies.py \
-     --env-id Hopper-v5 \
-     --policy-paths models/bc_hopper.pth models/gail_hopper.pth models/airl_hopper.pth \
-     --results-dir results/base_eval
-
-   # Modified env
-   python scripts/evaluate_policies.py \
-     --env-id Hopper-v5-Modified \
-     --policy-paths models/bc_hopper.pth models/gail_hopper.pth models/airl_hopper.pth models/rl_transfer_hopper_modified.zip \
-     --results-dir results/modified_eval
-   ```
-
-5. **Analyze Results:**
-
-   * Use notebooks (e.g., `plotter.ipynb`) to generate tables and plots from `results/`.
-
-## Modified Environments
-
-| Environment         | Variation                      |
-| ------------------- | ------------------------------ |
-| Hopper-v5           | Small/Large Dynamics, New Goal |
-| Pusher-v5           | Small/Large Dynamics, New Goal |
-| Ant-v5              | Small/Large Dynamics, New Goal |
-| InvertedPendulum-v5 | Small/Large Dynamics, New Goal |
-
-## Expert Paths
-
-* **Hopper-v5**
-
-  * AIRL: `/path/to/logs/Hopper-v5/airl/.../model/step10000000`
-  * GAIL: `/path/to/logs/Hopper-v5/gail/.../model/step10000000`
-  * BC:   `/path/to/logs/Hopper-v5/bc/.../model/step29`
-  * SAC (expert): `/path/to/logs/Hopper-v5/expert/sac/.../model/step1000000`
-
-* **Pusher-v5**
-
-  * AIRL: `/path/to/logs/Pusher-v5/airl/.../model/step10000000`
-  * GAIL: `/path/to/logs/Pusher-v5/gail/.../model/step10000000`
-  * BC:   `/path/to/logs/Pusher-v5/bc/.../model/step19`
-  * SAC (expert): `/path/to/logs/Pusher-v5/expert/sac/.../model/step1000000`
-
-* **Ant-v5**
-
-  * AIRL: `/path/to/logs/Ant-v5/airl/.../model/step10000000`
-  * GAIL: `/path/to/logs/Ant-v5/gail/.../model/step10000000`
-  * BC:   `/path/to/logs/Ant-v5/bc/.../model/step29`
-  * SAC (expert): `/path/to/logs/Ant-v5/expert/sac/.../model/step1000000`
-
-* **InvertedPendulum-v5**
-
-  * AIRL: `/path/to/logs/InvertedPendulum-v5/airl/.../model/step250000`
-  * GAIL: `/path/to/logs/InvertedPendulum-v5/gail/.../model/step250000`
-  * BC:   `/path/to/logs/InvertedPendulum-v5/bc/.../model/step9`
-  * SAC (expert): `/path/to/logs/InvertedPendulum-v5/expert/sac/.../model/step100000`
-
-## Action Items
-
-* Define table formats for base vs. modified dynamics
-* Retrain AIRL models on Hopper-v5, Pusher-v5, Ant-v5, and InvertedPendulum-v5
-* Retrain SAC on modified dynamics with ground-truth reward
-* Train RL policies using transferred AIRL rewards once new discriminators are available
